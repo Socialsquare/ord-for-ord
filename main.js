@@ -29,6 +29,13 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     TitleService.init(Meteor.settings.elasticsearch, 'titles');
+    TitleService.indexExists().then(function(indexExists) {
+      if(!indexExists) {
+        throw new Error('The index is not created - go fix!');
+      }
+    });
+
+    
   });
 }
 
