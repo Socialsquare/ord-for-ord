@@ -1,0 +1,6 @@
+{
+  "elasticsearch": {
+    "host": "iow.socialsquare.dk:9200",
+    "log": "trace"
+  }
+}
