@@ -1,4 +1,13 @@
+
 if (Meteor.isClient) {
+  Session.setDefault('state', 'welcome');
+
+  Template.body.helpers({
+    state: function() {
+      return Session.get('state');
+    }
+  });
+
   // counter starts at 0
   Session.setDefault('counter', 0);
 
@@ -16,8 +25,13 @@ if (Meteor.isClient) {
   });
 }
 
+
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
 }
+
+console.log('this is the main file');
+
+

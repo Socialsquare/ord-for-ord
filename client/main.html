@@ -1,0 +1,12 @@
+<head>
+  <meta charset="UTF-8">
+  <title>In Other Words</title>
+</head>
+<body>
+
+  {{#with state}}
+    state: {{this}}
+    {{> UI.dynamic template=this}}
+  {{/with}}
+
+</body>
