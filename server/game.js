@@ -1,4 +1,5 @@
-var uuid = require('uuid');
+var uuid = require('uuid'),
+    _ = require('lodash');
 
 Game.colors = [
   'green', 'red', 'blue', 'teal', 'purple', 
@@ -22,7 +23,7 @@ Game.prototype.toJSON = function() {
     id: this.id,
     state: this.state,
     gameMaster: this.gameMaster,
-    players: this.players
+    players: _.values(this.players)
   };
 };
 
@@ -30,7 +31,7 @@ Game.prototype.addPlayer = function(player) {
   if (player.id in this.players === false) {
     this.players[player.id] = player;
     player.socket.join(this.id);
-    player.socket.broadcast.to(this.id).emit('game:player:add', player.toJSON());
+    player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
   }
 };
 

@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
-var React = require('react');
+var React = require('react'),
+    game = require('../models/game');
 
 
 var LobbyComponent = React.createClass({
@@ -7,10 +8,23 @@ var LobbyComponent = React.createClass({
     return { };
   },
 
+  componentWillMount: function() {
+    game.players.on('change add remove', () => { 
+      this.forceUpdate(); 
+    });
+  },
+
+  componentWillUnmount: function() {
+    game.players.off('change add remove');
+  },
+
   render: function() {
+
     return (
       <div>
-        Welcome to the lobby!  
+        {game.players.map(function(player, i) {
+          return ( <div key={i}>{player.get('id')}</div> );
+        })}
       </div>
     );
   }

@@ -2,7 +2,7 @@
 var Backbone = require('backbone'),
     Socket = require('../lib/socket');
 
-var Player = Backbone.Modle.extend({
+var Player = Backbone.Model.extend({
   
 });
 
@@ -15,4 +15,4 @@ var PlayerCollection = Backbone.Collection.extend({
 });
 
 
-module.exports = new PlayerCollection();
+module.exports = PlayerCollection;
