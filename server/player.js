@@ -14,5 +14,9 @@ Player.prototype.toJSON = function() {
   };
 };
 
+Player.prototype.setReady = function(ready) {
+  this.ready = ready;
+};
+
 
 module.exports = Player;

@@ -4,6 +4,7 @@ var Backbone = require('backbone'),
     App = require('../app'),
     PlayerCollection = require('./player');
 
+
 var Game = Backbone.Model.extend({
   defaults: { },
 

@@ -10,6 +10,7 @@ Game.states = {
   PRE_GAME: 'pre-game',
   PLAYING: 'playing',
 };
+Game.INITIATE_TIME = 2000;
 
 function Game() {
   this.id = 'ga-' + uuid.v1();
@@ -27,6 +28,7 @@ Game.prototype.toJSON = function() {
     currentPlayerId: this.currentPlayerId
   };
 };
+
 
 Game.prototype.getUnusedColor = function() {
   var colors = _.range(Game.COLOR_COUNT);
@@ -72,6 +74,32 @@ Game.prototype.getPlayerIds = function(includeGameMaster) {
     });
   }
   return playerIds;
+};
+
+Game.prototype.setPlayerReady = function(playerId, ready) {
+  if (playerId in this.players === true) {
+    var player = this.players[playerId];
+    player.setReady(ready);
+  }
+};
+
+Game.prototype.allPlayersReady = function() {
+  for (var key in this.players) {
+    if (this.players[key].ready === false) {
+      return false;
+    }
+  }
+  return true;
+};
+
+Game.prototype.tryToStartGameCountDown = function() {
+  if (this.allPlayersReady() === true) {
+    this.startGameTimeout = setTimeout(() => {
+      this.start();
+    }, Game.INITIATE_TIME);
+  } else {
+    clearTimeout(this.startGameTimeout);
+  }
 };
 
 Game.prototype.start = function(gameMasterId) {
