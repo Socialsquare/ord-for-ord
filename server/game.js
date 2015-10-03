@@ -10,7 +10,7 @@ Game.states = {
   PRE_GAME: 'pre-game',
   PLAYING: 'playing',
 };
-Game.INITIATE_TIME = 2000;
+Game.INITIATE_TIME = 1000;
 
 function Game() {
   this.init();
@@ -21,6 +21,7 @@ Game.prototype.init = function() {
   this.state = Game.states.LOBBY;
   this.playerIds = [];
   this.players = {};
+  this.words = [];
 };
 
 Game.prototype.toJSON = function() {
@@ -28,7 +29,7 @@ Game.prototype.toJSON = function() {
     id: this.id,
     state: this.state,
     players: _.values(this.players),
-    gameMasterId: this.playerIds.length > 0 ? this.playerIds[0] : null,
+    judgeId: this.playerIds.length > 0 ? this.playerIds[0] : null,
     currentPlayerId: this.currentPlayerId
   };
 };
@@ -111,12 +112,12 @@ Game.prototype.tryToStartGameCountDown = function() {
   }
 };
 
-Game.prototype.nextGameMaster = function() {
-  var currentGameMaster = this.playerIds.shift();
-  this.playerIds.push(currentGameMaster);
+Game.prototype.nextJudge = function() {
+  var currentJudge = this.playerIds.shift();
+  this.playerIds.push(currentJudge);
 };
 
-Game.prototype.isGameMaster = function(playerId) {
+Game.prototype.isJudge = function(playerId) {
   if(this.playerIds.length === 0) {
     return false;
   } else {
@@ -124,10 +125,15 @@ Game.prototype.isGameMaster = function(playerId) {
   }
 };
 
-Game.prototype.broadcastGameUpdate = function() {
+Game.prototype.broadcast = function() {
   this.playerIds.forEach((id) => {
-    this.players[id].socket.emit('game:update', this);
+    var sock = this.players[id].socket;
+    sock.emit.apply(socket, arguments);
   });
+};
+
+Game.prototype.broadcastGameUpdate = function() {
+  this.broadcast('game:update', this);
 };
 
 Game.prototype.start = function() {
@@ -143,20 +149,29 @@ Game.prototype.start = function() {
 };
 
 Game.prototype.startRound = function(playerId, firstWord) {
-  if(this.isGameMaster(playerId)) {
+  if(this.isJudge(playerId) === false) {
     console.error('Only game masters can start a round!');
     return false;
   }
   // Choose a random player that is not the Game Master.
   var availablePlayerCount = this.playerIds.length - 1;
-  this.currentPlayerIndex = 1+Math.floor(availablePlayerCount * Math.random());
+  this.currentPlayerIndex = 1 + Math.floor(availablePlayerCount * Math.random());
   // Turn the game state into playing.
   this.state = Game.states.PLAYING;
+  this.broadcastGameUpdate();
+  this.appendWord(playerId, firstWord);
   // Alles gut!
   return true;
 };
 
 Game.prototype.appendWord = function(playerId, word) {
+  console.log('append word', word);
+  var wordObj = {
+    word: word,
+    playerId: playerId,
+    score: 10
+  };
+  //this.broadcast('');
 };
 
 module.exports = new Game();
