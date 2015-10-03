@@ -10,8 +10,8 @@ var LobbyComponent = React.createClass({
   },
 
   componentWillMount: function() {
-    game.players.on('change add remove', () => { 
-      this.forceUpdate(); 
+    game.players.on('change add remove', () => {
+      this.forceUpdate();
     });
   },
 
@@ -34,19 +34,28 @@ var LobbyComponent = React.createClass({
     return (
       <div>
         <div className="container-fluid">
-          <h3>Players in Lobby</h3>
-          {game.players.map(function(player, i) {
-            var classes = [];
-            classes.push('player-icon');
-            classes.push('pcolor-' + player.get('color'));
-            return ( <div key={i} className={classes.join(' ')}></div> );
-          })}
-
+          <div className="row">
+            <div className="col-xs-12 m-t-lg">
+              <h3>Players in Lobby</h3>
+              {game.players.map(function(player, i) {
+                var classes = [];
+                classes.push('player-icon');
+                classes.push('pcolor-' + player.get('color'));
+                return ( <div key={i} className={classes.join(' ')}></div> );
+              })}
+            </div>
+          </div>
         </div>
         <footer className="footer">
-          <button className="btn btn-primary"
-            onMouseDown={this.initiateGameStart}
-            onMouseUp={this.terminateGameStart}>Hold to start game</button>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xs-6 col-xs-offset-3">
+                <button type="button" className="btn btn-primary btn-lg btn-block"
+                  onMouseDown={this.initiateGameStart}
+                  onMouseUp={this.terminateGameStart}>Hold to start game</button>
+              </div>
+            </div>
+          </div>
         </footer>
       </div>
     );
@@ -55,4 +64,3 @@ var LobbyComponent = React.createClass({
 
 
 module.exports = LobbyComponent;
-
