@@ -108,6 +108,12 @@ Game.prototype.isGameMaster = function(playerId) {
   }
 };
 
+Game.prototype.broadcastGameUpdate = function() {
+  this.playerIds.forEach((id) => {
+    this.players[id].socket.emit('game:update', this);
+  });
+};
+
 Game.prototype.start = function() {
   if(Object.keys(this.players).length < Game.MIN_PLAYERS) {
     console.error('Cannot start a game with only',
@@ -116,6 +122,7 @@ Game.prototype.start = function() {
     return false;
   }
   this.state = Game.states.PRE_GAME;
+  this.broadcastGameUpdate();
   return true;
 };
 
