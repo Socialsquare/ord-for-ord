@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react'),
+    App = require('../app'),
     game = require('../models/game');
     
 
@@ -15,17 +16,23 @@ var WelcomeComponent = React.createClass({
     game.words.off('change add remove');
   },
 
+  submitWord: function(e) {
+    e.preventDefault();
+  },
+
   render: function() {
     var words = game.words.map(function(word, i) {
       var player = game.players.get(word.get('playerId')),
           classes = 'pcolor-' + player.get('color');
 
-      classes += ' word';
+      classes = 'word';
 
       return (
-        <div className={pColor} key={i}>{word.get('word')}</div>
+        <div className={classes} key={i}>{word.get('word')}</div>
       );
     });
+
+    var panelClasses = 'panel';
 
     return (
       <div className="panel">
@@ -38,6 +45,16 @@ var WelcomeComponent = React.createClass({
               <div className="word-list">
                 {words}
               </div>
+
+              {App.player().isJudge() === true ?
+                <div>judge!</div>
+              :
+                <form onSubmit={this.submitWord}>
+                  <input type="text" />
+                  <button className="submit-button" />
+                </form>
+              }
+
             </div>
           </div>
         </div>
