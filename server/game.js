@@ -32,7 +32,7 @@ Game.prototype.toJSON = function() {
     state: this.state,
     players: _.values(this.players),
     judgeId: this.playerIds.length > 0 ? this.playerIds[0] : null,
-    currentPlayerId: this.currentPlayerId
+    currentPlayerId: this.playerIds[this.currentPlayerIndex]
   };
 };
 
