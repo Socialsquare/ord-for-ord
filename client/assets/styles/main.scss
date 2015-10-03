@@ -66,6 +66,12 @@
   width        : 30px;
   height       : 30px;
   border-radius: 50%;
+  opacity: 0.3;
+  transition: opacity 2s ease-in;
+
+  &.ready {
+    opacity: 1;
+  }
 }
 .pcolor-0 {
   background: hsla(19, 85%, 50%, 1);

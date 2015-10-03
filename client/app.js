@@ -10,7 +10,12 @@ Socket.connect();
 
 var events = new EventEmitter();
 var App = {
-  player: null,
+  playerId: null,
+  player: function() {
+    var game = require('./models/game');
+    return game.players.get(this.playerId);
+  },
+
   state: 'welcome',
 
   on: events.on.bind(events),
@@ -25,11 +30,11 @@ var App = {
   },
 
   start: function() {
-    var AppLayout = require('./app-layout');
+    var AppLayout = require('./app-layout'),
+        PlayerCollection = require('./models/player');
 
     Socket.on('player:me', function(player) {
-      App.player = player;
-      console.log(player);
+      App.playerId = player.id;
     });
 
     React.render(<AppLayout />, document.body);
