@@ -1,6 +1,63 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-
-body {
-	font-family: 'Open Sans', sans-serif;
-	background: #EEE;
+@font-face {
+  font-family: 'gidoleregular';
+  src        :  url("../fonts/gidole-regular.woff2") format('woff2'),
+                url("../fonts/gidole-regular.woff") format('woff'),
+                url("../fonts/gidole-regular.ttf") format('truetype');
+    font-weight: normal;
+  font-style : normal;
 }
+$font-family-sans-serif: 'gidoleregular';
+$body-bg: #fff !default;
+
+// Core variables and mixins
+@import "booty/variables";
+@import "booty/mixins";
+
+// // Reset and dependencies
+@import "booty/normalize";
+@import "booty/print";
+
+// Core CSS
+@import "booty/reboot";
+@import "booty/type";
+@import "booty/images";
+@import "booty/code";
+@import "booty/grid";
+@import "booty/tables";
+@import "booty/forms";
+@import "booty/buttons";
+
+// // Components
+@import "booty/animation";
+@import "booty/dropdown";
+@import "booty/button-group";
+@import "booty/input-group";
+@import "booty/custom-forms";
+@import "booty/nav";
+@import "booty/navbar";
+@import "booty/card";
+@import "booty/breadcrumb";
+@import "booty/pagination";
+@import "booty/pager";
+@import "booty/labels";
+@import "booty/jumbotron";
+@import "booty/alert";
+@import "booty/progress";
+@import "booty/media";
+@import "booty/list-group";
+@import "booty/responsive-embed";
+@import "booty/close";
+
+// Components w/ JavaScript
+@import "booty/modal";
+@import "booty/tooltip";
+@import "booty/popover";
+@import "booty/carousel";
+
+// Utility classes
+@import "booty/utilities";
+@import "booty/utilities-spacing";
+@import "booty/utilities-responsive";
+
+// Custom stuff
+@import "custom/stickyfooter";

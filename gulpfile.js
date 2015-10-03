@@ -32,7 +32,7 @@ var paths = {
   },
   copy: {
     src: [
-      './client/assets/fonts/**/*.*',
+      './client/assets/fonts/*.*',
       './client/assets/images/**/*.*'
     ],
     dest: './public/assets'
@@ -64,7 +64,7 @@ function scripts(watch) {
       [reactify, { es6: true }],
       globalShim
     ],
-    debug: !production, 
+    debug: !production,
     cache: {}, // required for watchify
     packageCache: {}, // required for watchify
     fullPaths: watch // required to be true only for watchify
@@ -73,7 +73,7 @@ function scripts(watch) {
   if (watch) {
     bundler = watchify(bundler);
   }
- 
+
   rebundle = function() {
     console.log('Rebundling');
     return bundler.bundle()
@@ -81,7 +81,7 @@ function scripts(watch) {
       .pipe(source('app.js'))
       .pipe(gulp.dest(paths.scripts.dest));
   };
- 
+
   bundler.on('update', rebundle);
   return rebundle();
 }
@@ -115,7 +115,7 @@ gulp.task('styles', function() {
   var appStream = gulp.src(paths.styles.main)
     .pipe(plumber())
     .pipe(sass({ style: 'expand' }))
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9',
       'opera 12.1', 'ios 6', 'android 4'));
 
   return merge(vendorStream, appStream)
@@ -130,7 +130,7 @@ gulp.task('clean', function(cb) {
 
 // Copy files
 gulp.task('copy', function() {
-  return gulp.src(paths.copy.src, { base: './app/assets' })
+  return gulp.src(paths.copy.src, { base: './client/assets' })
     .pipe(gulp.dest(paths.copy.dest));
 });
 
@@ -156,11 +156,7 @@ gulp.task('minify', ['default', 'styles', 'scripts'], function() {
 });
 
 
-// Default task 
+// Default task
 gulp.task('default', ['clean'], function() {
   gulp.start('copy', 'styles', 'scripts');
 });
-
-
-
-
