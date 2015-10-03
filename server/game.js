@@ -16,9 +16,8 @@ Game.states = {
 function Game() {
   this.id = 'ga-' + uuid.v1();
   this.state = Game.states.LOBBY;
-  this.gameMasterId = null;
+  this.gameMaster = null;
   this.players = {};
-  this.currentPlayerId = null;
 }
 
 Game.prototype.toJSON = function() {
@@ -26,7 +25,7 @@ Game.prototype.toJSON = function() {
     id: this.id,
     state: this.state,
     gameMasterId: this.gameMasterId,
-    players: this.players,
+    players: _.values(this.players),
     currentPlayerId: this.currentPlayerId
   };
 };
@@ -35,7 +34,7 @@ Game.prototype.addPlayer = function(player) {
   if (player.id in this.players === false) {
     this.players[player.id] = player;
     player.socket.join(this.id);
-    player.socket.broadcast.to(this.id).emit('game:player:add', player.toJSON());
+    player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
   }
 };
 
