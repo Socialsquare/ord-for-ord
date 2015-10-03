@@ -20,7 +20,7 @@ var PreGameComponent = React.createClass({
 
   startRound: function(e) {
     e.preventDefault();
-    game.startRound(React.findDOMNode(this.refs.word).value.trim());
+    game.appendWord(React.findDOMNode(this.refs.word).value.trim());
   },
 
   render: function() {

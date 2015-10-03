@@ -47,8 +47,8 @@ var Game = Backbone.Model.extend({
     this.set('players', null);
   },
 
-  startRound: function(word) {
-    console.log('start', word);
+  appendWord: function(word) {
+    console.log('append', word);
     Socket.exec('word:append', word);
   },
 

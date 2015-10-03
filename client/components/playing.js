@@ -18,6 +18,9 @@ var WelcomeComponent = React.createClass({
 
   submitWord: function(e) {
     e.preventDefault();
+    var wordDOM = React.findDOMNode(this.refs.word);
+    game.appendWord(wordDOM.value.trim());
+    wordDOM.value = '';
   },
 
   render: function() {
@@ -49,9 +52,6 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <div className="page-header m-t-lg">
-                <h1>This is game</h1>
-              </div>
               <div className="word-list">
                 {words}
               </div>
@@ -60,7 +60,7 @@ var WelcomeComponent = React.createClass({
                 <div>judge!</div>
               :
                 <form onSubmit={this.submitWord}>
-                  <input type="text" />
+                  <input type="text" autoFocus="true" ref="word" />
                   <button className="submit-button" />
                 </form>
               }
