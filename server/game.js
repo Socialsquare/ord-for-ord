@@ -33,43 +33,64 @@ Game.prototype.toJSON = function() {
 
 Game.prototype.addPlayer = function(player) {
   if (player.id in this.players === false) {
+    if(Object.keys(this.players).length >= Game.MAX_PLAYERS) {
+      return false;
+    }
     this.players[player.id] = player;
-    player.socket.join(this.id);
-    player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
+    if(player.socket) {
+      player.socket.join(this.id);
+      player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
+    }
   }
+  return true;
 };
 
 Game.prototype.removePlayer = function(playerId) {
   if (playerId in this.players === true) {
     var player = this.players[playerId];
     delete this.players[playerId];
-    player.socket.broadcast.to(this.id).emit('player:remove', player.id);
-    player.socket.leave(this.id);
+    if(player.socket) {
+      player.socket.broadcast.to(this.id).emit('player:remove', player.id);
+      player.socket.leave(this.id);
+    }
   }
 };
 
 Game.prototype.getPlayerIds = function(includeGameMaster) {
-  var players = this.players;
+  var playerIds = Object.keys(this.players);
   if(!includeGameMaster) {
     // Filter out the game master
-    players = players.filter(function(p) {
-      return p.id !== this.gameMasterId;
+    playerIds = playerIds.filter(function(p) {
+      return p !== this.gameMasterId;
     });
   }
-  // Transform to ids
-  return players.map(function(p) {
-    return p.id;
-  });
+  return playerIds;
 };
 
-Game.prototype.start = function(playerId, firstWord) {
-  if(playerId !== this.gameMasterId) {
-    throw new Error('Only the game master can start the game');
+Game.prototype.start = function(gameMasterId) {
+  if(Object.keys(this.players).length < Game.MIN_PLAYERS) {
+    console.error('Cannot start a game with only',
+                  Object.keys(this.players).length,
+                  'players');
+    return false;
   }
+  this.state = Game.states.PRE_GAME;
+  this.gameMasterId = gameMasterId;
+  return true;
+};
+
+Game.prototype.startRound = function(playerId, firstWord) {
+  if(playerId !== this.gameMasterId) {
+    console.error('Only game masters can start a round!');
+    return false;
+  }
+
+  var playersIds = this.getPlayerIds();
+  var currentPlayerIndex = Math.floor(playersIds.length * Math.random());
+  this.currentPlayerId = playersIds[currentPlayerIndex];
+
   this.state = Game.states.PLAYING;
-  var players = this.getPlayerIds();
-  // this.turn; // Pick one at random ...
-  console.log(players);
+  return true;
 };
 
 Game.prototype.appendWord = function(playerId, word) {
