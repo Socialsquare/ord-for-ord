@@ -53,17 +53,7 @@ var sockets = io.on('connection', function(socket) {
     }
   });
 
-  socket.on('game:startRound', function(firstWord, cb) {
-    if (game.state === game.constructor.states.PRE_GAME) {
-      var started = game.startRound(player.id, firstWord);
-      cb(started);
-    } else {
-      console.error('Cannot start a round on a game that is not in pre-game state.');
-      cb(false);
-    }
-  });
-
-  socket.on('game:appendWord', function(word, cb) {
+  socket.on('word:append', function(word, cb) {
     if (game.state === game.constructor.states.PLAYING) {
       game.appendWord(player.id, word);
       cb(game);
