@@ -7,11 +7,8 @@
   font-style : normal;
 }
 
-$font-family-sans-serif: 'gidoleregular';
-$body-bg: #fff !default;
-
 // Core variables and mixins
-@import "booty/variables";
+@import "custom/variables";
 @import "booty/mixins";
 
 // // Reset and dependencies
@@ -63,7 +60,6 @@ $body-bg: #fff !default;
 // Custom stuff
 @import "custom/stickyfooter";
 
-
 .player-icon {
   display: inline-block;
   width: 30px;
@@ -76,3 +72,11 @@ $body-bg: #fff !default;
 .pcolor-2 { background: #2B97F1; }
 .pcolor-3 { background: #ED462F; }
 
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.03em;
+
+}
+p {
+  letter-spacing: 0.05em;
+}
