@@ -31,13 +31,26 @@ var sockets = io.on('connection', function(socket) {
     if (game.state === game.constructor.states.LOBBY) {
       game.addPlayer(player);
       cb(game);
+    } else {
+      cb(false);
     }
   });
 
-  socket.on('game:start', function(firstWord, cb) {
+  socket.on('game:start', function(cb) {
     if (game.state === game.constructor.states.LOBBY) {
-      game.start(player.id, firstWord);
-      cb(game);
+      var started = game.start(player.id);
+      cb(started);
+    } else {
+      cb(false);
+    }
+  });
+
+  socket.on('game:startRound', function(firstWord, cb) {
+    if (game.state === game.constructor.states.PRE_GAME) {
+      var started = game.startRound(player.id, firstWord);
+      cb(started);
+    } else {
+      cb(false);
     }
   });
 
@@ -45,11 +58,29 @@ var sockets = io.on('connection', function(socket) {
     if (game.state === game.constructor.states.PLAYING) {
       game.appendWord(player.id, word);
       cb(game);
+    } else {
+      cb(false);
     }
   });
 
   socket.on('disconnect', function() {
     game.removePlayer(player.id);
+  });
+
+  socket.on('debug:fakeState', function(cb) {
+    // Have three players join the game.
+    var me = new Player(socket);
+    game.addPlayer(me);
+    var player1 = new Player(null);
+    game.addPlayer(player1);
+    var player2 = new Player(null);
+    game.addPlayer(player2);
+    // Start the game with this player as the game master.
+    game.start(player.id);
+    // Start the round with the word, "banan".
+    game.startRound(player.id, 'banan');
+    // Send back the game state.
+    cb(game);
   });
 });
 
