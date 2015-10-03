@@ -28,68 +28,23 @@ var sockets = io.on('connection', function(socket) {
   socket.emit('player:me', player);
 
   socket.on('player:ready', function(ready) {
-    if (game.state === game.constructor.states.LOBBY) {
-      game.setPlayerReady(player.id, ready);
-    }
+    game.setPlayerReady(player.id, ready);
   });
 
   socket.on('game:join', function(cb) {
-    if (game.state === game.constructor.states.LOBBY) {
-      game.addPlayer(player);
-      cb(game);
-    } else {
-      console.error('Cannot join a game that is not in lobby state.');
-      cb(false);
-    }
+    game.addPlayer(player);
+    cb(game);
   });
 
-  socket.on('game:start', function(cb) {
-    if (game.state === game.constructor.states.LOBBY) {
-      var started = game.start(player.id);
-      cb(started);
-    } else {
-      console.error('Cannot start a game that is not in lobby state.');
-      cb(false);
-    }
+  socket.on('game:start', function() {
+    game.start(player.id);
   });
 
-  socket.on('game:startRound', function(firstWord, cb) {
-    if (game.state === game.constructor.states.PRE_GAME) {
-      var started = game.startRound(player.id, firstWord);
-      cb(started);
-    } else {
-      console.error('Cannot start a round on a game that is not in pre-game state.');
-      cb(false);
-    }
-  });
-
-  socket.on('game:appendWord', function(word, cb) {
-    if (game.state === game.constructor.states.PLAYING) {
-      game.appendWord(player.id, word);
-      cb(game);
-    } else {
-      console.error('Cannot append word on a game that is not in playing state.');
-      cb(false);
-    }
+  socket.on('word:append', function(word) {
+    game.appendWord(player.id, word);
   });
 
   socket.on('disconnect', function() {
     game.removePlayer(player.id);
-  });
-
-  socket.on('debug:fakeState', function(cb) {
-    // Have three players join the game.
-    var me = new Player(socket);
-    game.addPlayer(me);
-    var player1 = new Player(null);
-    game.addPlayer(player1);
-    var player2 = new Player(null);
-    game.addPlayer(player2);
-    // Start the game with this player as the game master.
-    game.start(player.id);
-    // Start the round with the word, "banan".
-    game.startRound(player.id, 'banan');
-    // Send back the game state.
-    cb(game);
   });
 });

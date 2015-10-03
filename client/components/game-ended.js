@@ -3,7 +3,7 @@ var React = require('react'),
     game = require('../models/game');
 
 
-var PreGameComponent = React.createClass({
+var RoundEndedComponent = React.createClass({
   getInitialState: function() {
     return { };
   },
@@ -24,31 +24,20 @@ var PreGameComponent = React.createClass({
   },
 
   render: function() {
-    var content = null,
-        title = null;
+    var startRoundControls = null;
     if (App.player().isJudge() === true) {
-      title = 'Hej Sjæf!';
-      content = (
-        <form onSubmit={this.startRound}>
-          <input autoFocus="true" ref="word" />
-          <button></button>
-        </form>
-      );
-    } else {
-      title = 'Hej Spiller!';
-      content = (
-        <div>some text</div>
+      startRoundControls = (
+        <p>Start igen</p>
       );
     }
-
 
     return (
       <div className="panel">
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 m-t-lg">
-              <h2>{title}</h2>
-              {content}
+              <h2>Spillet er slut!</h2>
+              {startRoundControls}
             </div>
           </div>
         </div>
@@ -58,5 +47,5 @@ var PreGameComponent = React.createClass({
 });
 
 
-module.exports = PreGameComponent;
+module.exports = RoundEndedComponent;
 

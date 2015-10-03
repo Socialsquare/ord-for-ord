@@ -9,6 +9,7 @@ Game.states = {
   LOBBY: 'lobby',
   PRE_GAME: 'pre-game',
   PLAYING: 'playing',
+  GAME_ENDED: 'game-ended'
 };
 Game.INITIATE_TIME = 2000;
 
@@ -22,6 +23,7 @@ Game.prototype.init = function() {
   this.playerIds = [];
   this.players = {};
   this.words = [];
+  this.currentPlayerIndex = 0;
 };
 
 Game.prototype.toJSON = function() {
@@ -148,14 +150,12 @@ Game.prototype.start = function() {
   return true;
 };
 
+// TODO: Move all this into the append word
 Game.prototype.startRound = function(playerId, firstWord) {
   if(this.isJudge(playerId) === false) {
     console.error('Only game masters can start a round!');
     return false;
   }
-  // Choose a random player that is not the Game Master.
-  var availablePlayerCount = this.playerIds.length - 1;
-  this.currentPlayerIndex = 1 + Math.floor(availablePlayerCount * Math.random());
   // Turn the game state into playing.
   this.state = Game.states.PLAYING;
   this.broadcastGameUpdate();
@@ -164,8 +164,30 @@ Game.prototype.startRound = function(playerId, firstWord) {
   return true;
 };
 
+Game.prototype.endGame = function() {
+  if(this.state === Game.states.PLAYING) {
+    return false;
+  }
+  this.state = Game.states.GAME_ENDED;
+  this.nextJudge();
+  this.broadcastGameUpdate();
+  return true;
+};
+
 Game.prototype.appendWord = function(playerId, word) {
-  console.log('append word', word);
+  if(this.playerIds[this.currentPlayerIndex] !== playerId) {
+    console.error('Only the current player can append a word');
+    return false;
+  }
+  if(this.state === Game.states.PRE_GAME && this.currentPlayerIndex !== 0) {
+    console.error('In the pre-game state, only the judge appends a word');
+    return false;
+  }
+  if(this.state !== Game.states.PLAYING && this.currentPlayerIndex > 0) {
+    console.error('In the playing state, the judge cannot append words');
+    return false;
+  }
+
   var wordObj = {
     word: word,
     playerId: playerId,
