@@ -44,13 +44,11 @@ var PreGameComponent = React.createClass({
 
     return (
       <div className="panel">
-        <div className="panel">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-xs-12 m-t-lg">
-                <h2>{title}</h2>
-                {content}
-              </div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xs-12 m-t-lg">
+              <h2>{title}</h2>
+              {content}
             </div>
           </div>
         </div>
