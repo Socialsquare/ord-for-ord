@@ -2,12 +2,19 @@ var Promise = require('bluebird'),
     m       = require('mithril');
 
 var Socket = {
-  CONNECTED: {}, OFFLINE: {}, 
+  CONNECTED: {}, OFFLINE: {},
 
   status: null,
 
   connect: function() {
-    this.socket = io.connect('http://' + location.host);
+    var port;
+    if(location.port) {
+      port = location.port;
+    } else {
+      port = 3000; // By pass any reverse proxies
+    }
+
+    this.socket = io.connect('http://' + location.hostname +':'+ port);
 
     this.emit = this.socket.emit.bind(this.socket);
     this.on = this.socket.on.bind(this.socket);
@@ -21,7 +28,7 @@ var Socket = {
     }
   },
 
-  exec: function() { 
+  exec: function() {
     var args = Array.prototype.slice.call(arguments),
         self = this;
     return new Promise(function(resolve, reject) {
