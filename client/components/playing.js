@@ -21,21 +21,26 @@ var WelcomeComponent = React.createClass({
   },
 
   render: function() {
+    var panelClasses = 'panel',
+        progressClasses = 'progress-bar',
+        currentPlayer = game.currentPlayer(),
+        colorClass = 'pcolor-' + currentPlayer.get('color'),
+        yourTurn = App.player().get('id') === currentPlayer.get('id');
+
+    if (yourTurn === true) { panelClasses += ' ' + colorClass; 
+    } else { progressClasses += ' ' + colorClass; }
+
     var words = game.words.map(function(word, i) {
       var player = game.players.get(word.get('playerId')),
-          classes = 'pcolor-' + player.get('color');
+          classes = 'tcolor-' + player.get('color');
 
       classes = 'word';
-
-      return (
-        <div className={classes} key={i}>{word.get('word')}</div>
-      );
+      return ( <div className={classes} key={i}>{word.get('word')}</div> );
     });
 
-    var panelClasses = 'panel';
-
     return (
-      <div className="panel">
+      <div className={panelClasses}>
+        <div className={progressClasses}/>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">

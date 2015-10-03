@@ -50,6 +50,14 @@ var Game = Backbone.Model.extend({
   startRound: function(word) {
     console.log('start', word);
     Socket.exec('word:append', word);
+  },
+
+  currentPlayer: function() {
+    var id = this.get('currentPlayerId');
+    if (id) {
+      this.players.get(id);
+    }
+    return null;
   }
 
 });
