@@ -59,9 +59,18 @@
 
 // Custom stuff
 @import "custom/stickyfooter";
+html, body {
+    height  : 100%;
+    overflow: hidden;
+}
+
+.panel {
+  height: 100%;
+  width: 100%;
+}
 
 .btn-startgame {
-  position: fixed;
+  position: absolute;
   left: 50%;
   bottom: 40px;
   margin: 0 0 0 -100px;

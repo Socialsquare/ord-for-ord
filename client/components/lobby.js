@@ -34,7 +34,9 @@ var LobbyComponent = React.createClass({
     buttonClasses += ' ' + playerColor;
 
     return (
-      <div>
+      <div className="panel" 
+        onTouchEnd={this.setNotReady} 
+        onMouseUp={this.setNotReady}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 m-t-lg">
@@ -49,10 +51,9 @@ var LobbyComponent = React.createClass({
             </div>
           </div>
         </div>
-        <div className={buttonClasses}
-          onMouseDown={this.setReady}
-          onMouseUp={this.setNotReady}
-          onMouseOut={this.setNotReady}>Hold to start game</div>
+        <button className={buttonClasses}
+          onTouchStart={this.setReady}
+          onMouseDown={this.setReady}>Hold to start game</button>
       </div>
     );
   }
