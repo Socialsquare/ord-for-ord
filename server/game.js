@@ -80,6 +80,9 @@ Game.prototype.setPlayerReady = function(playerId, ready) {
   if (playerId in this.players === true) {
     var player = this.players[playerId];
     player.setReady(ready);
+    player.socket.broadcast.to(this.id).emit('player:update', player.id, 
+      { ready: ready });
+    this.tryToStartGameCountDown();
   }
 };
 
@@ -94,10 +97,14 @@ Game.prototype.allPlayersReady = function() {
 
 Game.prototype.tryToStartGameCountDown = function() {
   if (this.allPlayersReady() === true) {
+    console.log('all players ready');
     this.startGameTimeout = setTimeout(() => {
+
+      console.log('start the game');
       this.start();
     }, Game.INITIATE_TIME);
   } else {
+    console.log('not ready');
     clearTimeout(this.startGameTimeout);
   }
 };

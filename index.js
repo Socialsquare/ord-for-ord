@@ -27,6 +27,12 @@ var sockets = io.on('connection', function(socket) {
 
   socket.emit('player:me', player);
 
+  socket.on('player:ready', function(ready) {
+    if (game.state === game.constructor.states.LOBBY) {
+      game.setPlayerReady(player.id, ready);
+    }
+  });
+
   socket.on('game:join', function(cb) {
     if (game.state === game.constructor.states.LOBBY) {
       game.addPlayer(player);

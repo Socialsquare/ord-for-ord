@@ -19,14 +19,14 @@ var LobbyComponent = React.createClass({
     game.players.off('change add remove');
   },
 
-  initiateGameStart: function() {
+  setReady: function() {
     console.log('init game start');
-    App.player.initiateGameStart();
+    App.player().setReady(true);
   },
 
-  terminateGameStart: function() {
+  setNotReady: function() {
     console.log('terminate game start');
-    App.player.terminateGameStart();
+    App.player().setReady(false);
   },
 
   render: function() {
@@ -39,14 +39,15 @@ var LobbyComponent = React.createClass({
             var classes = [];
             classes.push('player-icon');
             classes.push('pcolor-' + player.get('color'));
+            if (player.get('ready') === true) { classes.push('ready'); }
             return ( <div key={i} className={classes.join(' ')}></div> );
           })}
 
         </div>
         <footer className="footer">
           <button className="btn btn-primary"
-            onMouseDown={this.initiateGameStart}
-            onMouseUp={this.terminateGameStart}>Hold to start game</button>
+            onMouseDown={this.setReady}
+            onMouseUp={this.setNotReady}>Hold to start game</button>
         </footer>
       </div>
     );
