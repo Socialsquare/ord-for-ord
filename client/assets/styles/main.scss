@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'gidoleregular';
-  src        :  url("../fonts/gidole-regular.woff2") format('woff2'),
-                url("../fonts/gidole-regular.woff") format('woff'),
-                url("../fonts/gidole-regular.ttf") format('truetype');
-    font-weight: normal;
+  src        : url("../fonts/gidole-regular.woff2") format('woff2'),
+               url("../fonts/gidole-regular.woff") format('woff'),
+               url("../fonts/gidole-regular.ttf") format('truetype');
+  font-weight: normal;
   font-style : normal;
 }
 
@@ -60,23 +60,33 @@
 // Custom stuff
 @import "custom/stickyfooter";
 
+
 .player-icon {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
+  display      : inline-block;
+  width        : 30px;
+  height       : 30px;
   border-radius: 50%;
 }
-
-.pcolor-0 { background: hsla(19, 85%, 50%, 1); }
-.pcolor-1 { background: hsla(189, 62%, 43%, 1); }
-.pcolor-2 { background: hsla(43, 90%, 54%, 1); }
-.pcolor-3 { background: hsla(137, 62%, 61%, 1); }
-.pcolor-4 { background: hsla(252, 27%, 52%, 1); }
-
-
-h1, h2, h3, h4 {
-  letter-spacing: -0.03em;
-
+.pcolor-0 {
+  background: hsla(19, 85%, 50%, 1);
+}
+.pcolor-1 {
+  background: hsla(189, 62%, 43%, 1);
+}
+.pcolor-2 {
+  background: hsla(43, 90%, 54%, 1);
+}
+.pcolor-3 {
+  background: hsla(137, 62%, 61%, 1);
+}
+.pcolor-4 {
+  background: hsla(252, 27%, 52%, 1);
+}
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
 }
 p {
   letter-spacing: 0.05em;

@@ -19,10 +19,8 @@ var WelcomeComponent = React.createClass({
               </div>
               <p>&#8216;In Other Words&#8217; is a multiplayer word game challenging
               your inner wordsmith. Use words represented in as many book titles as
-              possible and challenge your friends in building new sentences.
-
-              In Other Words - have fun!</p>
-
+              possible and challenge your friends in building new sentences.</p>
+              <p>In Other Words - have fun!</p>
             </div>
           </div>
         </div>
