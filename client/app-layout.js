@@ -25,10 +25,7 @@ var AppLayout = React.createClass({
 
   render: function() {
     var Component = components[this.state.screen];
-
-    return (
-      <div> <Component /> </div>
-    );
+    return <Component />;
   }
 });
 

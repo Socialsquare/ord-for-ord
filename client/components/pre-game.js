@@ -21,7 +21,7 @@ var PreGameComponent = React.createClass({
   render: function() {
 
     return (
-      <div>
+      <div className="panel">
         <h3>Playing</h3>
         {game.players.map(function(player, i) {
           var classes = [];
