@@ -128,7 +128,7 @@ Game.prototype.isJudge = function(playerId) {
 Game.prototype.broadcast = function() {
   this.playerIds.forEach((id) => {
     var sock = this.players[id].socket;
-    sock.emit.apply(socket, arguments);
+    sock.emit.apply(sock, arguments);
   });
 };
 
