@@ -87,6 +87,3 @@ var sockets = io.on('connection', function(socket) {
     cb(game);
   });
 });
-
-
-

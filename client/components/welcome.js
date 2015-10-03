@@ -15,7 +15,7 @@ var WelcomeComponent = React.createClass({
           <div className="row">
             <div className="col-xs-12">
               <div className="page-header m-t-lg">
-                <h1>Welcome to the game!</h1>
+                <h1>In Other Words</h1>
               </div>
               <p>&#8216;In Other Words&#8217; is a multiplayer word game challenging
               your inner wordsmith. Use words represented in as many book titles as
@@ -31,7 +31,7 @@ var WelcomeComponent = React.createClass({
             <div className="row">
               <div className="col-xs-6 col-xs-offset-3">
                 <button type="button" className="btn btn-primary btn-lg btn-block"
-                  onClick={this.joinLobby}>Join Lobby</button>
+                  onClick={this.joinLobby}>Join Game</button>
               </div>
             </div>
           </div>
