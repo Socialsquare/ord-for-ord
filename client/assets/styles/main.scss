@@ -124,11 +124,16 @@ html, body {
   .word {
     display: inline-block;
     border-radius: 5px;
-    color: #fff;
+    color: $pcolor-0;
+    background: #fff;
     line-height: 1.9rem;
     padding: 0 10px;
     margin: 0 5px 5px 0;
   }
+}
+
+.submit-button {
+  visibility: hidden;
 }
 
 .progress-bar {
