@@ -165,6 +165,9 @@ Game.prototype.startRound = function(playerId, firstWord) {
 };
 
 Game.prototype.endGame = function() {
+  if(this.state === Game.states.PLAYING) {
+    return false;
+  }
   this.state = Game.states.GAME_ENDED;
   this.nextJudge();
   this.broadcastGameUpdate();
@@ -172,7 +175,19 @@ Game.prototype.endGame = function() {
 };
 
 Game.prototype.appendWord = function(playerId, word) {
-  console.log('append word', word);
+  if(this.playerIds[this.currentPlayerIndex] !== playerId) {
+    console.error('Only the current player can append a word');
+    return false;
+  }
+  if(this.state === Game.states.PRE_GAME && this.currentPlayerIndex !== 0) {
+    console.error('In the pre-game state, only the judge appends a word');
+    return false;
+  }
+  if(this.state !== Game.states.PLAYING && this.currentPlayerIndex > 0) {
+    console.error('In the playing state, the judge cannot append words');
+    return false;
+  }
+
   var wordObj = {
     word: word,
     playerId: playerId,
