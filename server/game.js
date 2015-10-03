@@ -13,11 +13,15 @@ Game.states = {
 Game.INITIATE_TIME = 2000;
 
 function Game() {
+  this.init();
+}
+
+Game.prototype.init = function() {
   this.id = 'ga-' + uuid.v1();
   this.state = Game.states.LOBBY;
   this.playerIds = [];
   this.players = {};
-}
+};
 
 Game.prototype.toJSON = function() {
   return {
@@ -65,6 +69,11 @@ Game.prototype.removePlayer = function(playerId) {
     if(player.socket) {
       player.socket.broadcast.to(this.id).emit('player:remove', player.id);
       player.socket.leave(this.id);
+    }
+    // If everyone has left the game.
+    if(this.playerIds.length === 0) {
+      // Let's re-initialize the game!
+      this.init();
     }
   }
 };
