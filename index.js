@@ -34,6 +34,20 @@ var sockets = io.on('connection', function(socket) {
     }
   });
 
+  socket.on('game:start', function(firstWord, cb) {
+    if (game.state === game.constructor.states.LOBBY) {
+      game.start(player.id, firstWord);
+      cb(game);
+    }
+  });
+
+  socket.on('game:appendWord', function(word, cb) {
+    if (game.state === game.constructor.states.PLAYING) {
+      game.appendWord(player.id, word);
+      cb(game);
+    }
+  });
+
   socket.on('disconnect', function() {
     game.removePlayer(player.id);
   });
