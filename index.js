@@ -20,13 +20,24 @@ httpServer.listen(app.get('port'), () => {
   });
 });
 
-
+var Player = require('./server/player'),
+    game = require('./server/game');
 var sockets = io.on('connection', function(socket) {
+  var player = new Player(socket);
 
-    socket.emit('welcome', 'hay!');
+  socket.emit('player:me', player);
 
+  socket.on('game:join', function(cb) {
+    if (game.state === game.constructor.states.LOBBY) {
+      game.addPlayer(player);
+      cb(game);
+    }
+  });
+
+  socket.on('disconnect', function() {
+    game.removePlayer(player.id);
+  });
 });
-
 
 
 
