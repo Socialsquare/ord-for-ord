@@ -16,15 +16,18 @@ var Game = Backbone.Model.extend({
     Socket.on('player:remove', (playerId) => {
       this.players.remove(playerId);
     });
+    Socket.on('game:update', (game) => {
+      this.set(game);
+    });
+    this.on('change:state', (self, state) => {
+      App.setState(state);
+    });
   },
 
   joinLobby: function() {
     Socket.exec('game:join').then((game) => {
       this.set(game);
       this.parsePlayers();
-      if (this.get('state') === 'lobby') {
-        App.setState('lobby');
-      }
     });
   },
 
