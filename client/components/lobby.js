@@ -32,6 +32,9 @@ var LobbyComponent = React.createClass({
     var playerColor = 'pcolor-' + (App.player() ? App.player().get('color') : 0);
     var buttonClasses = 'btn btn-startgame';
     buttonClasses += ' ' + playerColor;
+    if (App.player() && App.player().get('ready') === true) {
+      buttonClasses += ' active';
+    }
 
     return (
       <div className="panel" 

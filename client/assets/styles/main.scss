@@ -64,6 +64,11 @@ html, body {
     overflow: hidden;
 }
 
+*:focus {
+  outline: none!important;
+}
+
+
 .panel {
   height: 100%;
   width: 100%;
@@ -82,7 +87,7 @@ html, body {
   white-space: normal;
   opacity: 0.3;
 
-  &:active {
+  &.active {
     opacity: 1;
   }
 }
