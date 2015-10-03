@@ -120,6 +120,26 @@ html, body {
   }
 }
 
+.word-list {
+  .word {
+    display: inline-block;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 1.9rem;
+    padding: 0 10px;
+    margin: 0 5px 5px 0;
+  }
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $pcolor-0;
+  height: 10px;
+  width: 0%;
+}
+
 .btn-startgame, .player-icon {
   transition  : 1s ease-in;
 }
