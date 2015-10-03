@@ -188,6 +188,9 @@ Game.prototype.appendWord = function(playerId, word) {
     return false;
   }
 
+  this.state = Game.states.PLAYING;
+  this.broadcastGameUpdate();
+
   var wordObj = {
     word: word,
     playerId: playerId,
