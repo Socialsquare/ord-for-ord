@@ -28,7 +28,7 @@ var PreGameComponent = React.createClass({
           classes.push('pcolor-' + player.get('color'));
           return ( <div key={i} className={classes.join(' ')}></div> );
         })}
-        {App.player().isGameMaster() ? ( <input autofocus /> ) : null}
+        {App.player().isGameMaster() ? ( <input autoFocus="true" /> ) : null}
       </div>
     );
   }
