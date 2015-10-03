@@ -20,16 +20,18 @@ var LobbyComponent = React.createClass({
   },
 
   setReady: function() {
-    console.log('init game start');
     App.player().setReady(true);
   },
 
   setNotReady: function() {
-    console.log('terminate game start');
     App.player().setReady(false);
   },
 
   render: function() {
+
+    var playerColor = 'pcolor-' + (App.player() ? App.player().get('color') : 0);
+    var buttonClasses = 'btn btn-startgame';
+    buttonClasses += ' ' + playerColor;
 
     return (
       <div>
@@ -47,17 +49,10 @@ var LobbyComponent = React.createClass({
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-xs-6 col-xs-offset-3">
-                <button type="button" className="btn btn-primary btn-lg btn-block"
-                  onMouseDown={this.initiateGameStart}
-                  onMouseUp={this.terminateGameStart}>Hold to start game</button>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <div className={buttonClasses}
+          onMouseDown={this.setReady}
+          onMouseUp={this.setNotReady}
+          onMouseOut={this.setNotReady}>Hold to start game</div>
       </div>
     );
   }
