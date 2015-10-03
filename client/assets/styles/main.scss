@@ -63,8 +63,11 @@
 html, body {
     height  : 100%;
     overflow: hidden;
-    user-select: none;
-    -webkit-touch-callout: none;
+}
+
+*, *:focus, *:active {
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 *:focus {
@@ -117,6 +120,26 @@ html, body {
   }
 }
 
+.word-list {
+  .word {
+    display: inline-block;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 1.9rem;
+    padding: 0 10px;
+    margin: 0 5px 5px 0;
+  }
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $pcolor-0;
+  height: 10px;
+  width: 0%;
+}
+
 .btn-startgame, .player-icon {
   transition  : 1s ease-in;
 }
@@ -158,17 +181,22 @@ html, body {
   width: 40rem;
   height: 40rem;
   opacity: 0.0;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  &.active {
+    &#onePulse {
+      animation: pulse 3s 0s ease-out infinite;
+    }
+    &#twoPulse {
+      animation: pulse 3s 0.3s ease-out infinite;
+    }
+    &#treePulse {
+      animation: pulse 3s 0.6s ease-out infinite;
+    }
+  }
 }
 
-#onePulse {
-  animation: pulse 3s 0s ease-out infinite;
-}
-#twoPulse {
-  animation: pulse 3s 0.3s ease-out infinite;
-}
-#treePulse {
-  animation: pulse 3s 0.6s ease-out infinite;
-}
 
 @keyframes "pulse" {
  0% {

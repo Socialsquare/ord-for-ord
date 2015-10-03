@@ -178,7 +178,8 @@ Game.prototype.appendWord = function(playerId, word) {
     playerId: playerId,
     score: 10
   };
-  //this.broadcast('');
+  this.words.push(wordObj);
+  this.broadcast('word:append', wordObj);
 };
 
 module.exports = new Game();

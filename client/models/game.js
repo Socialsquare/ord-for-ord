@@ -10,6 +10,8 @@ var Game = Backbone.Model.extend({
 
   initialize: function() {
     this.players = new PlayerCollection();
+    this.words = new Backbone.Collection();
+
     Socket.on('player:add', (player) => {
       this.players.add(player);
     });
@@ -23,6 +25,11 @@ var Game = Backbone.Model.extend({
     Socket.on('game:update', (game) => {
       this.set(game);
     });
+
+    Socket.on('word:append', (word) => {
+      this.words.add(word);
+    });
+
     this.on('change:state', (self, state) => {
       App.setState(state);
     });

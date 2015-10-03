@@ -36,6 +36,7 @@ var LobbyComponent = React.createClass({
     pulseClass += ' ' + playerColor;
     if (App.player() && App.player().get('ready') === true) {
       buttonClasses += ' active';
+      pulseClass += ' active';
     }
 
     return (
