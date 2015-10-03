@@ -42,7 +42,7 @@ var Game = Backbone.Model.extend({
 
   startRound: function(word) {
     console.log('start', word);
-    Socket.exec('game:startRound', word);
+    Socket.exec('word:append', word);
   }
 
 });
