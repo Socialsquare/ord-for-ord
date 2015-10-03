@@ -114,6 +114,13 @@ Game.prototype.tryToStartGameCountDown = function() {
   }
 };
 
+Game.prototype.nextPlayerTurn = function() {
+  this.currentPlayerIndex++; 
+  if (this.currentPlayerIndex > this.playerIds.length - 1) {
+    this.currentPlayerIndex = 1;
+  }
+};
+
 Game.prototype.nextJudge = function() {
   var currentJudge = this.playerIds.shift();
   this.playerIds.push(currentJudge);
@@ -189,6 +196,7 @@ Game.prototype.appendWord = function(playerId, word) {
   }
 
   this.state = Game.states.PLAYING;
+  this.nextPlayerTurn();
   this.broadcastGameUpdate();
 
   var wordObj = {

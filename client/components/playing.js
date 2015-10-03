@@ -24,8 +24,13 @@ var WelcomeComponent = React.createClass({
     var panelClasses = 'panel',
         progressClasses = 'progress-bar',
         currentPlayer = game.currentPlayer(),
-        colorClass = 'pcolor-' + currentPlayer.get('color'),
-        yourTurn = App.player().get('id') === currentPlayer.get('id');
+        colorClass = '',
+        yourTurn = false;
+
+    if (currentPlayer) {
+      colorClass = 'pcolor-' + currentPlayer.get('color');
+      yourTurn = App.player().get('id') === currentPlayer.get('id');
+    }
 
     if (yourTurn === true) { panelClasses += ' ' + colorClass; 
     } else { progressClasses += ' ' + colorClass; }

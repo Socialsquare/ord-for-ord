@@ -79,6 +79,18 @@ html, body {
 .panel {
   height: 100%;
   width: 100%;
+  transition: background 0.2s ease-in-out;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  height: 10px;
+  width: 50%;
+
+  transition: all 0.2s ease-in-out;
 }
 
 .pcolor-0 {
@@ -138,14 +150,6 @@ html, body {
   visibility: hidden;
 }
 
-.progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: #fff;
-  height: 10px;
-  width: 50%;
-}
 
 .player-icon {
   transition  : background 1s ease-in;

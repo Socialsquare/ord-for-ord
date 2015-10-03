@@ -55,7 +55,7 @@ var Game = Backbone.Model.extend({
   currentPlayer: function() {
     var id = this.get('currentPlayerId');
     if (id) {
-      this.players.get(id);
+      return this.players.get(id);
     }
     return null;
   }
