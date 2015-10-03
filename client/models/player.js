@@ -12,9 +12,9 @@ var Player = Backbone.Model.extend({
     this.set('ready', ready);
   },
 
-  isGameMaster: function() {
+  isJudge: function() {
     var game = require('./game');
-    return game.get('gameMasterId') === this.get('id');
+    return game.get('judgeId') === this.get('id');
   }
 
 });

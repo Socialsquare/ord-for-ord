@@ -18,17 +18,42 @@ var PreGameComponent = React.createClass({
     game.players.off('change add remove');
   },
 
+  startRound: function(e) {
+    e.preventDefault();
+    game.startRound(React.findDOMNode(this.refs.word).value.trim());
+  },
+
   render: function() {
+    var content = null,
+        title = null;
+    if (App.player().isJudge() === true) {
+      title = 'Hej Sjæf!';
+      content = (
+        <form onSubmit={this.startRound}>
+          <input autoFocus="true" ref="word" />
+          <button></button>
+        </form>
+      );
+    } else {
+      title = 'Hej Spiller!';
+      content = (
+        <div>some text</div>
+      );
+    }
+
+
     return (
       <div className="panel">
-        <h3>Playing</h3>
-        {game.players.map(function(player, i) {
-          var classes = [];
-          classes.push('player-icon');
-          classes.push('pcolor-' + player.get('color'));
-          return ( <div key={i} className={classes.join(' ')}></div> );
-        })}
-        {App.player().isGameMaster() ? ( <input autoFocus="true" /> ) : null}
+        <div className="panel">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xs-12 m-t-lg">
+                <h2>{title}</h2>
+                {content}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
