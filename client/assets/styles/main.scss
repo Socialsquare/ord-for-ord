@@ -66,8 +66,10 @@ html, body {
 }
 
 *, *:focus, *:active {
-  user-select: none;
-  -webkit-touch-callout: none;
+  &:not(input) {
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 }
 
 *:focus {
@@ -95,7 +97,7 @@ html, body {
   background: $pcolor-4;
 }
 
-.btn-startgame, .player-icon, .pulse {
+.btn-startgame, .player-icon {
   border-width: 2px;
   border-style: solid;
   &.pcolor-0 {
@@ -145,8 +147,8 @@ html, body {
   width: 0%;
 }
 
-.btn-startgame, .player-icon {
-  transition  : 1s ease-in;
+.player-icon {
+  transition  : background 1s ease-in;
 }
 
 .btn-startgame, .pulse {
@@ -159,11 +161,11 @@ html, body {
   border-radius: 50%;
   padding: 3rem 2rem;
   white-space: normal;
-  &:active {
+  &.active {
     color: #fff;
   }
   &.pcolor-0, &.pcolor-1, &.pcolor-2, &.pcolor-3, &.pcolor-4 {
-    &:not(:active) {
+    &:not(.active) {
       background: none;
     }
   }
@@ -171,7 +173,7 @@ html, body {
     background: none;
     border-color: $pcolor-0;
     color: $pcolor-0;
-    &:active {
+    &.active {
       transition: 0s;
       color: #fff;
       background: $pcolor-0;
@@ -180,45 +182,43 @@ html, body {
 }
 
 .pulse {
-  border-width : 10px;
-  bottom: -12rem;
-  margin: 0 0 0 -20rem;
-  width: 40rem;
-  height: 40rem;
-  opacity: 0.0;
+  bottom: -2rem;
+  margin: 0 0 0 -10rem;
+  width: 20rem;
+  height: 20rem;
   transform: translate3d(0,0,0);
-  backface-visibility: hidden;
-  perspective: 1000;
+  border-width: 4px;
+  border-style: solid;
+  transform: scale(0.5);
+  opacity: 0;
   &.active {
     &#onePulse {
-      animation: pulse 3s 0s ease-out infinite;
+      animation: pulse 1s 0s ease-out infinite;
     }
     &#twoPulse {
-      animation: pulse 3s 0.3s ease-out infinite;
+      animation: pulse 1s 0.2s ease-out infinite;
     }
     &#treePulse {
-      animation: pulse 3s 0.6s ease-out infinite;
+      animation: pulse 1s 0.4s ease-out infinite;
     }
   }
 }
 
 
 @keyframes "pulse" {
- 0% {
-    transform: scale(.25);
-    opacity: 0.0;
- }
- 10% {
-    opacity: 0.6;
- }
- 30% {
-   opacity: 0.1;
- }
- 100% {
+  0% {
+    transform: scale(.5);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
     transform: scale(1);
-    opacity: 0.0;
- }
+  }
 }
+
+
 .player-icon {
   display      : inline-block;
   width        : 2rem;
