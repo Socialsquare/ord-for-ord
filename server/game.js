@@ -10,7 +10,7 @@ Game.states = {
   PRE_GAME: 'pre-game',
   PLAYING: 'playing',
 };
-Game.INITIATE_TIME = 1000;
+Game.INITIATE_TIME = 2000;
 
 function Game() {
   this.init();
@@ -83,7 +83,7 @@ Game.prototype.setPlayerReady = function(playerId, ready) {
   if (playerId in this.players === true) {
     var player = this.players[playerId];
     player.setReady(ready);
-    player.socket.broadcast.to(this.id).emit('player:update', player.id, 
+    player.socket.broadcast.to(this.id).emit('player:update', player.id,
       { ready: ready });
     this.tryToStartGameCountDown();
   }
