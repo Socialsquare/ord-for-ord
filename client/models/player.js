@@ -10,6 +10,11 @@ var Player = Backbone.Model.extend({
   setReady: function(ready) {
     Socket.exec('player:ready', ready);
     this.set('ready', ready);
+  },
+
+  isGameMaster: function() {
+    var game = require('./game');
+    return game.get('gameMasterId') === this.get('id');
   }
 
 });
