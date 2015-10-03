@@ -22,8 +22,12 @@ var LobbyComponent = React.createClass({
 
     return (
       <div>
+        <h3>Players in Lobby</h3>
         {game.players.map(function(player, i) {
-          return ( <div key={i}>{player.get('id')}</div> );
+          var classes = [];
+          classes.push('player-icon');
+          classes.push('pcolor-' + player.get('color'));
+          return ( <div key={i} className={classes.join(' ')}></div> );
         })}
       </div>
     );

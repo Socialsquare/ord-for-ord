@@ -1,10 +1,7 @@
 var uuid = require('uuid'),
     _ = require('lodash');
 
-Game.colors = [
-  'green', 'red', 'blue', 'teal', 'purple',
-  'brown', 'green', 'yellow', 'orange'
-];
+Game.COLOR_COUNT = 4;
 
 Game.MIN_PLAYERS = 2;
 Game.MAX_PLAYERS = 4;
@@ -31,11 +28,21 @@ Game.prototype.toJSON = function() {
   };
 };
 
+Game.prototype.getUnusedColor = function() {
+  var colors = _.range(Game.COLOR_COUNT);
+  for (var key in this.players) {
+    var c = colors.indexOf(this.players[key].color);
+    colors.splice(c, 1);
+  }
+  return _.shuffle(colors)[0];
+};
+
 Game.prototype.addPlayer = function(player) {
   if (player.id in this.players === false) {
     if(Object.keys(this.players).length >= Game.MAX_PLAYERS) {
       return false;
     }
+    player.color = this.getUnusedColor();
     this.players[player.id] = player;
     if(player.socket) {
       player.socket.join(this.id);
