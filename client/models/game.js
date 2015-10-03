@@ -16,9 +16,15 @@ var Game = Backbone.Model.extend({
     Socket.on('player:remove', (playerId) => {
       this.players.remove(playerId);
     });
-    Socket.on('player:update', (playerId, data) => {
+	Socket.on('player:update', (playerId, data) => {
       var player = this.players.get(playerId);
       if (player) { player.set(data); }
+    });
+    Socket.on('game:update', (game) => {
+      this.set(game);
+    });
+    this.on('change:state', (self, state) => {
+      App.setState(state);
     });
   },
 
@@ -26,9 +32,6 @@ var Game = Backbone.Model.extend({
     Socket.exec('game:join').then((game) => {
       this.set(game);
       this.parsePlayers();
-      if (this.get('state') === 'lobby') {
-        App.setState('lobby');
-      }
     });
   },
 

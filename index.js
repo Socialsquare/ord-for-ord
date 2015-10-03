@@ -38,6 +38,7 @@ var sockets = io.on('connection', function(socket) {
       game.addPlayer(player);
       cb(game);
     } else {
+      console.error('Cannot join a game that is not in lobby state.');
       cb(false);
     }
   });
@@ -47,6 +48,7 @@ var sockets = io.on('connection', function(socket) {
       var started = game.start(player.id);
       cb(started);
     } else {
+      console.error('Cannot start a game that is not in lobby state.');
       cb(false);
     }
   });
@@ -56,6 +58,7 @@ var sockets = io.on('connection', function(socket) {
       var started = game.startRound(player.id, firstWord);
       cb(started);
     } else {
+      console.error('Cannot start a round on a game that is not in pre-game state.');
       cb(false);
     }
   });
@@ -65,6 +68,7 @@ var sockets = io.on('connection', function(socket) {
       game.appendWord(player.id, word);
       cb(game);
     } else {
+      console.error('Cannot append word on a game that is not in playing state.');
       cb(false);
     }
   });

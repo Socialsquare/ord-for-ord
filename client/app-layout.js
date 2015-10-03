@@ -4,7 +4,8 @@ var React = require('react'),
 
 var components = {
   'welcome': require('./components/welcome'),
-  'lobby': require('./components/lobby')
+  'lobby': require('./components/lobby'),
+  'pre-game': require('./components/pre-game')
 };
 
 var AppLayout = React.createClass({
