@@ -1,4 +1,5 @@
-var uuid = require('uuid');
+var uuid = require('uuid'),
+    _ = require('lodash');
 
 Game.colors = [
   'green', 'red', 'blue', 'teal', 'purple',
