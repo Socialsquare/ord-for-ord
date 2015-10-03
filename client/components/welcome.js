@@ -24,16 +24,8 @@ var WelcomeComponent = React.createClass({
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-xs-6 col-xs-offset-3">
-                <button type="button" className="btn btn-primary btn-lg btn-block"
-                  onClick={this.joinLobby}>Join Game</button>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <button className="btn btn-startgame btn-default"
+          onClick={this.joinLobby}>Join Game</button>
       </div>
     );
   }

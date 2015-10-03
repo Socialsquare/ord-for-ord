@@ -32,17 +32,19 @@ var LobbyComponent = React.createClass({
     var playerColor = 'pcolor-' + (App.player() ? App.player().get('color') : 0);
     var buttonClasses = 'btn btn-startgame';
     buttonClasses += ' ' + playerColor;
+    var pulseClass = 'pulse';
+    pulseClass += ' ' + playerColor;
     if (App.player() && App.player().get('ready') === true) {
       buttonClasses += ' active';
     }
 
     return (
-      <div className="panel" 
-        onTouchEnd={this.setNotReady} 
+      <div className="panel"
+        onTouchEnd={this.setNotReady}
         onMouseUp={this.setNotReady}>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12 m-t-lg">
+            <div className="col-xs-12 m-t-lg text-center">
               <h3>Players in Lobby</h3>
               {game.players.map(function(player, i) {
                 var classes = [];
@@ -57,6 +59,9 @@ var LobbyComponent = React.createClass({
         <button className={buttonClasses}
           onTouchStart={this.setReady}
           onMouseDown={this.setReady}>Hold to start game</button>
+        <div id="onePulse" className={pulseClass}></div>
+        <div id="twoPulse" className={pulseClass}></div>
+        <div id="treePulse" className={pulseClass}></div>
       </div>
     );
   }

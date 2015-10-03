@@ -59,6 +59,7 @@
 
 // Custom stuff
 @import "custom/stickyfooter";
+
 html, body {
     height  : 100%;
     overflow: hidden;
@@ -74,51 +75,131 @@ html, body {
   width: 100%;
 }
 
-.btn-startgame {
-  position: absolute;
-  left: 50%;
-  bottom: 40px;
-  margin: 0 0 0 -100px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  color: #fff;
-  padding: 70px 40px;
-  white-space: normal;
-  opacity: 0.3;
-
-  &.active {
-    opacity: 1;
-  }
-}
-
-.player-icon {
-  display      : inline-block;
-  width        : 30px;
-  height       : 30px;
-  border-radius: 50%;
-  opacity: 0.3;
-  transition: opacity 2s ease-in;
-
-  &.ready {
-    opacity: 1;
-  }
-}
 .pcolor-0 {
-  background: hsla(19, 85%, 50%, 1);
+  background: $pcolor-0;
 }
 .pcolor-1 {
-  background: hsla(189, 62%, 43%, 1);
+  background: $pcolor-1;
 }
 .pcolor-2 {
-  background: hsla(43, 90%, 54%, 1);
+  background: $pcolor-2;
 }
 .pcolor-3 {
-  background: hsla(137, 62%, 61%, 1);
+  background: $pcolor-3;
 }
 .pcolor-4 {
-  background: hsla(252, 27%, 52%, 1);
+  background: $pcolor-4;
 }
+
+.btn-startgame, .player-icon, .pulse {
+  border-width: 2px;
+  border-style: solid;
+  &.pcolor-0 {
+    color: $pcolor-0;
+    border-color: $pcolor-0;
+  }
+  &.pcolor-1 {
+    color: $pcolor-1;
+    border-color: $pcolor-1;
+  }
+  &.pcolor-2 {
+    color: $pcolor-2;
+    border-color: $pcolor-2;
+  }
+  &.pcolor-3 {
+    color: $pcolor-3;
+    border-color: $pcolor-3;
+  }
+  &.pcolor-4 {
+    color: $pcolor-4;
+    border-color: $pcolor-4;
+  }
+}
+
+.btn-startgame, .player-icon {
+  transition  : 1s ease-in;
+}
+
+.btn-startgame, .pulse {
+  position: absolute;
+  left: 50%;
+  bottom: 3rem;
+  margin: 0 0 0 -5rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  padding: 3rem 2rem;
+  white-space: normal;
+  &:active {
+    color: #fff;
+  }
+  &.pcolor-0, &.pcolor-1, &.pcolor-2, &.pcolor-3, &.pcolor-4 {
+    &:not(:active) {
+      background: none;
+    }
+  }
+  &.btn-default {
+    background: none;
+    border-color: $pcolor-0;
+    color: $pcolor-0;
+    &:active {
+      transition: 0s;
+      color: #fff;
+      background: $pcolor-0;
+    }
+  }
+}
+
+.pulse {
+  border-width : 10px;
+  bottom: -12rem;
+  margin: 0 0 0 -20rem;
+  width: 40rem;
+  height: 40rem;
+  opacity: 0.0;
+}
+
+#onePulse {
+  animation: pulse 3s ease-out infinite;
+}
+#twoPulse {
+  animation: pulse 3s 0.3s ease-out infinite;
+}
+#treePulse {
+  animation: pulse 3s 0.6s ease-out infinite;
+}
+
+@keyframes "pulse" {
+ 0% {
+    transform: scale(.2);
+    opacity: 0.0;
+ }
+ 10% {
+    opacity: 0.6;
+ }
+ 30% {
+   opacity: 0.1;
+ }
+ 100% {
+    transform: scale(1);
+    opacity: 0.0;
+ }
+}
+.player-icon {
+  display      : inline-block;
+  width        : 2rem;
+  height       : 2rem;
+  border-radius: 50%;
+  &:not(:last-child) {
+    margin-right: .5rem;
+  }
+  &.pcolor-0, &.pcolor-1, &.pcolor-2, &.pcolor-3, &.pcolor-4 {
+    &:not(.ready) {
+      background: none;
+    }
+  }
+}
+
 h1,
 h2,
 h3,
