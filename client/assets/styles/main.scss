@@ -6,6 +6,7 @@
     font-weight: normal;
   font-style : normal;
 }
+
 $font-family-sans-serif: 'gidoleregular';
 $body-bg: #fff !default;
 
@@ -61,3 +62,17 @@ $body-bg: #fff !default;
 
 // Custom stuff
 @import "custom/stickyfooter";
+
+
+.player-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.pcolor-0 { background: #4CA008; }
+.pcolor-1 { background: #F6C531; }
+.pcolor-2 { background: #2B97F1; }
+.pcolor-3 { background: #ED462F; }
+

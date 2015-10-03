@@ -3,7 +3,8 @@ var uuid = require('uuid');
 function Player(socket) {
   this.id = 'pl-' + uuid.v1();
   this.socket = socket;
-  this.color = '';
+  this.color = 0;
+  this.ready = false;
 }
 
 Player.prototype.toJSON = function() {
