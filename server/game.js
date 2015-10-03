@@ -1,28 +1,33 @@
 var uuid = require('uuid');
 
 Game.colors = [
-  'green', 'red', 'blue', 'teal', 'purple', 
+  'green', 'red', 'blue', 'teal', 'purple',
   'brown', 'green', 'yellow', 'orange'
 ];
 
+Game.MIN_PLAYERS = 2;
 Game.MAX_PLAYERS = 4;
 Game.states = {
-  LOBBY: 'lobby'
+  LOBBY: 'lobby',
+  PRE_GAME: 'pre-game',
+  PLAYING: 'playing',
 };
 
 function Game() {
   this.id = 'ga-' + uuid.v1();
   this.state = Game.states.LOBBY;
-  this.gameMaster = null;
+  this.gameMasterId = null;
   this.players = {};
+  this.currentPlayerId = null;
 }
 
 Game.prototype.toJSON = function() {
   return {
     id: this.id,
     state: this.state,
-    gameMaster: this.gameMaster,
-    players: this.players
+    gameMasterId: this.gameMasterId,
+    players: this.players,
+    currentPlayerId: this.currentPlayerId
   };
 };
 
@@ -41,6 +46,33 @@ Game.prototype.removePlayer = function(playerId) {
     player.socket.broadcast.to(this.id).emit('player:remove', player.id);
     player.socket.leave(this.id);
   }
+};
+
+Game.prototype.getPlayerIds = function(includeGameMaster) {
+  var players = this.players;
+  if(!includeGameMaster) {
+    // Filter out the game master
+    players = players.filter(function(p) {
+      return p.id !== this.gameMasterId;
+    });
+  }
+  // Transform to ids
+  return players.map(function(p) {
+    return p.id;
+  });
+};
+
+Game.prototype.start = function(playerId, firstWord) {
+  if(playerId !== this.gameMasterId) {
+    throw new Error('Only the game master can start the game');
+  }
+  this.state = Game.states.PLAYING;
+  var players = this.getPlayerIds();
+  // this.turn; // Pick one at random ...
+  console.log(players);
+};
+
+Game.prototype.appendWord = function(playerId, word) {
 };
 
 module.exports = new Game();
