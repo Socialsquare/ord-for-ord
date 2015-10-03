@@ -32,7 +32,7 @@ Game.prototype.toJSON = function() {
     state: this.state,
     players: _.values(this.players),
     judgeId: this.playerIds.length > 0 ? this.playerIds[0] : null,
-    currentPlayerId: this.currentPlayerId
+    currentPlayerId: this.playerIds[this.currentPlayerIndex]
   };
 };
 
@@ -187,6 +187,9 @@ Game.prototype.appendWord = function(playerId, word) {
     console.error('In the playing state, the judge cannot append words');
     return false;
   }
+
+  this.state = Game.states.PLAYING;
+  this.broadcastGameUpdate();
 
   var wordObj = {
     word: word,

@@ -31,7 +31,7 @@ var PreGameComponent = React.createClass({
       content = (
         <form onSubmit={this.startRound}>
           <input autoFocus="true" ref="word" />
-          <button></button>
+          <button className="submit-button" />
         </form>
       );
     } else {
