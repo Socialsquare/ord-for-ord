@@ -56,14 +56,26 @@ var GameEndedComponent = React.createClass({
                     <tr key={wi}>
                       <td>{word.word}</td>
                       {game.players.map((player, i) => {
+                        if (player.isJudge() === true) { return null; }
                         var score = word.scores[player.get('id')] || null;
-                        if (score === null) { return null; }
                         if (score === 0) { score = ''; }
                         return ( <td key={i}>{score}</td> );
                       })}
                     </tr>
                   );
                 })}
+                <tr> 
+                  <td>Sum</td>
+                  {game.players.map((player, i) => {
+                    if (player.isJudge() === true) { return null; }
+                    var dotClasses = 'player-dot pcolor-' + player.get('color');
+                    return (
+                      <td key={i}>
+                        {player.getScore()}
+                      </td>
+                    );
+                  })}
+                </tr>
               </table>
 
               {startRoundControls}
