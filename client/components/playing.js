@@ -83,10 +83,30 @@ var WelcomeComponent = React.createClass({
 
     var words = game.words.map(function(word, i) {
       var player = game.players.get(word.get('playerId')),
-          classes = 'tcolor-' + player.get('color');
-
+          classes = 'tcolor-' + player.get('color'),
+          claims = null;
       classes = 'word';
-      return ( <div className={classes} key={i}>{word.get('word')}</div> );
+
+      if (word.get('successfulClaims')) {
+        claims = (
+          <div className="claims">
+            {word.get('successfulClaims').map(function(playerId) {
+              var player = game.players.get(playerId),
+                  classes = 'claim pcolor-' + player.get('color');
+              return (
+                <div key={playerId} className={classes} />
+              );
+            })}
+          </div>
+        );
+      }
+
+      return ( 
+        <div className={classes} key={i}>
+          {word.get('word')}
+          {claims}
+        </div>
+      );
     });
 
     return (
