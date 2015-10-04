@@ -217,7 +217,6 @@ Game.prototype.appendWord = function(playerId, word) {
 
   this.nextPlayerTurn();
 
-
   var wordObj = {
     word: word,
     playerId: playerId,
