@@ -23,40 +23,55 @@ var PreGameComponent = React.createClass({
     game.appendWord(React.findDOMNode(this.refs.word).value.trim());
   },
 
+  categories: function() {
+    return [
+      { key: 'all', name:'Alle' },
+      { key: 'philosophy', name:'Filosofi' },
+      { key: 'psychology', name:'Psykologi' },
+      { key: 'science', name:'Videnskab' },
+      { key: 'politics', name:'Politik' },
+      { key: 'economics', name:'Økonomi' },
+      { key: 'geography', name:'Geografi og rejser' },
+      { key: 'natural_science', name:'Naturvidenskab' },
+      { key: 'biology', name:'Biologi' },
+      { key: 'tech', name:'Teknik' },
+      { key: 'art', name:'Kunst' },
+      { key: 'music', name:'Musik' },
+      { key: 'history', name:'Historie' }
+    ];
+  },
+
   render: function() {
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
       title = 'Hej overdommer!';
       content = (
-        <div>
+        <div className="judge-pre">
           <form onSubmit={this.startRound}>
-            <input autoFocus="true" ref="word" />
+            <input autoFocus="true" ref="word" placeholder="Skriv det første ord." />
             <button className="submit-button" />
           </form>
           <div className="style-select dropdown-toggle">
-            <select id="category-select">
-              <option selected disabled>Vælg en kategori</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select id="category-select" multiple={true}>
+              <option disabled>Vælg en kategori</option>
+              {this.categories().map(function(category) {
+                return (<option value={category.key}>{category.name}</option>);
+              })}
             </select>
           </div>
-          <div className="m-t-lg">Som dommer har du altid det sidste ord!<br/><br/>
-          Væbnet med punktummer kan du til en hver tid afslutte en sætning, hvis
-          meningen udebliver.</div>
+          <div className="m-t-md">Som dommer kan du til en hver tid afslutte
+          sætning, når meningen udebliver.</div>
         </div>
       );
     } else {
       title = 'Hej Spiller!';
       content = (
-        <div>Spillet starter når overdommeren har defineret det første ord
+        <div>Spillet starter, når overdommeren har defineret det første ord
         og valgt en kategori.<br/><br/>
-        Når det er din tur skriver du et ord, der i sammenhæng med de forrige
+        Når det er din tur, skriver du et ord, der i sammenhæng med de forrige
         forsat er meningsgivende og som du mener vil indgå i flest bogtitler.<br/><br/>
-        Når det er din modspilleres tur har du mulighed for at udfordre dem ved
+        Når det er din modspilleres tur, har du mulighed for at udfordre dem ved
         at blokere ord og dermed stjæle deres points.<br/><br/>
         Spillet slutter efter (tid/runder) eller når overdommeren lader sætter
         et punktum.</div>

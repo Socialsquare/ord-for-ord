@@ -3,7 +3,7 @@ var React = require('react'),
     App = require('../app'),
     game = require('../models/game'),
     sharedConfig = require('../../lib/shared-config');
-    
+
 var PROGRESS_INTERVAL = 300;
 
 var WelcomeComponent = React.createClass({
@@ -13,7 +13,7 @@ var WelcomeComponent = React.createClass({
       claimedWords: []
     };
   },
-  
+
   componentWillMount: function() {
     game.words.on('change add remove', () => {
       this.forceUpdate();
@@ -65,7 +65,7 @@ var WelcomeComponent = React.createClass({
         colorClass = '',
         yourTurn = false,
         formClass = '',
-        progressStyle = { 
+        progressStyle = {
           width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
         };
 
@@ -74,10 +74,10 @@ var WelcomeComponent = React.createClass({
       yourTurn = App.player().get('id') === currentPlayer.get('id');
     }
 
-    if (yourTurn === true) { 
-      panelClasses += ' ' + colorClass; 
-    } else { 
-      progressClasses += ' ' + colorClass; 
+    if (yourTurn === true) {
+      panelClasses += ' ' + colorClass;
+    } else {
+      progressClasses += ' ' + colorClass;
       formClass = 'pcolor-' + App.player().get('color');
     }
 
@@ -95,7 +95,7 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <div className="word-list">
+              <div className="word-list m-t-md">
                 {words}
               </div>
 
@@ -108,8 +108,8 @@ var WelcomeComponent = React.createClass({
                   })}
 
                   <form onSubmit={this.submitWord} className={formClass}>
-                    <input type="text" autoFocus="true" ref="word" 
-                      placeholder="Enter word..." />
+                    <input type="text" autoFocus="true" ref="word"
+                      placeholder="Indtast ord" />
                     <button className="submit-button" />
                   </form>
                 </div>
@@ -125,4 +125,3 @@ var WelcomeComponent = React.createClass({
 });
 
 module.exports = WelcomeComponent;
-
