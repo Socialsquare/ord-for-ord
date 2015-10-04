@@ -80,7 +80,21 @@ body {
   height       : 2rem;
   width        : 2rem;
   border-radius: 50%;
+
+  &.bounce {
+    animation: bounce 1s ease-in-out 0s infinite;
+  }
 }
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 .panel {
   height    : 100%;
   width     : 100%;

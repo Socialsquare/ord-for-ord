@@ -27,7 +27,8 @@ var GameEndedComponent = React.createClass({
     var startRoundControls = null;
     if (App.player().isJudge() === true) {
       startRoundControls = (
-        <button onClick={this.restart} className="btn btn-startgame btn-default">
+        <button onClick={this.restart} 
+          className="btn btn-startgame btn-default btn-judge">
         Start igen</button>
       );
     }

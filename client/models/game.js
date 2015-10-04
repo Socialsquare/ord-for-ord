@@ -89,9 +89,7 @@ var Game = Backbone.Model.extend({
   },
 
   getScoreTable: function() {
-    var players = this.players.filter((player) => {
-      return !player.isJudge();
-    }).map((player) => { return player.get('id') });
+    var players = this.players.map((player) => { return player.get('id') });
 
     return this.words.map((word) => {
       var dividedAmongst = 1 + word.get('successfulClaims').length,
