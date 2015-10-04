@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react'),
-    game = require('../models/game');
+    game = require('../models/game'),
+    ScoreComponent = require('./score');
 
 
 var GameEndedComponent = React.createClass({
@@ -37,46 +38,8 @@ var GameEndedComponent = React.createClass({
           <div className="row">
             <div className="col-xs-12 m-t-lg">
               <h2>Spillet er slut!</h2>
-              
-              <table>
-                <tr> 
-                  <td></td>
-                  {game.players.map((player, i) => {
-                    if (player.isJudge() === true) { return null; }
-                    var dotClasses = 'player-dot pcolor-' + player.get('color');
-                    return (
-                      <td key={i}>
-                        <div className={dotClasses}></div>
-                      </td>
-                    );
-                  })}
-                </tr>
-                {game.getScoreTable().map((word, wi) => {
-                  return (
-                    <tr key={wi}>
-                      <td>{word.word}</td>
-                      {game.players.map((player, i) => {
-                        if (player.isJudge() === true) { return null; }
-                        var score = word.scores[player.get('id')] || null;
-                        if (score === 0) { score = ''; }
-                        return ( <td key={i}>{score}</td> );
-                      })}
-                    </tr>
-                  );
-                })}
-                <tr> 
-                  <td>Sum</td>
-                  {game.players.map((player, i) => {
-                    if (player.isJudge() === true) { return null; }
-                    var dotClasses = 'player-dot pcolor-' + player.get('color');
-                    return (
-                      <td key={i}>
-                        {player.getScore()}
-                      </td>
-                    );
-                  })}
-                </tr>
-              </table>
+
+              <ScoreComponent game={game} />
 
               {startRoundControls}
             </div>

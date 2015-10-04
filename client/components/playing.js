@@ -3,6 +3,7 @@ var React = require('react'),
     App = require('../app'),
     game = require('../models/game'),
     sharedConfig = require('../../lib/shared-config'),
+    ScoreComponent = require('./score');
     vh = require('../lib/view-helpers');
 
 var PROGRESS_INTERVAL = 300;
@@ -73,6 +74,7 @@ var WelcomeComponent = React.createClass({
         colorClass = '',
         yourTurn = false,
         formClass = '',
+        helpTextClasses = 'help-text',
         progressStyle = {
           width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
         };
@@ -84,6 +86,7 @@ var WelcomeComponent = React.createClass({
 
     if (yourTurn === true) {
       panelClasses += ' ' + colorClass;
+      helpTextClasses += ' white';
     } else {
       progressClasses += ' ' + colorClass;
       formClass = 'pcolor-' + App.player().get('color');
@@ -129,14 +132,11 @@ var WelcomeComponent = React.createClass({
 
               {App.player().isJudge() === true ?
                 <div>
-                  <progress className="score pcolor-0" value="0" max="4"></progress>
-                  <progress className="score pcolor-1" value="1" max="4"></progress>
-                  <progress className="score pcolor-2" value="2" max="4"></progress>
-                  <progress className="score pcolor-3" value="3" max="4"></progress>
                   <button className="btn btn-startgame btn-default"
                     onClick={this.terminate}>
                     <span>Sludder og vrøvl!</span>
                   </button>
+                  <ScoreComponent game={game} />
                 </div>
               :
                 <div>
@@ -150,6 +150,17 @@ var WelcomeComponent = React.createClass({
                       onKeyPress={vh.preventCharacters} />
                     <button className="submit-button" />
                   </form>
+
+                  <div className={helpTextClasses}>
+                    { yourTurn === true ?
+                      <span>Det er din tur!</span>
+                    :
+                      <span> 
+                        Det er din modstanders tur, skynd dig at gæt hvad der
+                        bliver skrevet og tag del i gevinsten
+                      </span>
+                    }
+                  </div>
                 </div>
               }
 
