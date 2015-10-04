@@ -129,7 +129,9 @@ var WelcomeComponent = React.createClass({
 
               {App.player().isJudge() === true ?
                 <button className="btn btn-startgame btn-default"
-                  onClick={this.terminate}>Sludder og vrøvl!</button>
+                  onClick={this.terminate}>
+                  <span>Sludder og vrøvl!</span>
+                </button>
               :
                 <div>
                   {this.state.claimedWords.map((word, i) => {

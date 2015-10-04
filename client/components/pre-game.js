@@ -97,7 +97,9 @@ var PreGameComponent = React.createClass({
           </div>
           <div className="m-t-md">Som dommer kan du til en hver tid afslutte
           sætning, når meningen udebliver.</div>
-          <button className="btn btn-startgame btn-default">Go!</button>
+          <button className="btn btn-startgame btn-default">
+            <span>Go!</span>
+          </button>
         </div>
       );
     } else {

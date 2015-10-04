@@ -238,6 +238,13 @@ body {
 .player-icon {
   transition: background 1s ease-in;
 }
+
+.btn-startgame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-startgame,
 .pulse {
   position     : fixed;
@@ -247,7 +254,7 @@ body {
   width        : 10rem;
   height       : 10rem;
   border-radius: 50%;
-  padding      : 3rem 2rem;
+  padding      : 0 1rem;
   white-space  : normal;
   &.active,
   &:active {
