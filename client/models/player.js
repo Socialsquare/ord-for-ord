@@ -20,7 +20,7 @@ var Player = Backbone.Model.extend({
   getScore: function() {
     var game = require('./game');
     return game.getScoreTable().reduce((totalScore, word) => {
-      totalScore += word.scores[this.id];
+      totalScore += word.scores[this.id] || 0;
       return totalScore;
     }, 0);
   }
