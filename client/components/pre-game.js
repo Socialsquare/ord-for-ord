@@ -78,7 +78,6 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
-      goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
@@ -97,7 +96,9 @@ var PreGameComponent = React.createClass({
             </div>
             <div className="m-t-md">Som dommer kan du til en hver tid afslutte
             sætning, når meningen udebliver.</div>
-            <button className={goBtnClasses}>Go!</button>
+            <button className="btn btn-startgame btn-default">
+              <span>Go!</span>
+            </button>
           </form>
         </div>
       );

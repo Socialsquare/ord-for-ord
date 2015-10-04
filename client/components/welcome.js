@@ -26,8 +26,9 @@ var WelcomeComponent = React.createClass({
             </div>
           </div>
         </div>
-        <button className="btn btn-startgame btn-default"
-          onClick={this.joinLobby}>Videre</button>
+        <button className="btn btn-startgame btn-default" onClick={this.joinLobby}>
+          <span>Videre</span>
+        </button>
       </div>
     );
   }
