@@ -61,7 +61,7 @@ var LobbyComponent = React.createClass({
         <div id="twoPulse" className={pulseClass}></div>
         <button className={buttonClasses}
           onTouchStart={this.setReady}
-          onMouseDown={this.setReady}>Hold to start game</button>
+          onMouseDown={this.setReady}>Hold nede for at joine</button>
       </div>
     );
   }
