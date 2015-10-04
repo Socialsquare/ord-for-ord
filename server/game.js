@@ -134,6 +134,10 @@ Game.prototype.isJudge = function(playerId) {
   }
 };
 
+Game.prototype.isCurrentPlayer = function(playerId) {
+  return this.playerIds[this.currentPlayerIndex] === playerId;
+};
+
 Game.prototype.broadcast = function() {
   this.playerIds.forEach((id) => {
     var sock = this.players[id].socket;
@@ -182,7 +186,7 @@ Game.prototype.endGame = function() {
 };
 
 Game.prototype.appendWord = function(playerId, word) {
-  if(this.playerIds[this.currentPlayerIndex] !== playerId) {
+  if(!this.isCurrentPlayer(playerId)) {
     console.error('Only the current player can append a word');
     return false;
   }
