@@ -3,10 +3,22 @@ var React = require('react'),
     game = require('../models/game'),
     App = require('../app');
 
+var READY_QUOTES = [
+  'Hold knappen nede, rødbede!',
+  'Press for success!',
+  'Press to impress!',
+  'Tiden er knap ...',
+  'Lick to click',
+  'Beam me up, Scotty!',
+  'Pres lappen mod knappen',
+  'Få luffen ud af muffen'
+];
 
 var LobbyComponent = React.createClass({
   getInitialState: function() {
-    return { };
+    return {
+      readyQuote: READY_QUOTES[Math.floor(READY_QUOTES.length * Math.random())]
+    };
   },
 
   componentWillMount: function() {
@@ -61,7 +73,7 @@ var LobbyComponent = React.createClass({
         <div id="twoPulse" className={pulseClass}></div>
         <button className={buttonClasses}
           onTouchStart={this.setReady}
-          onMouseDown={this.setReady}>Hold nede for at joine</button>
+          onMouseDown={this.setReady}>{this.state.readyQuote}</button>
       </div>
     );
   }
