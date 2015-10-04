@@ -85,30 +85,65 @@ body {
   top       : 0;
   left      : 0;
   background: #fff;
-  height: 7px;
-  width: 50%;
+  height    : 7px;
+  width     : 50%;
   transition: all 0.3s linear;
 }
-
-.game-panel, .judge-pre {
+.game-panel,
+.judge-pre {
   form {
-    margin: 0 -1.5rem;
+    margin : 0 -1.5rem;
     padding: 0 1.5rem;
-
-    &:not([class*="pcolor-"]) { background: #fff; }
-    &[class*="pcolor-"] { color: #fff; }
+    &:not([class*="pcolor-"]) {
+      background: #fff;
+    }
+    &[class*="pcolor-"] {
+      color: #fff;
+    }
   }
-
   input {
-    width: 100%;
-    background: transparent;
-    border: none;
+    width      : 100%;
+    background : transparent;
+    border     : none;
     line-height: 2rem;
-    padding: 0;
+    padding    : 0;
   }
 }
-
-
+.game-panel {
+  &:not([class*="pcolor-"]) {
+    input::placeholder {
+      color: white;
+    }
+  }
+  &.pcolor-0 {
+    input::placeholder {
+      color: $pcolor-0;
+    }
+  }
+  &.pcolor-1 {
+    input::placeholder {
+      color: $pcolor-1;
+    }
+  }
+  &.pcolor-2 {
+    input::placeholder {
+      color: $pcolor-2;
+    }
+  }
+  &.pcolor-3 {
+    input::placeholder {
+      color: $pcolor-3;
+    }
+  }
+  &.pcolor-4 {
+    input::placeholder {
+      color: $pcolor-4;
+    }
+  }
+  .word-list {
+    padding-top: 0.3rem;
+  }
+}
 .pcolor-0 {
   background: $pcolor-0;
 }
@@ -161,7 +196,7 @@ body {
   }
 }
 .submit-button {
-  position: absolute;
+  position  : absolute;
   visibility: hidden;
 }
 .player-icon {
