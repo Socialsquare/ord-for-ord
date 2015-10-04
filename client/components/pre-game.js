@@ -59,4 +59,3 @@ var PreGameComponent = React.createClass({
 
 
 module.exports = PreGameComponent;
-
