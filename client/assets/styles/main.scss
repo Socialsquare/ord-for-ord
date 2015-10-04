@@ -76,6 +76,11 @@ body {
 *:focus {
   outline: none!important;
 }
+.word-claims {
+  span {
+    padding-right: 1rem;
+  }
+}
 .player-dot {
   height       : 2rem;
   width        : 2rem;

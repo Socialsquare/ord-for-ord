@@ -146,9 +146,11 @@ var WelcomeComponent = React.createClass({
                 </div>
               :
                 <div>
-                  {this.state.claimedWords.map((word, i) => {
-                    return ( <span key={i}>{word}</span> );
-                  })}
+                  <div className="word-claims">
+                    {this.state.claimedWords.map((word, i) => {
+                      return ( <span key={i}>{word}</span> );
+                    })}
+                  </div>
 
                   <form onSubmit={this.submitWord} className={formClass}>
                     <input type="text" autoFocus="true" ref="word"
