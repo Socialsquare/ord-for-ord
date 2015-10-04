@@ -89,6 +89,25 @@ body {
   width: 50%;
   transition: all 0.3s linear;
 }
+
+.game-panel {
+  form {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem;
+
+    &:not([class*="pcolor-"]) { background: #fff; }
+    &[class*="pcolor-"] { color: #fff; }
+  }
+
+  input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    line-height: 2rem;
+  }
+}
+
+
 .pcolor-0 {
   background: $pcolor-0;
 }
@@ -141,15 +160,8 @@ body {
   }
 }
 .submit-button {
+  position: absolute;
   visibility: hidden;
-}
-.progress-bar {
-  position  : absolute;
-  top       : 0;
-  left      : 0;
-  background: $pcolor-0;
-  height    : 10px;
-  width     : 0;
 }
 .player-icon {
   transition: background 1s ease-in;

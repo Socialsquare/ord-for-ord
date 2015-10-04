@@ -25,6 +25,7 @@ Game.prototype.init = function() {
   this.players = {};
   this.words = [];
   this.currentPlayerIndex = 0;
+  clearTimeout(this.endTurnTimeout);
 };
 
 Game.prototype.toJSON = function() {
@@ -196,6 +197,7 @@ Game.prototype.restart = function(playerId) {
     return false;
   }
 
+  clearTimeout(this.endTurnTimeout);
   this.state = Game.states.PRE_GAME;
   this.words = [];
   this.broadcastGameUpdate();

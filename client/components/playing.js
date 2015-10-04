@@ -45,11 +45,12 @@ var WelcomeComponent = React.createClass({
   },
 
   render: function() {
-    var panelClasses = 'panel',
+    var panelClasses = 'panel game-panel',
         progressClasses = 'progress-bar',
         currentPlayer = game.currentPlayer(),
         colorClass = '',
         yourTurn = false,
+        formClass = '',
         progressStyle = { 
           width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
         };
@@ -57,10 +58,15 @@ var WelcomeComponent = React.createClass({
     if (currentPlayer) {
       colorClass = 'pcolor-' + currentPlayer.get('color');
       yourTurn = App.player().get('id') === currentPlayer.get('id');
+      
     }
 
-    if (yourTurn === true) { panelClasses += ' ' + colorClass; 
-    } else { progressClasses += ' ' + colorClass; }
+    if (yourTurn === true) { 
+      panelClasses += ' ' + colorClass; 
+    } else { 
+      progressClasses += ' ' + colorClass; 
+      formClass = colorClass;
+    }
 
     var words = game.words.map(function(word, i) {
       var player = game.players.get(word.get('playerId')),
@@ -83,8 +89,9 @@ var WelcomeComponent = React.createClass({
               {App.player().isJudge() === true ?
                 <button onClick={this.terminate}>Sludder og vrøvl!</button>
               :
-                <form onSubmit={this.submitWord}>
-                  <input type="text" autoFocus="true" ref="word" />
+                <form onSubmit={this.submitWord} className={formClass}>
+                  <input type="text" autoFocus="true" ref="word" 
+                    placeholder="Enter word..." />
                   <button className="submit-button" />
                 </form>
               }
