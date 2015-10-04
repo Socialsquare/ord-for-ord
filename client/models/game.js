@@ -54,6 +54,10 @@ var Game = Backbone.Model.extend({
     Socket.exec('word:append', word);
   },
 
+  claimWord: function(word) {
+    return Socket.exec('word:claim', word);
+  },
+
   terminate: function(word) {
     Socket.exec('game:terminate');
   },

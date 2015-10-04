@@ -9,7 +9,8 @@ var PROGRESS_INTERVAL = 300;
 var WelcomeComponent = React.createClass({
   getInitialState: function() {
     return {  
-      timePassed: 0
+      timePassed: 0,
+      claimedWords: []
     };
   },
   
@@ -19,7 +20,7 @@ var WelcomeComponent = React.createClass({
     });
 
     game.on('change:currentPlayerId', () => {
-      this.setState({ timePassed: 0 });
+      this.setState({ timePassed: 0, claimedWords: [] });
     });
 
     this.progressInterval = setInterval(() => {
@@ -35,8 +36,21 @@ var WelcomeComponent = React.createClass({
 
   submitWord: function(e) {
     e.preventDefault();
-    var wordDOM = React.findDOMNode(this.refs.word);
-    game.appendWord(wordDOM.value.trim());
+    var wordDOM = React.findDOMNode(this.refs.word),
+        word = wordDOM.value.trim();
+
+    if (game.currentPlayer().get('id') === App.player().get('id')) {
+      game.appendWord(word);
+    } else {
+      game.claimWord(word).then((success) => {
+        if (success === true) {
+          var claimedWords = this.state.claimedWords;
+          claimedWords.push(word);
+          this.setState({ claimedWords: claimedWords });
+        }
+      });
+    }
+
     wordDOM.value = '';
   },
 
@@ -58,7 +72,6 @@ var WelcomeComponent = React.createClass({
     if (currentPlayer) {
       colorClass = 'pcolor-' + currentPlayer.get('color');
       yourTurn = App.player().get('id') === currentPlayer.get('id');
-      
     }
 
     if (yourTurn === true) { 
@@ -89,11 +102,17 @@ var WelcomeComponent = React.createClass({
               {App.player().isJudge() === true ?
                 <button onClick={this.terminate}>Sludder og vrøvl!</button>
               :
-                <form onSubmit={this.submitWord} className={formClass}>
-                  <input type="text" autoFocus="true" ref="word" 
-                    placeholder="Enter word..." />
-                  <button className="submit-button" />
-                </form>
+                <div>
+                  {this.state.claimedWords.map((word, i) => {
+                    return ( <span key={i}>{word}</span> );
+                  })}
+
+                  <form onSubmit={this.submitWord} className={formClass}>
+                    <input type="text" autoFocus="true" ref="word" 
+                      placeholder="Enter word..." />
+                    <button className="submit-button" />
+                  </form>
+                </div>
               }
 
             </div>

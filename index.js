@@ -48,6 +48,10 @@ var sockets = io.on('connection', function(socket) {
     game.restart(player.id);
   });
 
+  socket.on('word:claim', function(word, cb) {
+    cb(game.claimWord(player.id, word));
+  });
+
   socket.on('word:append', function(word) {
     game.appendWord(player.id, word);
   });
