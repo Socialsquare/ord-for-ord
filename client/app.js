@@ -8,7 +8,7 @@ Backbone.$ = require('jquery');
 
 Socket.connect();
 Socket.on('player:me', function(player) {
-  //App.playerId = player.id;
+  App.playerId = player.id;
 });
 
 
@@ -21,7 +21,7 @@ var App = {
   },
 
   state: 'welcome',
-
+  
   on: events.on.bind(events),
   removeListener: events.removeListener.bind(events),
   removeAllListeners: events.removeAllListeners.bind(events),
@@ -37,6 +37,7 @@ var App = {
     var AppLayout = require('./app-layout'),
         PlayerCollection = require('./models/player');
 
+    /*
     var game = require('./models/game');
     game.set({
       id: 'gae',
@@ -58,6 +59,7 @@ var App = {
       score: 20,
       successfulClaims: []
     });
+    */
 
     React.render(<AppLayout />, document.body);
   }
