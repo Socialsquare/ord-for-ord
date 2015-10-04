@@ -3,23 +3,24 @@ var React = require('react'),
     App = require('../app'),
     game = require('../models/game'),
     sharedConfig = require('../../lib/shared-config');
-    
+
 var PROGRESS_INTERVAL = 300;
 
 var WelcomeComponent = React.createClass({
   getInitialState: function() {
     return {  
-      timePassed: 0
+      timePassed: 0,
+      claimedWords: []
     };
   },
-  
+
   componentWillMount: function() {
     game.words.on('change add remove', () => {
       this.forceUpdate();
     });
 
     game.on('change:currentPlayerId', () => {
-      this.setState({ timePassed: 0 });
+      this.setState({ timePassed: 0, claimedWords: [] });
     });
 
     this.progressInterval = setInterval(() => {
@@ -35,8 +36,21 @@ var WelcomeComponent = React.createClass({
 
   submitWord: function(e) {
     e.preventDefault();
-    var wordDOM = React.findDOMNode(this.refs.word);
-    game.appendWord(wordDOM.value.trim());
+    var wordDOM = React.findDOMNode(this.refs.word),
+        word = wordDOM.value.trim();
+
+    if (game.currentPlayer().get('id') === App.player().get('id')) {
+      game.appendWord(word);
+    } else {
+      game.claimWord(word).then((success) => {
+        if (success === true) {
+          var claimedWords = this.state.claimedWords;
+          claimedWords.push(word);
+          this.setState({ claimedWords: claimedWords });
+        }
+      });
+    }
+
     wordDOM.value = '';
   },
 
@@ -51,20 +65,19 @@ var WelcomeComponent = React.createClass({
         colorClass = '',
         yourTurn = false,
         formClass = '',
-        progressStyle = { 
+        progressStyle = {
           width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
         };
 
     if (currentPlayer) {
       colorClass = 'pcolor-' + currentPlayer.get('color');
       yourTurn = App.player().get('id') === currentPlayer.get('id');
-      
     }
 
-    if (yourTurn === true) { 
-      panelClasses += ' ' + colorClass; 
-    } else { 
-      progressClasses += ' ' + colorClass; 
+    if (yourTurn === true) {
+      panelClasses += ' ' + colorClass;
+    } else {
+      progressClasses += ' ' + colorClass;
       formClass = 'pcolor-' + App.player().get('color');
     }
 
@@ -82,18 +95,24 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <div className="word-list">
+              <div className="word-list m-t-md">
                 {words}
               </div>
 
               {App.player().isJudge() === true ?
                 <button onClick={this.terminate}>Sludder og vrøvl!</button>
               :
-                <form onSubmit={this.submitWord} className={formClass}>
-                  <input type="text" autoFocus="true" ref="word" 
-                    placeholder="Enter word..." />
-                  <button className="submit-button" />
-                </form>
+                <div>
+                  {this.state.claimedWords.map((word, i) => {
+                    return ( <span key={i}>{word}</span> );
+                  })}
+
+                  <form onSubmit={this.submitWord} className={formClass}>
+                    <input type="text" autoFocus="true" ref="word"
+                      placeholder="Indtast ord" />
+                    <button className="submit-button" />
+                  </form>
+                </div>
               }
 
             </div>
@@ -106,4 +125,3 @@ var WelcomeComponent = React.createClass({
 });
 
 module.exports = WelcomeComponent;
-

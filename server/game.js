@@ -5,6 +5,7 @@ var uuid = require('uuid'),
     titles = require('../indexing/titles').init(settings.elasticsearch, 'dbc-books');
 
 Game.COLOR_COUNT = 4;
+Game.WORD_CLAIM_MAX = 3;
 
 Game.MIN_PLAYERS = 2;
 Game.MAX_PLAYERS = 4;
@@ -27,6 +28,7 @@ Game.prototype.init = function() {
   this.players = {};
   this.words = [];
   this.currentPlayerIndex = 0;
+  this.claimedWords = {};
   clearTimeout(this.endTurnTimeout);
 };
 
@@ -129,6 +131,8 @@ Game.prototype.nextPlayerTurn = function() {
   }
   this.broadcastGameUpdate();
 
+  this.claimedWords = {};
+
   // End turn if the player doesn't end it before the time runs out
   this.endTurnTimeout = setTimeout(
     this.nextPlayerTurn.bind(this), sharedConfig.turnLength);
@@ -221,7 +225,20 @@ Game.prototype.restart = function(playerId) {
   return true;
 };
 
+Game.prototype.claimWord = function(playerId, word) {
+  word = word.toLowerCase();
+  if (playerId in this.claimedWords === false) {
+    this.claimedWords[playerId] = [];
+  }
+  if (this.claimedWords[playerId].length < Game.WORD_CLAIM_MAX) {
+    this.claimedWords[playerId].push(word);
+    return true;
+  }
+  return false;
+};
+
 Game.prototype.appendWord = function(playerId, word) {
+  word = word.toLowerCase();
   clearTimeout(this.endTurnTimeout);
   if(!this.isCurrentPlayer(playerId)) {
     console.error('Only the current player can append a word');
@@ -236,12 +253,21 @@ Game.prototype.appendWord = function(playerId, word) {
     return false;
   }
 
+  
+  var successfulClaims = [];
+  for (var key in this.claimedWords) {
+    if (this.claimedWords[key].indexOf(word) !== -1) {
+      successfulClaims.push(key);
+    }
+  }
+
   this.nextPlayerTurn();
 
   var wordObj = {
     word: word,
     playerId: playerId,
-    score: null
+    score: null,
+    successfulClaims: successfulClaims
   };
   this.words.push(wordObj);
   this.broadcast('word:append', wordObj);
