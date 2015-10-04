@@ -79,6 +79,8 @@ var PreGameComponent = React.createClass({
         title = null;
     if (App.player().isJudge() === true) {
       goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
+      //titleCountParagraph = game.titleCount ? (<p>I vil gætte ord fra i alt {this.titleCount} titler.</p>) : null;
+      titleCountParagraph = null;
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
@@ -94,6 +96,7 @@ var PreGameComponent = React.createClass({
                 })}
               </select>
             </div>
+            {titleCountParagraph}
             <div className="m-t-md">Som dommer kan du til en hver tid afslutte
             sætning, når meningen udebliver.</div>
             <button className={goBtnClasses}>

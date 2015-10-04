@@ -206,7 +206,10 @@ Game.prototype.setCategories = function(playerId, categories) {
   }
 
   this.categories = categories;
-  this.broadcastGameUpdate();
+  titles.evaluateWordScore([], this.categories).then(function(score) {
+    this.titleCount = score;
+    this.broadcastGameUpdate();
+  });
   return true;
 };
 
@@ -266,6 +269,7 @@ Game.prototype.appendWord = function(playerId, word) {
   this.nextPlayerTurn();
 
   var wordObj = {
+    id: 'wd-'+this.words.length,
     word: word,
     playerId: playerId,
     score: null,
@@ -278,9 +282,9 @@ Game.prototype.appendWord = function(playerId, word) {
     var lastWords = this.words.slice(-2).map(function(w) {
       return w.word;
     });
-    titles.evaluateWordScore(lastWords, this.categories).then(function(score) {
-      console.log('score is in:', score);
+    titles.evaluateWordScore(lastWords, this.categories).then((score) => {
       wordObj.score = score;
+      this.broadcast('word:update', wordObj);
     });
   }
 };

@@ -1,6 +1,6 @@
 {
   "elasticsearch": {
-    "host": "10.45.16.117:9200",
+    "host": "172.24.0.91:9200",
     "log": "warning"
   }
 }
