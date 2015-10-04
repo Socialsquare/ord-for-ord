@@ -65,7 +65,7 @@ var Game = Backbone.Model.extend({
   },
 
   setCategories: function(categories) {
-    Socket.exec('game:categories', categories);
+    return Socket.exec('game:categories', categories);
   },
 
   claimWord: function(word) {

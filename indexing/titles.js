@@ -55,12 +55,22 @@ module.exports = {
     });
   },
   evaluateWordScore: function(words, categories) {
-    query = 'title:"' +words.join(' ')+ '"';
-    if(categories && categories.length > 0) {
-      query += ' AND (' + categories.map(function(category) {
-        return 'dk5:' + dk5[category]+ '*';
-      }).join(' OR ') +')';
+    var query = [];
+    if(words && words.length > 0) {
+      query.push('title:"' +words.join(' ')+ '"');
+    } else {
+      query.push('title:*');
     }
+    if(categories && categories.length > 0) {
+      query.push(categories.map(function(category) {
+        return 'dk5:' + dk5[category]+ '*';
+      }).join(' OR '));
+    }
+
+    query = query.map(function(q) {
+      return '(' + q + ')';
+    }).join(' AND ');
+
     // console.log('Executing', query);
     var req = {
       index: this.index,

@@ -206,11 +206,10 @@ Game.prototype.setCategories = function(playerId, categories) {
   }
 
   this.categories = categories;
-  titles.evaluateWordScore([], this.categories).then(function(score) {
-    this.titleCount = score;
-    this.broadcastGameUpdate();
+  return titles.evaluateWordScore(undefined, this.categories).then((score) => {
+    //console.log('Choosing', this.categories, 'gives', score, 'records');
+    return score;
   });
-  return true;
 };
 
 Game.prototype.restart = function(playerId) {

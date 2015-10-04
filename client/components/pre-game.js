@@ -8,6 +8,7 @@ var PreGameComponent = React.createClass({
   getInitialState: function() {
     return {
       shaking: false,
+      totalCount: '...',
     };
   },
 
@@ -29,6 +30,11 @@ var PreGameComponent = React.createClass({
     });
   },
 
+  componentDidMount: function() {
+    var selectedCategories = this.selectedCategories(React.findDOMNode(this.refs.categories));
+    this.setCategories(selectedCategories);
+  },
+
   componentWillUnmount: function() {
     game.players.off('change add remove');
   },
@@ -37,9 +43,6 @@ var PreGameComponent = React.createClass({
     e.preventDefault();
     var word = React.findDOMNode(this.refs.word).value.trim();
     if(word) {
-      var categories = React.findDOMNode(this.refs.categories);
-      var selectedCategories = this.selectedCategories(categories);
-      game.setCategories(selectedCategories);
       game.appendWord(word);
     } else {
       this.shake();
@@ -74,13 +77,26 @@ var PreGameComponent = React.createClass({
     return value;
   },
 
+  categoriesChanged: function(e) {
+    var selectedCategories = this.selectedCategories(e.target);
+    this.setCategories(selectedCategories);
+  },
+
+  setCategories: function(categories) {
+    game.setCategories(categories).then((count) => {
+      this.setState({
+        totalCount: count
+      });
+    });
+  },
+
   render: function() {
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
       goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
-      //titleCountParagraph = game.titleCount ? (<p>I vil gætte ord fra i alt {this.titleCount} titler.</p>) : null;
-      titleCountParagraph = null;
+      titleCountParagraph = this.state.totalCount ? (<p>I vil gætte ord fra i alt {this.state.totalCount} titler.</p>) : null;
+      //titleCountParagraph = null;
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">

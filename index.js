@@ -40,8 +40,13 @@ var sockets = io.on('connection', function(socket) {
     game.start(player.id);
   });
 
-  socket.on('game:categories', function(categories) {
-    game.setCategories(player.id, categories);
+  socket.on('game:categories', function(categories, cb) {
+    var result = game.setCategories(player.id, categories);
+    if(result === false) {
+      cb(0);
+    } else {
+      result.then(cb);
+    }
   });
 
   socket.on('game:terminate', function() {
