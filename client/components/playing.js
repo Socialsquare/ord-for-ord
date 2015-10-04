@@ -21,6 +21,7 @@ var WelcomeComponent = React.createClass({
 
     game.on('change:currentPlayerId', () => {
       this.setState({ timePassed: 0, claimedWords: [] });
+      React.findDOMNode(this.refs.word).value = '';
     });
 
     this.progressInterval = setInterval(() => {
@@ -38,6 +39,9 @@ var WelcomeComponent = React.createClass({
     e.preventDefault();
     var wordDOM = React.findDOMNode(this.refs.word),
         word = wordDOM.value.trim();
+
+    // Prevent empty words
+    if (!word) { return; }
 
     if (game.currentPlayer().get('id') === App.player().get('id')) {
       game.appendWord(word);

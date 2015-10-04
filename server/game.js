@@ -186,6 +186,7 @@ Game.prototype.terminate = function(playerId) {
     console.error('Only the judge can terminate the game.');
     return false;
   }
+  clearTimeout(this.endTurnTimeout);
 
   this.state = Game.states.GAME_ENDED;
   this.nextJudge();
