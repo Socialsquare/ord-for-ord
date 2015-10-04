@@ -70,6 +70,7 @@ body {
   &:not(input) {
     user-select          : none;
     -webkit-touch-callout: none;
+    -webkit-user-callout : none !important;
   }
 }
 *:focus {
@@ -117,27 +118,27 @@ body {
   }
   &.pcolor-0 {
     input::placeholder {
-      color: $pcolor-0;
+      color: darken($pcolor-0,10%);
     }
   }
   &.pcolor-1 {
     input::placeholder {
-      color: $pcolor-1;
+      color: darken($pcolor-1,10%);
     }
   }
   &.pcolor-2 {
     input::placeholder {
-      color: $pcolor-2;
+      color: darken($pcolor-2,10%);
     }
   }
   &.pcolor-3 {
     input::placeholder {
-      color: $pcolor-3;
+      color: darken($pcolor-3,10%);
     }
   }
   &.pcolor-4 {
     input::placeholder {
-      color: $pcolor-4;
+      color: darken($pcolor-4,10%);
     }
   }
   .word-list {
@@ -227,7 +228,7 @@ body {
 }
 .btn-startgame,
 .pulse {
-  position     : absolute;
+  position     : fixed;
   left         : 50%;
   bottom       : 3rem;
   margin       : 0 0 0 -5rem;
