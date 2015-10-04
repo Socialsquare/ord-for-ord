@@ -1,5 +1,5 @@
 var settings = require('../settings.json');
-var titles = require('./titles').init(settings.elasticsearch, 'books');
+var titles = require('./titles').init(settings.elasticsearch, 'dbc-books');
 
 (function() {
   var csv = require('csv');
@@ -14,7 +14,7 @@ var titles = require('./titles').init(settings.elasticsearch, 'books');
   var skipped = 0;
   var datafile = __dirname+'/../../materialedata.csv';
 
-  var BATCH_SIZE = 100;
+  var BATCH_SIZE = 200;
   var rows = [];
   function next() {
     var row = parser.read();
@@ -28,7 +28,9 @@ var titles = require('./titles').init(settings.elasticsearch, 'books');
 
         if(row.dk5) {
           try {
-            doc.dk5 = JSON.parse(row.dk5);
+            doc.dk5 = JSON.parse(row.dk5).map(function(dk5) {
+              return dk5.toString();
+            });
           } catch(err) {
             console.error(err);
           }
@@ -37,10 +39,10 @@ var titles = require('./titles').init(settings.elasticsearch, 'books');
         rows.push(doc);
 
         if(rows.length >= BATCH_SIZE) {
+          parsed += rows.length;
           console.log('Parsed:', parsed,
                       'Skipped:', skipped,
                       'Total:', parsed+skipped);
-          parsed += rows.length;
           return titles.insertMany(rows).then(function() {
             // Reset the rows buffer.
             rows = [];
