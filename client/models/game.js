@@ -6,7 +6,9 @@ var Backbone = require('backbone'),
 
 
 var Game = Backbone.Model.extend({
-  defaults: { },
+  defaults: { 
+    currentPlayerId: null
+  },
 
   initialize: function() {
     this.players = new PlayerCollection();
