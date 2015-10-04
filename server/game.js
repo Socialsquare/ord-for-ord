@@ -63,6 +63,9 @@ Game.prototype.addPlayer = function(player) {
     player.color = this.getUnusedColor();
     this.players[player.id] = player;
     this.playerIds.push(player.id);
+
+    // Stop start game countdown if new player joins
+    clearTimeout(this.startGameTimeout); 
     if(player.socket) {
       player.socket.join(this.id);
       player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
@@ -110,15 +113,12 @@ Game.prototype.allPlayersReady = function() {
 };
 
 Game.prototype.tryToStartGameCountDown = function() {
-  if (this.allPlayersReady() === true) {
-    console.log('all players ready');
+  if (this.allPlayersReady() === true && 
+    this.playerIds.length >= Game.MIN_PLAYERS) {
     this.startGameTimeout = setTimeout(() => {
-
-      console.log('start the game');
       this.start();
     }, Game.INITIATE_TIME);
   } else {
-    console.log('not ready');
     clearTimeout(this.startGameTimeout);
   }
 };

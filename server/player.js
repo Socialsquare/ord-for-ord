@@ -10,7 +10,8 @@ function Player(socket) {
 Player.prototype.toJSON = function() {
   return {
     id: this.id,
-    color: this.color
+    color: this.color,
+    ready: this.ready
   };
 };
 
