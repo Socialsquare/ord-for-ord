@@ -8,7 +8,7 @@ var PROGRESS_INTERVAL = 300;
 
 var WelcomeComponent = React.createClass({
   getInitialState: function() {
-    return {  
+    return {
       timePassed: 0,
       claimedWords: []
     };
@@ -108,7 +108,7 @@ var WelcomeComponent = React.createClass({
         );
       }
 
-      return ( 
+      return (
         <div className={classes} key={i}>
           {word.get('word')}
           {claims}
@@ -127,7 +127,8 @@ var WelcomeComponent = React.createClass({
               </div>
 
               {App.player().isJudge() === true ?
-                <button onClick={this.terminate}>Sludder og vrøvl!</button>
+                <button className="btn btn-startgame btn-default"
+                  onClick={this.terminate}>Sludder og vrøvl!</button>
               :
                 <div>
                   {this.state.claimedWords.map((word, i) => {
