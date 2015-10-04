@@ -8,7 +8,7 @@ Backbone.$ = require('jquery');
 
 Socket.connect();
 Socket.on('player:me', function(player) {
-  App.playerId = player.id;
+  //App.playerId = player.id;
 });
 
 
@@ -36,6 +36,28 @@ var App = {
   start: function() {
     var AppLayout = require('./app-layout'),
         PlayerCollection = require('./models/player');
+
+    var game = require('./models/game');
+    game.set({
+      id: 'gae',
+      state: 'game-ended',
+      judgeId: '1',
+      currentPlayerId: '2'
+    });
+    game.players.add({ id: '1', color: 0 });
+    game.players.add({ id: '2', color: 1 });
+    game.players.add({ id: '3', color: 2 });
+    game.players.add({ id: '4', color: 3 });
+    game.players.add({ id: '5', color: 4 });
+    this.state = 'game-ended';
+    this.playerId = '2';
+
+    game.words.add({
+      word: 'Hej',
+      playerId: '2',
+      score: 20,
+      successfulClaims: []
+    });
 
     React.render(<AppLayout />, document.body);
   }

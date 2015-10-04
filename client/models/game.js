@@ -81,6 +81,32 @@ var Game = Backbone.Model.extend({
       return this.players.get(id);
     }
     return null;
+  },
+
+  getScoreTable: function() {
+    var players = this.players.filter((player) => {
+      return !player.isJudge();
+    }).map((player) => { return player.get('id') });
+
+    return this.words.map((word) => {
+      var dividedAmongst = 1 + word.get('successfulClaims').length,
+          scoreDivided = Math.ceil(word.get('score') / dividedAmongst);
+
+      var scores = {};
+      players.forEach((playerId) => {
+        var score = 0;
+        if (word.get('playerId') === playerId ||
+          word.get('successfulClaims').indexOf(playerId) !== -1) {
+          score = scoreDivided;
+        }
+        scores[playerId] = score;
+      });
+
+      return {
+        word: word.get('word'),
+        scores: scores
+      };
+    });
   }
 
 });

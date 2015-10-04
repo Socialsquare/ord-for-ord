@@ -76,6 +76,12 @@ body {
 *:focus {
   outline: none!important;
 }
+
+.player-dot {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
 .panel {
   height    : 100%;
   width     : 100%;
@@ -90,6 +96,7 @@ body {
   width     : 50%;
   transition: all 0.3s linear;
 }
+
 .game-panel,
 .judge-pre {
   form {

@@ -36,6 +36,35 @@ var GameEndedComponent = React.createClass({
           <div className="row">
             <div className="col-xs-12 m-t-lg">
               <h2>Spillet er slut!</h2>
+              
+              <table>
+                <tr> 
+                  <td></td>
+                  {game.players.map((player, i) => {
+                    if (player.isJudge() === true) { return null; }
+                    var dotClasses = 'player-dot pcolor-' + player.get('color');
+                    return (
+                      <td key={i}>
+                        <div className={dotClasses}></div>
+                      </td>
+                    );
+                  })}
+                </tr>
+                {game.getScoreTable().map((word, wi) => {
+                  return (
+                    <tr key={wi}>
+                      <td>{word.word}</td>
+                      {game.players.map((player, i) => {
+                        var score = word.scores[player.get('id')] || null;
+                        if (score === null) { return null; }
+                        if (score === 0) { score = ''; }
+                        return ( <td key={i}>{score}</td> );
+                      })}
+                    </tr>
+                  );
+                })}
+              </table>
+
               {startRoundControls}
             </div>
           </div>

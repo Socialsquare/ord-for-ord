@@ -3,8 +3,10 @@ var App = require('./app'),
 
 
 onDomReady(function() {
-  App.start();
   // For debugging purposes
   window.App = App;
   window.Socket = require('./lib/socket');
+
+  // Star the app
+  App.start();
 });
