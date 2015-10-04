@@ -76,10 +76,9 @@ body {
 *:focus {
   outline: none!important;
 }
-
 .player-dot {
-  height: 2rem;
-  width: 2rem;
+  height       : 2rem;
+  width        : 2rem;
   border-radius: 50%;
 }
 .panel {
@@ -96,7 +95,6 @@ body {
   width     : 50%;
   transition: all 0.3s linear;
 }
-
 .game-panel,
 .judge-pre {
   form {
@@ -320,7 +318,7 @@ body {
 .pregame {
   .btn-startgame {
     position: relative;
-    margin: 5em 0 0 -5rem;
+    margin  : 5em 0 0 -5rem;
   }
 }
 @keyframes shake {
@@ -422,6 +420,37 @@ p {
     border-radius     : 0;
     -webkit-appearance: none;
     width             : 100%;
+  }
+}
+
+// Score table
+table {
+  width: 100%;
+  margin: 1rem 0;
+  tr {
+    td,
+    th {
+      padding: 0.2rem 1rem;
+      &:first-child {
+        padding-left: 0;
+        color       : $gray-dark;
+      }
+      &:not(:first-child) {
+        width: 10%;
+        text-align: center;
+      }
+    }
+    &:first-child {
+      td {
+        padding-bottom: 1rem;
+      }
+    }
+    &:last-child {
+      td {
+        padding-top: 1rem;
+        font-size: 1.6em;
+      }
+    }
   }
 }
 
