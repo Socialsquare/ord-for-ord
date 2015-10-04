@@ -190,6 +190,9 @@ body {
 .player-icon {
   border-width: 2px;
   border-style: solid;
+  span {
+    margin: 0 auto;
+  }
   &.pcolor-0 {
     color       : $pcolor-0;
     border-color: $pcolor-0;
