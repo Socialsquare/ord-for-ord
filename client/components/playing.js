@@ -65,7 +65,7 @@ var WelcomeComponent = React.createClass({
       panelClasses += ' ' + colorClass; 
     } else { 
       progressClasses += ' ' + colorClass; 
-      formClass = colorClass;
+      formClass = 'pcolor-' + App.player().get('color');
     }
 
     var words = game.words.map(function(word, i) {

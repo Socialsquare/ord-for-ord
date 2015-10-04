@@ -7,6 +7,10 @@ var Backbone = require('backbone');
 Backbone.$ = require('jquery');
 
 Socket.connect();
+Socket.on('player:me', function(player) {
+  App.playerId = player.id;
+});
+
 
 var events = new EventEmitter();
 var App = {
@@ -32,10 +36,6 @@ var App = {
   start: function() {
     var AppLayout = require('./app-layout'),
         PlayerCollection = require('./models/player');
-
-    Socket.on('player:me', function(player) {
-      App.playerId = player.id;
-    });
 
     React.render(<AppLayout />, document.body);
   }
