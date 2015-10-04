@@ -74,6 +74,7 @@ var WelcomeComponent = React.createClass({
         colorClass = '',
         yourTurn = false,
         formClass = '',
+        helpTextClasses = 'help-text',
         progressStyle = {
           width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
         };
@@ -85,6 +86,7 @@ var WelcomeComponent = React.createClass({
 
     if (yourTurn === true) {
       panelClasses += ' ' + colorClass;
+      helpTextClasses += ' white';
     } else {
       progressClasses += ' ' + colorClass;
       formClass = 'pcolor-' + App.player().get('color');
@@ -148,6 +150,17 @@ var WelcomeComponent = React.createClass({
                       onKeyPress={vh.preventCharacters} />
                     <button className="submit-button" />
                   </form>
+
+                  <div className={helpTextClasses}>
+                    { yourTurn === true ?
+                      <span>Det er din tur!</span>
+                    :
+                      <span> 
+                        Det er din modstanders tur, skynd dig at gæt hvad der
+                        bliver skrevet og tag del i gevinsten
+                      </span>
+                    }
+                  </div>
                 </div>
               }
 

@@ -276,6 +276,13 @@ body {
   justify-content: center;
   align-items    : center;
 }
+.help-text {
+  text-align: center;
+  margin: 1rem;
+  &.white {
+    color: #fff;
+  }
+}
 .btn-startgame,
 .pulse {
   position     : absolute;
