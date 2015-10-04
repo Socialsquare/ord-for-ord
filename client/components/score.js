@@ -27,22 +27,9 @@ var ScoreComponent = React.createClass({
             );
           })}
         </tr>
-        {this.props.game.getScoreTable().map((word, wi) => {
-          return (
-            <tr key={wi}>
-              <td>{word.word}</td>
-              {game.players.map((player, i) => {
-                if (player.isJudge() === true) { return null; }
-                var score = word.scores[player.get('id')] || null;
-                if (score === 0) { score = ''; }
-                return ( <td key={i}>{score}</td> );
-              })}
-            </tr>
-          );
-        })}
         <tr> 
           <td>Sum</td>
-          {this.game.players.map((player, i) => {
+          {this.props.game.players.map((player, i) => {
             if (player.isJudge() === true) { return null; }
             var dotClasses = 'player-dot pcolor-' + player.get('color');
             return (
@@ -52,9 +39,24 @@ var ScoreComponent = React.createClass({
             );
           })}
         </tr>
+        {this.props.game.getScoreTable().map((word, wi) => {
+          return (
+            <tr key={wi}>
+              <td>{word.word}</td>
+              {this.props.game.players.map((player, i) => {
+                if (player.isJudge() === true) { return null; }
+                var score = word.scores[player.get('id')] || null;
+                if (score === 0) { score = ''; }
+                return ( <td key={i}>{score}</td> );
+              })}
+            </tr>
+          );
+        })}
       </table>
 
     );
 
   }
 });
+
+module.exports = ScoreComponent;

@@ -59,7 +59,6 @@ var App = {
       score: 20,
       successfulClaims: []
     });
-    */
 
     game.words.add({
       word: 'hvad',
@@ -89,6 +88,7 @@ var App = {
       successfulClaims: ['4']
     });
 
+    */
 
     React.render(<AppLayout />, document.body);
   }
