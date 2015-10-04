@@ -78,14 +78,14 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
+      goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
           <form onSubmit={this.start}>
-            <input autoFocus="true" ref="word" 
-              placeholder="Skriv det første ord." 
+            <input autoFocus="true" ref="word"
+              placeholder="Skriv det første ord."
               onKeyPress={vh.preventCharacters} />
-            <button className="submit-button" />
             <h3>Vælg evt. en/flere kategori</h3>
             <div className="style-select dropdown-toggle m-t-md">
               <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
@@ -96,7 +96,7 @@ var PreGameComponent = React.createClass({
             </div>
             <div className="m-t-md">Som dommer kan du til en hver tid afslutte
             sætning, når meningen udebliver.</div>
-            <button className="btn btn-startgame btn-default">
+            <button className={goBtnClasses}>
               <span>Go!</span>
             </button>
           </form>
