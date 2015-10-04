@@ -1,5 +1,20 @@
 var es = require('elasticsearch');
 
+var dk5 = {
+  philosophy: '10',
+  psychology: '13',
+  science: '19',
+  politics: '32',
+  economics: '33',
+  geography: '40',
+  natural_science: '50',
+  biology: '56',
+  tech: '60',
+  art: '70',
+  music: '78',
+  history: '90'
+};
+
 module.exports = {
   init: function(settings, index) {
     this.client = new es.Client(settings);
@@ -39,8 +54,29 @@ module.exports = {
       index: this.index
     });
   },
-  evaluateWordScore: function(words) {
-    return this.client.search({
+  evaluateWordScore: function(words, categories) {
+    query = 'title:"' +words.join(' ')+ '"';
+    if(categories && categories.length > 0) {
+      query += ' AND (' + categories.map(function(category) {
+        return 'dk5:' + dk5[category]+ '*';
+      }).join(' OR ') +')';
+    }
+    console.log('Executing', query);
+    var req = {
+      index: this.index,
+      body: {
+        query: {
+          query_string: {
+            "query": query
+          }
+        }
+      }
+    };
+    return this.client.search(req).then(function(response) {
+      return response.hits.total;
+    });
+    /*
+    var req = {
       index: this.index,
       body: {
         query: {
@@ -49,8 +85,21 @@ module.exports = {
           }
         }
       }
-    }).then(function(response) {
+    };
+    if(categories && categories.length > 0) {
+      req.body.query.bool = {
+        should: categories.map(function(category) {
+          return {
+            prefix: {
+              dk5: dk5[category]
+            }
+          };
+        })
+      };
+    }
+    return this.client.search(req).then(function(response) {
       return response.hits.total;
     });
+    */
   }
 };

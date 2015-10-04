@@ -40,6 +40,10 @@ var sockets = io.on('connection', function(socket) {
     game.start(player.id);
   });
 
+  socket.on('game:categories', function(categories) {
+    game.setCategories(player.id, categories);
+  });
+
   socket.on('game:terminate', function() {
     game.terminate(player.id);
   });

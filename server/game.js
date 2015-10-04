@@ -189,6 +189,21 @@ Game.prototype.terminate = function(playerId) {
   return true;
 };
 
+Game.prototype.setCategories = function(playerId, categories) {
+  if(this.state !== Game.states.PRE_GAME) {
+    console.error('The game has to be in pre game state to change categories.');
+    return false;
+  }
+  if(!this.isJudge(playerId)) {
+    console.error('Only the judge can change categories for the game.');
+    return false;
+  }
+
+  this.categories = categories;
+  this.broadcastGameUpdate();
+  return true;
+};
+
 Game.prototype.restart = function(playerId) {
   if(this.state !== Game.states.GAME_ENDED) {
     console.error('The game has to be ended to terminate.');
@@ -235,7 +250,7 @@ Game.prototype.appendWord = function(playerId, word) {
     var lastWords = this.words.slice(-2).map(function(w) {
       return w.word;
     });
-    titles.evaluateWordScore(lastWords).then(function(score) {
+    titles.evaluateWordScore(lastWords, this.categories).then(function(score) {
       console.log('score is in:', score);
       wordObj.score = score;
     });

@@ -18,14 +18,16 @@ var PreGameComponent = React.createClass({
     game.players.off('change add remove');
   },
 
-  startRound: function(e) {
+  start: function(e) {
     e.preventDefault();
+    var categories = React.findDOMNode(this.refs.categories);
+    var selectedCategories = this.selectedCategories(categories);
+    game.setCategories(selectedCategories);
     game.appendWord(React.findDOMNode(this.refs.word).value.trim());
   },
 
   categories: function() {
     return [
-      { key: 'all', name:'Alle' },
       { key: 'philosophy', name:'Filosofi' },
       { key: 'psychology', name:'Psykologi' },
       { key: 'science', name:'Videnskab' },
@@ -41,6 +43,17 @@ var PreGameComponent = React.createClass({
     ];
   },
 
+  selectedCategories: function(select) {
+    var options = select.options;
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    return value;
+  },
+
   render: function() {
     var content = null,
         title = null;
@@ -48,15 +61,15 @@ var PreGameComponent = React.createClass({
       title = 'Hej overdommer!';
       content = (
         <div className="judge-pre">
-          <form onSubmit={this.startRound}>
+          <form onSubmit={this.start}>
             <input autoFocus="true" ref="word" placeholder="Skriv det første ord." />
             <button className="submit-button" />
           </form>
           <div className="style-select dropdown-toggle">
-            <select id="category-select" multiple={true}>
+            <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
               <option disabled>Vælg en kategori</option>
               {this.categories().map(function(category) {
-                return (<option value={category.key}>{category.name}</option>);
+                return (<option key={category.key} value={category.key}>{category.name}</option>);
               })}
             </select>
           </div>
