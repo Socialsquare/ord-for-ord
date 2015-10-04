@@ -2,7 +2,8 @@
 var React = require('react'),
     App = require('../app'),
     game = require('../models/game'),
-    sharedConfig = require('../../lib/shared-config');
+    sharedConfig = require('../../lib/shared-config'),
+    vh = require('../lib/view-helpers');
 
 var PROGRESS_INTERVAL = 300;
 
@@ -134,7 +135,8 @@ var WelcomeComponent = React.createClass({
 
                   <form onSubmit={this.submitWord} className={formClass}>
                     <input type="text" autoFocus="true" ref="word"
-                      placeholder="Indtast ord" />
+                      placeholder="Indtast ord" 
+                      onKeyPress={vh.preventCharacters} />
                     <button className="submit-button" />
                   </form>
                 </div>

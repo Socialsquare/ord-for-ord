@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react'),
-    game = require('../models/game');
+    game = require('../models/game'),
+    vh = require('../lib/view-helpers');
 
 
 var PreGameComponent = React.createClass({
@@ -62,7 +63,9 @@ var PreGameComponent = React.createClass({
       content = (
         <div className="judge-pre">
           <form onSubmit={this.start}>
-            <input autoFocus="true" ref="word" placeholder="Skriv det første ord." />
+            <input autoFocus="true" ref="word" 
+              placeholder="Skriv det første ord." 
+              onKeyPress={vh.preventCharacters} />
             <button className="submit-button" />
           </form>
           <div className="style-select dropdown-toggle">
