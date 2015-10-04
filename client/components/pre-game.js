@@ -58,7 +58,7 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
-      title = 'Hej overdommer!';
+      title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
           <form onSubmit={this.start}>
@@ -80,7 +80,7 @@ var PreGameComponent = React.createClass({
     } else {
       title = 'Hej Spiller!';
       content = (
-        <div>Spillet starter, når overdommeren har defineret det første ord
+        <div>Spillet starter, når dommeren har defineret det første ord
         og valgt en kategori.<br/><br/>
         Når det er din tur, skriver du et ord, der i sammenhæng med de forrige
         forsat er meningsgivende og som du mener vil indgå i flest bogtitler.<br/><br/>
