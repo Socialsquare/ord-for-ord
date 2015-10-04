@@ -32,11 +32,14 @@ Game.prototype.toJSON = function() {
     id: this.id,
     state: this.state,
     players: _.values(this.players),
-    judgeId: this.playerIds.length > 0 ? this.playerIds[0] : null,
+    judgeId: this.hasJudge() ? this.playerIds[0] : null,
     currentPlayerId: this.playerIds[this.currentPlayerIndex]
   };
 };
 
+Game.prototype.hasJudge = function() {
+  return this.playerIds.length > 2 || this.state !== Game.states.PLAYING;
+};
 
 Game.prototype.getUnusedColor = function() {
   var colors = _.range(Game.COLOR_COUNT);
@@ -119,7 +122,7 @@ Game.prototype.nextPlayerTurn = function() {
   this.state = Game.states.PLAYING;
   this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
-    this.currentPlayerIndex = 1;
+    this.currentPlayerIndex = this.hasJudge() ? 1 : 0;
   }
   this.broadcastGameUpdate();
 
@@ -134,11 +137,10 @@ Game.prototype.nextJudge = function() {
 };
 
 Game.prototype.isJudge = function(playerId) {
-  if(this.playerIds.length === 0) {
-    return false;
-  } else {
+  if(this.playerIds.length > 0) {
     return this.playerIds[0] === playerId;
   }
+  return false;
 };
 
 Game.prototype.isCurrentPlayer = function(playerId) {
@@ -216,7 +218,6 @@ Game.prototype.appendWord = function(playerId, word) {
   }
 
   this.nextPlayerTurn();
-
 
   var wordObj = {
     word: word,
