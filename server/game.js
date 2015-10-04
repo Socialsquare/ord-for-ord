@@ -214,7 +214,7 @@ Game.prototype.setCategories = function(playerId, categories) {
 
 Game.prototype.restart = function(playerId) {
   if(this.state !== Game.states.GAME_ENDED) {
-    console.error('The game has to be ended to terminate.');
+    console.error('The game has to be ended to restart.');
     return false;
   }
   if(!this.isJudge(playerId)) {
