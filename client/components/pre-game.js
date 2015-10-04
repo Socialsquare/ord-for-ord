@@ -5,7 +5,21 @@ var React = require('react'),
 
 var PreGameComponent = React.createClass({
   getInitialState: function() {
-    return { };
+    return {
+      shaking: false,
+    };
+  },
+
+  shake: function() {
+    clearTimeout(this.shakeTimeout);
+    this.setState({
+      shaking: true
+    });
+    this.shakeTimeout = setTimeout(() => {
+      this.setState({
+        shaking: false
+      });
+    }, 1000);
   },
 
   componentWillMount: function() {
@@ -20,10 +34,15 @@ var PreGameComponent = React.createClass({
 
   start: function(e) {
     e.preventDefault();
-    var categories = React.findDOMNode(this.refs.categories);
-    var selectedCategories = this.selectedCategories(categories);
-    game.setCategories(selectedCategories);
-    game.appendWord(React.findDOMNode(this.refs.word).value.trim());
+    var word = React.findDOMNode(this.refs.word).value.trim();
+    if(word) {
+      var categories = React.findDOMNode(this.refs.categories);
+      var selectedCategories = this.selectedCategories(categories);
+      game.setCategories(selectedCategories);
+      game.appendWord(word);
+    } else {
+      this.shake();
+    }
   },
 
   categories: function() {
@@ -58,24 +77,24 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
+      btnClasses = 'btn btn-startgame btn-default' +(this.state.shaking ? ' shaking' : '');
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
           <form onSubmit={this.start} className="m-t-md">
             <input autoFocus="true" ref="word" placeholder="Skriv det første ord." />
-            <button className="submit-button" />
+            <div className="style-select dropdown-toggle m-t-md">
+              <h3>Vælg evt. en/flere kategori</h3>
+              <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
+                {this.categories().map(function(category) {
+                  return (<option key={category.key} value={category.key}>{category.name}</option>);
+                })}
+              </select>
+            </div>
+            <div className="m-t-md">Som dommer kan du til en hver tid afslutte
+            sætning, når meningen udebliver.</div>
+            <button ref="go" className={btnClasses}>Go!</button>
           </form>
-          <div className="style-select dropdown-toggle m-t-md">
-            <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
-              <option disabled>Vælg evt. en/flere kategori</option>
-              {this.categories().map(function(category) {
-                return (<option key={category.key} value={category.key}>{category.name}</option>);
-              })}
-            </select>
-          </div>
-          <div className="m-t-md">Som dommer kan du til en hver tid afslutte
-          sætning, når meningen udebliver.</div>
-          <button className="btn btn-startgame btn-default">Go!</button>
         </div>
       );
     } else {
