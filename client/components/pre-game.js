@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react'),
-    game = require('../models/game');
+    game = require('../models/game'),
+    vh = require('../lib/view-helpers');
 
 
 var PreGameComponent = React.createClass({
@@ -77,24 +78,26 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
-      btnClasses = 'btn btn-startgame btn-default' +(this.state.shaking ? ' shaking' : '');
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
-          <form onSubmit={this.start} className="m-t-md">
-            <input autoFocus="true" ref="word" placeholder="Skriv det første ord." />
-            <div className="style-select dropdown-toggle m-t-md">
-              <h3>Vælg evt. en/flere kategori</h3>
-              <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
-                {this.categories().map(function(category) {
-                  return (<option key={category.key} value={category.key}>{category.name}</option>);
-                })}
-              </select>
-            </div>
-            <div className="m-t-md">Som dommer kan du til en hver tid afslutte
-            sætning, når meningen udebliver.</div>
-            <button ref="go" className={btnClasses}>Go!</button>
+          <form onSubmit={this.start}>
+            <input autoFocus="true" ref="word" 
+              placeholder="Skriv det første ord." 
+              onKeyPress={vh.preventCharacters} />
+            <button className="submit-button" />
           </form>
+          <div className="style-select dropdown-toggle m-t-md">
+            <h3>Vælg evt. en/flere kategori</h3>
+            <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
+              {this.categories().map(function(category) {
+                return (<option key={category.key} value={category.key}>{category.name}</option>);
+              })}
+            </select>
+          </div>
+          <div className="m-t-md">Som dommer kan du til en hver tid afslutte
+          sætning, når meningen udebliver.</div>
+          <button className="btn btn-startgame btn-default">Go!</button>
         </div>
       );
     } else {

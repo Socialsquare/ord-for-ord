@@ -249,7 +249,8 @@ body {
   border-radius: 50%;
   padding      : 3rem 2rem;
   white-space  : normal;
-  &.active {
+  &.active,
+  &:active {
     color: #fff;
   }
   &.pcolor-0,
@@ -265,11 +266,35 @@ body {
     background  : none;
     border-color: $pcolor-0;
     color       : $pcolor-0;
-    &.active {
+    &.active,
+    &:active {
       transition: 0s;
       color     : #fff;
       background: $pcolor-0;
     }
+  }
+  &.shake {
+    animation: shake 0.5s ease-in-out;
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-10px);
+  }
+  80% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 .pulse {
