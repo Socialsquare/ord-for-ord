@@ -220,6 +220,9 @@ body {
   }
 }
 .word-list {
+  > :first-child {
+    color: $body-color !important;
+  }
   .word {
     position      : relative;
     display       : inline-block;
@@ -321,6 +324,13 @@ body {
   &.shake {
     animation: shake 0.5s ease-in-out;
   }
+}
+.btn-judge {
+  position: static;
+  margin: 0 auto 2rem;
+  width: 100%;
+  border-radius: $border-radius;
+  height: 4rem;
 }
 .pregame {
   .btn-startgame {
@@ -434,6 +444,14 @@ p {
 table {
   width: 100%;
   margin: 1rem 0;
+  tbody {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    font-size: 1.6em;
+  }
+  > :nth-child(2) {
+    display: none;
+  }
   tr {
     td,
     th {
@@ -445,17 +463,6 @@ table {
       &:not(:first-child) {
         width: 10%;
         text-align: center;
-      }
-    }
-    &:first-child {
-      td {
-        padding-bottom: 1rem;
-      }
-    }
-    &:nth-child(2) {
-      td {
-        padding-bottom: 1rem;
-        font-size: 1.6em;
       }
     }
   }
