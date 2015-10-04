@@ -79,9 +79,7 @@ Game.prototype.removePlayer = function(playerId) {
   if (playerId in this.players === true) {
     var player = this.players[playerId];
     delete this.players[playerId];
-    this.playerIds = this.playerIds.filter(function(id) {
-      return id !== playerId;
-    });
+    this.playerIds.splice(this.playerIds.indexOf(playerId), 1);
     if(player.socket) {
       player.socket.broadcast.to(this.id).emit('player:remove', player.id);
       player.socket.leave(this.id);
