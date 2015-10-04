@@ -61,7 +61,7 @@ module.exports = {
         return 'dk5:' + dk5[category]+ '*';
       }).join(' OR ') +')';
     }
-    console.log('Executing', query);
+    // console.log('Executing', query);
     var req = {
       index: this.index,
       body: {
