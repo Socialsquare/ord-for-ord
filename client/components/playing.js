@@ -3,6 +3,7 @@ var React = require('react'),
     App = require('../app'),
     game = require('../models/game'),
     sharedConfig = require('../../lib/shared-config'),
+    ScoreComponent = require('./score');
     vh = require('../lib/view-helpers');
 
 var PROGRESS_INTERVAL = 300;
@@ -129,14 +130,11 @@ var WelcomeComponent = React.createClass({
 
               {App.player().isJudge() === true ?
                 <div>
-                  <progress className="score pcolor-0" value="0" max="4"></progress>
-                  <progress className="score pcolor-1" value="1" max="4"></progress>
-                  <progress className="score pcolor-2" value="2" max="4"></progress>
-                  <progress className="score pcolor-3" value="3" max="4"></progress>
                   <button className="btn btn-startgame btn-default"
                     onClick={this.terminate}>
                     <span>Sludder og vrøvl!</span>
                   </button>
+                  <ScoreComponent game={game} />
                 </div>
               :
                 <div>
