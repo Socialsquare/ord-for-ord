@@ -6,6 +6,7 @@ var uuid = require('uuid'),
 
 Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
+Game.TIMEOUT = 60 * 1000;
 
 Game.MIN_PLAYERS = 2;
 Game.MAX_PLAYERS = 5;
@@ -124,6 +125,12 @@ Game.prototype.tryToStartGameCountDown = function() {
 };
 
 Game.prototype.nextPlayerTurn = function() {
+  if (this.state === Game.states.PRE_GAME) {
+    this.gameTimeout = setTimeout(() => {
+      this.end();
+    }, Game.TIMEOUT);
+  }
+
   this.state = Game.states.PLAYING;
   this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
@@ -177,6 +184,15 @@ Game.prototype.start = function() {
   return true;
 };
 
+Game.prototype.end = function() {
+  clearTimeout(this.endTurnTimeout);
+  clearTimeout(this.gameTimeout);
+  this.state = Game.states.GAME_ENDED;
+  this.nextJudge();
+  this.currentPlayerIndex = 0;
+  this.broadcastGameUpdate();
+};
+
 Game.prototype.terminate = function(playerId) {
   if(this.state !== Game.states.PLAYING) {
     console.error('The game has to be in playing state to terminate.');
@@ -186,12 +202,7 @@ Game.prototype.terminate = function(playerId) {
     console.error('Only the judge can terminate the game.');
     return false;
   }
-  clearTimeout(this.endTurnTimeout);
-
-  this.state = Game.states.GAME_ENDED;
-  this.nextJudge();
-  this.currentPlayerIndex = 0;
-  this.broadcastGameUpdate();
+  this.end();
   return true;
 };
 
@@ -221,7 +232,7 @@ Game.prototype.restart = function(playerId) {
     console.error('Only the judge can restart the game.');
     return false;
   }
-
+  clearTimeout(this.gameTimeout);
   clearTimeout(this.endTurnTimeout);
   this.state = Game.states.PRE_GAME;
   this.words = [];
