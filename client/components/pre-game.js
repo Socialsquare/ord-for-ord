@@ -128,8 +128,9 @@ var PreGameComponent = React.createClass({
         og valgt en kategori.<br/><br/>
         Når det er din tur, skriver du et ord, der i sammenhæng med de forrige
         forsat er meningsgivende og som du mener vil indgå i flest bogtitler.<br/><br/>
-        Når det er din modspilleres tur, har du mulighed for at udfordre dem ved
-        at blokere ord og dermed stjæle deres points.<br/><br/>
+        Når det er dine modspilleres tur, kan du udfordre dem ved at gætte på,
+        hvad de vil skrive. Hvis du gætter rigtigt, får du halvdelen af deres
+        points.<br/><br/>
         Spillet slutter efter (tid/runder) eller når overdommeren lader sætter
         et punktum.</div>
       );

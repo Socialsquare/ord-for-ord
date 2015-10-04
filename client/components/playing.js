@@ -132,7 +132,7 @@ var WelcomeComponent = React.createClass({
 
               {App.player().isJudge() === true ?
                 <div>
-                  <button className="btn btn-startgame btn-default"
+                  <button className="btn btn-startgame btn-default btn-judge"
                     onClick={this.terminate}>
                     <span>Sludder og vrøvl!</span>
                   </button>
