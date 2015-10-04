@@ -117,7 +117,7 @@ Game.prototype.tryToStartGameCountDown = function() {
 
 Game.prototype.nextPlayerTurn = function() {
   this.state = Game.states.PLAYING;
-  this.currentPlayerIndex++; 
+  this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
     this.currentPlayerIndex = 1;
   }
@@ -139,6 +139,10 @@ Game.prototype.isJudge = function(playerId) {
   } else {
     return this.playerIds[0] === playerId;
   }
+};
+
+Game.prototype.isCurrentPlayer = function(playerId) {
+  return this.playerIds[this.currentPlayerIndex] === playerId;
 };
 
 Game.prototype.broadcast = function() {
@@ -164,33 +168,41 @@ Game.prototype.start = function() {
   return true;
 };
 
-// TODO: Move all this into the append word
-Game.prototype.startRound = function(playerId, firstWord) {
-  if(this.isJudge(playerId) === false) {
-    console.error('Only game masters can start a round!');
+Game.prototype.terminate = function(playerId) {
+  if(this.state !== Game.states.PLAYING) {
+    console.error('The game has to be in playing state to terminate.');
     return false;
   }
-  // Turn the game state into playing.
-  this.state = Game.states.PLAYING;
-  this.broadcastGameUpdate();
-  this.appendWord(playerId, firstWord);
-  // Alles gut!
-  return true;
-};
+  if(!this.isJudge(playerId)) {
+    console.error('Only the judge can terminate the game.');
+    return false;
+  }
 
-Game.prototype.endGame = function() {
-  if(this.state === Game.states.PLAYING) {
-    return false;
-  }
   this.state = Game.states.GAME_ENDED;
   this.nextJudge();
   this.broadcastGameUpdate();
   return true;
 };
 
+Game.prototype.restart = function(playerId) {
+  if(this.state !== Game.states.GAME_ENDED) {
+    console.error('The game has to be ended to terminate.');
+    return false;
+  }
+  if(!this.isJudge(playerId)) {
+    console.error('Only the judge can restart the game.');
+    return false;
+  }
+
+  this.state = Game.states.PRE_GAME;
+  this.words = [];
+  this.broadcastGameUpdate();
+  return true;
+};
+
 Game.prototype.appendWord = function(playerId, word) {
   clearTimeout(this.endTurnTimeout);
-  if(this.playerIds[this.currentPlayerIndex] !== playerId) {
+  if(!this.isCurrentPlayer(playerId)) {
     console.error('Only the current player can append a word');
     return false;
   }

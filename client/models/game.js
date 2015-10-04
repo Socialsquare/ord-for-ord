@@ -54,6 +54,14 @@ var Game = Backbone.Model.extend({
     Socket.exec('word:append', word);
   },
 
+  terminate: function(word) {
+    Socket.exec('game:terminate');
+  },
+
+  restart: function(word) {
+    Socket.exec('game:restart');
+  },
+
   currentPlayer: function() {
     var id = this.get('currentPlayerId');
     if (id) {
