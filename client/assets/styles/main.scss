@@ -162,8 +162,8 @@ body {
   background: $pcolor-4;
 }
 .score {
-  appearance: none;
-  width     : 100%;
+  appearance   : none;
+  width        : 100%;
   border-radius: $border-radius;
 }
 .score[value]::-webkit-progress-bar {
@@ -266,16 +266,14 @@ body {
 .player-icon {
   transition: background 1s ease-in;
 }
-
 .btn-startgame {
-  display: flex;
+  display        : flex;
   justify-content: center;
-  align-items: center;
+  align-items    : center;
 }
-
 .btn-startgame,
 .pulse {
-  position     : fixed;
+  position     : absolute;
   left         : 50%;
   bottom       : 3rem;
   margin       : 0 0 0 -5rem;
@@ -310,6 +308,12 @@ body {
   }
   &.shake {
     animation: shake 0.5s ease-in-out;
+  }
+}
+.pregame {
+  .btn-startgame {
+    position: relative;
+    margin: 5em 0 0 -5rem;
   }
 }
 @keyframes shake {
