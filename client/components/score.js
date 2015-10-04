@@ -15,7 +15,7 @@ var ScoreComponent = React.createClass({
   render: function() {
     return (
       <table className="score-table">
-        <tr> 
+        <tr>
           <td></td>
           {this.props.game.players.map((player, i) => {
             if (player.isJudge() === true) { return null; }
@@ -27,8 +27,8 @@ var ScoreComponent = React.createClass({
             );
           })}
         </tr>
-        <tr> 
-          <td>Sum</td>
+        <tr>
+          <td>Resultat</td>
           {this.props.game.players.map((player, i) => {
             if (player.isJudge() === true) { return null; }
             var dotClasses = 'player-dot pcolor-' + player.get('color');

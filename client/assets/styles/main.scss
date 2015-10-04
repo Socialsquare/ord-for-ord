@@ -445,9 +445,9 @@ table {
         padding-bottom: 1rem;
       }
     }
-    &:last-child {
+    &:nth-child(2) {
       td {
-        padding-top: 1rem;
+        padding-bottom: 1rem;
         font-size: 1.6em;
       }
     }
