@@ -39,6 +39,10 @@ var WelcomeComponent = React.createClass({
     wordDOM.value = '';
   },
 
+  terminate: function(e) {
+    game.terminate();
+  },
+
   render: function() {
     var panelClasses = 'panel',
         progressClasses = 'progress-bar',
@@ -76,7 +80,7 @@ var WelcomeComponent = React.createClass({
               </div>
 
               {App.player().isJudge() === true ?
-                <div>judge!</div>
+                <button onClick={this.terminate}>Sludder og vrøvl!</button>
               :
                 <form onSubmit={this.submitWord}>
                   <input type="text" autoFocus="true" ref="word" />
