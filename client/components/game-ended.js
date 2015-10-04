@@ -3,7 +3,7 @@ var React = require('react'),
     game = require('../models/game');
 
 
-var RoundEndedComponent = React.createClass({
+var GameEndedComponent = React.createClass({
   getInitialState: function() {
     return { };
   },
@@ -18,16 +18,15 @@ var RoundEndedComponent = React.createClass({
     game.players.off('change add remove');
   },
 
-  startRound: function(e) {
-    e.preventDefault();
-    game.startRound(React.findDOMNode(this.refs.word).value.trim());
+  restart: function(e) {
+    game.restart();
   },
 
   render: function() {
     var startRoundControls = null;
     if (App.player().isJudge() === true) {
       startRoundControls = (
-        <p>Start igen</p>
+        <button onClick={this.restart}>Start igen</button>
       );
     }
 
@@ -47,5 +46,5 @@ var RoundEndedComponent = React.createClass({
 });
 
 
-module.exports = RoundEndedComponent;
+module.exports = GameEndedComponent;
 
