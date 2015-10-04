@@ -82,8 +82,8 @@ var PreGameComponent = React.createClass({
       content = (
         <div className="judge-pre">
           <form onSubmit={this.start}>
-            <input autoFocus="true" ref="word" 
-              placeholder="Skriv det første ord." 
+            <input autoFocus="true" ref="word"
+              placeholder="Skriv det første ord."
               onKeyPress={vh.preventCharacters} />
             <button className="submit-button" />
             <h3>Vælg evt. en/flere kategori</h3>
@@ -118,7 +118,7 @@ var PreGameComponent = React.createClass({
 
 
     return (
-      <div className="panel">
+      <div className="panel pregame">
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 m-t-lg">
