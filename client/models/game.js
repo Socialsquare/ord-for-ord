@@ -37,6 +37,11 @@ var Game = Backbone.Model.extend({
       this.words.add(word);
     });
 
+    Socket.on('word:update', (word) => {
+      var w = this.words.get(word.id);
+      w.set(word);
+    });
+
     this.on('change:state', (self, state) => {
       App.setState(state);
     });

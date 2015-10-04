@@ -282,9 +282,9 @@ Game.prototype.appendWord = function(playerId, word) {
     var lastWords = this.words.slice(-2).map(function(w) {
       return w.word;
     });
-    titles.evaluateWordScore(lastWords, this.categories).then(function(score) {
-      console.log('score is in:', score);
+    titles.evaluateWordScore(lastWords, this.categories).then((score) => {
       wordObj.score = score;
+      this.broadcast('word:update', wordObj);
     });
   }
 };
