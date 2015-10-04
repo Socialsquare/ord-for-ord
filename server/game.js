@@ -206,7 +206,10 @@ Game.prototype.setCategories = function(playerId, categories) {
   }
 
   this.categories = categories;
-  this.broadcastGameUpdate();
+  titles.evaluateWordScore([], this.categories).then(function(score) {
+    this.titleCount = score;
+    this.broadcastGameUpdate();
+  });
   return true;
 };
 
@@ -266,6 +269,7 @@ Game.prototype.appendWord = function(playerId, word) {
   this.nextPlayerTurn();
 
   var wordObj = {
+    id: 'wd-'+this.words.length,
     word: word,
     playerId: playerId,
     score: null,
