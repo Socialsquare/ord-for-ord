@@ -128,10 +128,16 @@ var WelcomeComponent = React.createClass({
               </div>
 
               {App.player().isJudge() === true ?
-                <button className="btn btn-startgame btn-default"
-                  onClick={this.terminate}>
-                  <span>Sludder og vrøvl!</span>
-                </button>
+                <div>
+                  <progress className="score pcolor-0" value="0" max="4"></progress>
+                  <progress className="score pcolor-1" value="1" max="4"></progress>
+                  <progress className="score pcolor-2" value="2" max="4"></progress>
+                  <progress className="score pcolor-3" value="3" max="4"></progress>
+                  <button className="btn btn-startgame btn-default"
+                    onClick={this.terminate}>
+                    <span>Sludder og vrøvl!</span>
+                  </button>
+                </div>
               :
                 <div>
                   {this.state.claimedWords.map((word, i) => {
@@ -140,7 +146,7 @@ var WelcomeComponent = React.createClass({
 
                   <form onSubmit={this.submitWord} className={formClass}>
                     <input type="text" autoFocus="true" ref="word"
-                      placeholder="Indtast ord" 
+                      placeholder="Indtast ord"
                       onKeyPress={vh.preventCharacters} />
                     <button className="submit-button" />
                   </form>
