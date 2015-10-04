@@ -1,6 +1,8 @@
 var uuid = require('uuid'),
     _ = require('lodash'),
-    sharedConfig = require('../lib/shared-config');
+    sharedConfig = require('../lib/shared-config'),
+    settings = require('../settings.json'),
+    titles = require('../indexing/titles').init(settings.elasticsearch, 'dbc-books');
 
 Game.COLOR_COUNT = 4;
 
@@ -222,10 +224,20 @@ Game.prototype.appendWord = function(playerId, word) {
   var wordObj = {
     word: word,
     playerId: playerId,
-    score: 10
+    score: null
   };
   this.words.push(wordObj);
   this.broadcast('word:append', wordObj);
+
+  if(this.words.length >= 2) {
+    var lastWords = this.words.slice(-2).map(function(w) {
+      return w.word;
+    });
+    titles.evaluateWordScore(lastWords).then(function(score) {
+      console.log('score is in:', score);
+      wordObj.score = score;
+    });
+  }
 };
 
 module.exports = new Game();

@@ -38,5 +38,19 @@ module.exports = {
     return this.client.indices.exists({
       index: this.index
     });
+  },
+  evaluateWordScore: function(words) {
+    return this.client.search({
+      index: this.index,
+      body: {
+        query: {
+          match_phrase: {
+            title: words.join(' ')
+          }
+        }
+      }
+    }).then(function(response) {
+      return response.hits.total;
+    });
   }
 };
