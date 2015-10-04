@@ -107,7 +107,8 @@ body {
     background : transparent;
     border     : none;
     line-height: 2rem;
-    padding    : 0;
+    padding    : 0.5rem 0;
+    font-size  : 1.6rem;
   }
 }
 .game-panel {
@@ -145,8 +146,6 @@ body {
     padding-top: 0.3rem;
   }
 }
-
-
 .pcolor-0 {
   background: $pcolor-0;
 }
@@ -189,34 +188,47 @@ body {
 }
 .word-list {
   .word {
-    position     : relative;
-    display      : inline-block;
-    border-radius: 5px;
-    color        : $pcolor-0;
-    background   : #fff;
-    line-height  : 1.9rem;
-    padding      : 0 10px;
-    margin       : 0 5px 5px 0;
-    text-align   : center;
-    min-width    : 1.8rem;
+    position      : relative;
+    display       : inline-block;
+    border-radius : 5px;
+    color         : $pcolor-0;
+    background    : #fff;
+    line-height   : 1.9rem;
+    padding       : 0 1em;
+    margin        : 0 0.5em 1em 0;
+    text-align    : center;
+    min-width     : 1.8rem;
+    text-transform: lowercase;
   }
-
   .claims {
-    position: absolute;
-    left: -20%;
-    bottom: -0.4rem;
-    width: 140%;
+    position   : absolute;
+    left       : -20%;
+    bottom     : -0.4rem;
+    width      : 140%;
     line-height: 0.8rem;
-    text-align: center;
+    text-align : center;
   }
-
   .claim {
-    display: inline-block;
-    height: 0.8rem;
-    width: 0.8rem;
-    border: 2px solid #fff;
+    display      : inline-block;
+    height       : 0.8rem;
+    width        : 0.8rem;
+    border       : 2px solid #fff;
     border-radius: 50%;
-    margin: 0 0.2rem;
+  }
+  .tcolor-0 {
+    color: darken($pcolor-0,10%);
+  }
+  .tcolor-1 {
+    color: darken($pcolor-1,10%);
+  }
+  .tcolor-2 {
+    color: darken($pcolor-2,10%);
+  }
+  .tcolor-3 {
+    color: darken($pcolor-3,10%);
+  }
+  .tcolor-4 {
+    color: darken($pcolor-4,10%);
   }
 }
 .submit-button {
@@ -324,7 +336,6 @@ p {
 .style-select {
   border       : 1px $body-color solid;
   border-radius: $border-radius;
-  display      : inline-block;
   &.dropdown-toggle:after {
     margin-left: -1.25rem;
   }
@@ -339,6 +350,7 @@ p {
     border            : 0;
     border-radius     : 0;
     -webkit-appearance: none;
+    width             : 100%;
   }
 }
 
