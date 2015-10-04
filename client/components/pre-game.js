@@ -68,9 +68,9 @@ var PreGameComponent = React.createClass({
               onKeyPress={vh.preventCharacters} />
             <button className="submit-button" />
           </form>
-          <div className="style-select dropdown-toggle">
+          <div className="style-select dropdown-toggle m-t-md">
             <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
-              <option disabled>Vælg en kategori</option>
+              <option disabled>Vælg evt. en/flere kategori</option>
               {this.categories().map(function(category) {
                 return (<option key={category.key} value={category.key}>{category.name}</option>);
               })}
@@ -78,6 +78,7 @@ var PreGameComponent = React.createClass({
           </div>
           <div className="m-t-md">Som dommer kan du til en hver tid afslutte
           sætning, når meningen udebliver.</div>
+          <button className="btn btn-startgame btn-default">Go!</button>
         </div>
       );
     } else {

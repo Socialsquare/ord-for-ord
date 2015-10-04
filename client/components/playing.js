@@ -90,7 +90,7 @@ var WelcomeComponent = React.createClass({
       var player = game.players.get(word.get('playerId')),
           classes = 'tcolor-' + player.get('color'),
           claims = null;
-      classes = 'word';
+      classes += ' word';
 
       if (word.get('successfulClaims')) {
         claims = (
