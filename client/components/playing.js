@@ -42,6 +42,12 @@ var WelcomeComponent = React.createClass({
 
   submitWord: function(e) {
     e.preventDefault();
+
+    if(this.state.timePassed < 900) {
+      // To fast response ...
+      return false;
+    }
+
     var wordDOM = React.findDOMNode(this.refs.word),
         word = wordDOM.value.trim();
 
