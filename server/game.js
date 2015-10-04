@@ -4,11 +4,11 @@ var uuid = require('uuid'),
     settings = require('../settings.json'),
     titles = require('../indexing/titles').init(settings.elasticsearch, 'dbc-books');
 
-Game.COLOR_COUNT = 4;
+Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
 
 Game.MIN_PLAYERS = 2;
-Game.MAX_PLAYERS = 4;
+Game.MAX_PLAYERS = 5;
 Game.states = {
   LOBBY: 'lobby',
   PRE_GAME: 'pre-game',
@@ -190,6 +190,7 @@ Game.prototype.terminate = function(playerId) {
 
   this.state = Game.states.GAME_ENDED;
   this.nextJudge();
+  this.currentPlayerIndex = 0;
   this.broadcastGameUpdate();
   return true;
 };
@@ -222,7 +223,7 @@ Game.prototype.restart = function(playerId) {
   clearTimeout(this.endTurnTimeout);
   this.state = Game.states.PRE_GAME;
   this.words = [];
-  this.broadcastGameUpdate();
+  this.broadcast('game:reset', this);
   return true;
 };
 
