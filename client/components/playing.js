@@ -22,7 +22,7 @@ var WelcomeComponent = React.createClass({
       this.setState({ timePassed: 0 });
     });
 
-    setInterval(() => {
+    this.progressInterval = setInterval(() => {
       this.setState({ timePassed: this.state.timePassed + PROGRESS_INTERVAL });
     }, PROGRESS_INTERVAL);
   },
@@ -30,6 +30,7 @@ var WelcomeComponent = React.createClass({
   componentWillUnmount: function() {
     game.words.off('change add remove');
     game.off('change:currentPlayerId');
+    clearInterval(this.progressInterval);
   },
 
   submitWord: function(e) {
