@@ -40,6 +40,14 @@ var sockets = io.on('connection', function(socket) {
     game.start(player.id);
   });
 
+  socket.on('game:terminate', function() {
+    game.terminate(player.id);
+  });
+
+  socket.on('game:restart', function() {
+    game.restart(player.id);
+  });
+
   socket.on('word:append', function(word) {
     game.appendWord(player.id, word);
   });
