@@ -161,6 +161,31 @@ body {
 .pcolor-4 {
   background: $pcolor-4;
 }
+.score {
+  appearance: none;
+  width     : 100%;
+  border-radius: $border-radius;
+}
+.score[value]::-webkit-progress-bar {
+  background-color: $gray-lighter;
+}
+.score[value] {
+  &.pcolor-0::-webkit-progress-value {
+    background-color: $pcolor-0;
+  }
+  &.pcolor-1::-webkit-progress-value {
+    background-color: $pcolor-1;
+  }
+  &.pcolor-2::-webkit-progress-value {
+    background-color: $pcolor-2;
+  }
+  &.pcolor-3::-webkit-progress-value {
+    background-color: $pcolor-3;
+  }
+  &.pcolor-4::-webkit-progress-value {
+    background-color: $pcolor-4;
+  }
+}
 .btn-startgame,
 .player-icon {
   border-width: 2px;
