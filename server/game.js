@@ -1,5 +1,6 @@
 var uuid = require('uuid'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    sharedConfig = require('../lib/shared-config');
 
 Game.COLOR_COUNT = 4;
 
@@ -115,10 +116,16 @@ Game.prototype.tryToStartGameCountDown = function() {
 };
 
 Game.prototype.nextPlayerTurn = function() {
-  this.currentPlayerIndex++; 
+  this.state = Game.states.PLAYING;
+  this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
     this.currentPlayerIndex = 1;
   }
+  this.broadcastGameUpdate();
+
+  // End turn if the player doesn't end it before the time runs out
+  this.endTurnTimeout = setTimeout(
+    this.nextPlayerTurn.bind(this), sharedConfig.turnLength);
 };
 
 Game.prototype.nextJudge = function() {
@@ -194,6 +201,7 @@ Game.prototype.restart = function(playerId) {
 };
 
 Game.prototype.appendWord = function(playerId, word) {
+  clearTimeout(this.endTurnTimeout);
   if(!this.isCurrentPlayer(playerId)) {
     console.error('Only the current player can append a word');
     return false;
@@ -207,10 +215,8 @@ Game.prototype.appendWord = function(playerId, word) {
     return false;
   }
 
-  // The judges first word transitions the game to the playing state.
-  this.state = Game.states.PLAYING;
   this.nextPlayerTurn();
-  this.broadcastGameUpdate();
+
 
   var wordObj = {
     word: word,

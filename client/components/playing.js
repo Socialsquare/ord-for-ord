@@ -1,19 +1,35 @@
 /** @jsx React.DOM */
 var React = require('react'),
     App = require('../app'),
-    game = require('../models/game');
+    game = require('../models/game'),
+    sharedConfig = require('../../lib/shared-config');
     
-
+var PROGRESS_INTERVAL = 300;
 
 var WelcomeComponent = React.createClass({
+  getInitialState: function() {
+    return {  
+      timePassed: 0
+    };
+  },
+  
   componentWillMount: function() {
     game.words.on('change add remove', () => {
       this.forceUpdate();
     });
+
+    game.on('change:currentPlayerId', () => {
+      this.setState({ timePassed: 0 });
+    });
+
+    setInterval(() => {
+      this.setState({ timePassed: this.state.timePassed + PROGRESS_INTERVAL });
+    }, PROGRESS_INTERVAL);
   },
 
   componentWillUnmount: function() {
     game.words.off('change add remove');
+    game.off('change:currentPlayerId');
   },
 
   submitWord: function(e) {
@@ -28,7 +44,10 @@ var WelcomeComponent = React.createClass({
         progressClasses = 'progress-bar',
         currentPlayer = game.currentPlayer(),
         colorClass = '',
-        yourTurn = false;
+        yourTurn = false,
+        progressStyle = { 
+          width: (this.state.timePassed / sharedConfig.turnLength) * 100 + '%'
+        };
 
     if (currentPlayer) {
       colorClass = 'pcolor-' + currentPlayer.get('color');
@@ -48,7 +67,7 @@ var WelcomeComponent = React.createClass({
 
     return (
       <div className={panelClasses}>
-        <div className={progressClasses}/>
+        <div className={progressClasses} style={progressStyle}/>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
