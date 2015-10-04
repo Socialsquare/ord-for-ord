@@ -20,7 +20,7 @@ var PreGameComponent = React.createClass({
       this.setState({
         shaking: false
       });
-    }, 1000);
+    }, 500);
   },
 
   componentWillMount: function() {
@@ -78,6 +78,7 @@ var PreGameComponent = React.createClass({
     var content = null,
         title = null;
     if (App.player().isJudge() === true) {
+      goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
       title = 'Hej dommer!';
       content = (
         <div className="judge-pre">
@@ -86,18 +87,18 @@ var PreGameComponent = React.createClass({
               placeholder="Skriv det første ord." 
               onKeyPress={vh.preventCharacters} />
             <button className="submit-button" />
-          </form>
-          <div className="style-select dropdown-toggle m-t-md">
             <h3>Vælg evt. en/flere kategori</h3>
-            <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
-              {this.categories().map(function(category) {
-                return (<option key={category.key} value={category.key}>{category.name}</option>);
-              })}
-            </select>
-          </div>
-          <div className="m-t-md">Som dommer kan du til en hver tid afslutte
-          sætning, når meningen udebliver.</div>
-          <button className="btn btn-startgame btn-default">Go!</button>
+            <div className="style-select dropdown-toggle m-t-md">
+              <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
+                {this.categories().map(function(category) {
+                  return (<option key={category.key} value={category.key}>{category.name}</option>);
+                })}
+              </select>
+            </div>
+            <div className="m-t-md">Som dommer kan du til en hver tid afslutte
+            sætning, når meningen udebliver.</div>
+            <button className={goBtnClasses}>Go!</button>
+          </form>
         </div>
       );
     } else {
