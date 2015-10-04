@@ -21,7 +21,10 @@ var WelcomeComponent = React.createClass({
 
     game.on('change:currentPlayerId', () => {
       this.setState({ timePassed: 0, claimedWords: [] });
-      React.findDOMNode(this.refs.word).value = '';
+      // Only a non-judge player has a word button.
+      if(!App.player().isJudge()) {
+        React.findDOMNode(this.refs.word).value = '';
+      }
     });
 
     this.progressInterval = setInterval(() => {

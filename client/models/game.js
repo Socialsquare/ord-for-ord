@@ -28,6 +28,11 @@ var Game = Backbone.Model.extend({
       this.set(game);
     });
 
+    Socket.on('game:reset', (game) => {
+      this.words.reset();
+      this.set(game);
+    });
+
     Socket.on('word:append', (word) => {
       this.words.add(word);
     });
