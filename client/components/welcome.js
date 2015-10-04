@@ -22,7 +22,7 @@ var WelcomeComponent = React.createClass({
               tur, at vælge ord og ordsammensætninger, der er repræsenteret i
               så mange bogtitler som muligt - og dermed sammensætte andres ord
               til ny mening.</p>
-              <p>Med andre ord - ha&#8217; det grinern</p>
+              <p>Med andre ord - ha&#8217; det grinern</p>  
             </div>
           </div>
         </div>

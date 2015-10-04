@@ -61,6 +61,35 @@ var App = {
     });
     */
 
+    game.words.add({
+      word: 'hvad',
+      playerId: '3',
+      score: 20,
+      successfulClaims: []
+    });
+
+    game.words.add({
+      word: 'laver',
+      playerId: '4',
+      score: 20,
+      successfulClaims: ['2', '3']
+    });
+
+    game.words.add({
+      word: 'du',
+      playerId: '5',
+      score: 20,
+      successfulClaims: []
+    });
+
+    game.words.add({
+      word: 'lige',
+      playerId: '2',
+      score: 20,
+      successfulClaims: ['4']
+    });
+
+
     React.render(<AppLayout />, document.body);
   }
 };
