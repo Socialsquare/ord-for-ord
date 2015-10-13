@@ -84,8 +84,8 @@ Game.prototype.removePlayer = function(playerId) {
       player.socket.broadcast.to(this.id).emit('player:remove', player.id);
       player.socket.leave(this.id);
     }
-    // If everyone has left the game.
-    if(this.playerIds.length === 0) {
+	// Too few players to actually play the game.
+    if(this.playerIds.length < Game.MIN_PLAYERS) {
       // Let's re-initialize the game!
       this.init();
     }
