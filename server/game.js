@@ -6,7 +6,7 @@ var uuid = require('uuid'),
 
 Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
-Game.TIMEOUT = 60 * 1000;
+Game.TIMEOUT = 120 * 1000;
 
 Game.MIN_PLAYERS = 2;
 Game.MAX_PLAYERS = 5;
