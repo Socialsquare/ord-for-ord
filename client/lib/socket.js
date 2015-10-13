@@ -7,14 +7,12 @@ var Socket = {
   status: null,
 
   connect: function() {
-    var port;
+    var port = '';
     if(location.port) {
-      port = location.port;
-    } else {
-      port = 3000; // By pass any reverse proxies
+      port = ':' + location.port;
     }
 
-    this.socket = io.connect('http://' + location.hostname +':'+ port);
+    this.socket = io.connect('http://' + location.hostname + port);
 
     this.emit = this.socket.emit.bind(this.socket);
     this.on = this.socket.on.bind(this.socket);
