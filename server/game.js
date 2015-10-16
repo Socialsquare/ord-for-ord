@@ -8,7 +8,7 @@ Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
 Game.TIMEOUT = 120 * 1000;
 
-Game.MIN_PLAYERS = 2;
+Game.MIN_PLAYERS = 3;
 Game.MAX_PLAYERS = 5;
 Game.states = {
   LOBBY: 'lobby',

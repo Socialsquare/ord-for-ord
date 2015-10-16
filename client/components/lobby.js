@@ -51,6 +51,17 @@ var LobbyComponent = React.createClass({
       pulseClass += ' active';
     }
 
+    var startMessage = '';
+    if(game.players.length <= 1) {
+      startMessage = 'Find mindst to andre spillere ...';
+    }
+    if(game.players.length === 2) {
+      startMessage = 'En spiller til .. så kan spillet starte!';
+    }
+    if(game.players.length >= 3) {
+      startMessage = 'Hold knapperne nede på samme tid!';
+    }
+
     return (
       <div className="panel"
         onTouchEnd={this.setNotReady}
@@ -58,7 +69,7 @@ var LobbyComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 m-t-lg text-center">
-              <h3>Players in Lobby</h3>
+              <h3>Spillere i venteværelset</h3>
               {game.players.map(function(player, i) {
                 var classes = [];
                 classes.push('player-icon');
@@ -66,6 +77,11 @@ var LobbyComponent = React.createClass({
                 if (player.get('ready') === true) { classes.push('ready'); }
                 return ( <div key={i} className={classes.join(' ')}></div> );
               })}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 m-t-lg text-center">
+              <h4>{startMessage}</h4>
             </div>
           </div>
         </div>
