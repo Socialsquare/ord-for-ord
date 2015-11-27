@@ -76,6 +76,9 @@ body {
 *:focus {
   outline: none!important;
 }
+.hidden {
+  display: none;
+}
 .word-claims {
   span {
     padding-right: 1rem;

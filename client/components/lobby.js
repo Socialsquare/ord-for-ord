@@ -52,14 +52,13 @@ var LobbyComponent = React.createClass({
     }
 
     var startMessage = '';
+    var startButton = 'hidden';
     if(game.players.length <= 1) {
-      startMessage = 'Find mindst to andre spillere ...';
+      startMessage = 'I kan være 2-5 spillere';
     }
-    if(game.players.length === 2) {
-      startMessage = 'En spiller til .. så kan spillet starte!';
-    }
-    if(game.players.length >= 3) {
-      startMessage = 'Hold knapperne nede på samme tid!';
+    if(game.players.length >= 2) {
+      startMessage = '';
+      startButton = '';
     }
 
     return (
@@ -69,7 +68,7 @@ var LobbyComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 m-t-lg text-center">
-              <h3>Spillere i venteværelset</h3>
+              <h3>Venter på andre spillere</h3>
               {game.players.map(function(player, i) {
                 var classes = [];
                 classes.push('player-icon');
@@ -85,13 +84,11 @@ var LobbyComponent = React.createClass({
             </div>
           </div>
         </div>
-        <div id="onePulse" className={pulseClass}></div>
-        <div id="twoPulse" className={pulseClass}></div>
-        <button className={buttonClasses}
-          onTouchStart={this.setReady}
-          onMouseDown={this.setReady}>
-            <span>{this.state.readyQuote}</span>
-        </button>
+        <div className={startButton}>
+          <div id="onePulse" className={pulseClass}></div>
+          <div id="twoPulse" className={pulseClass}></div>
+          <button className={buttonClasses} onTouchStart={this.setReady} onMouseDown={this.setReady}><span>{this.state.readyQuote}</span></button>
+        </div>
       </div>
     );
   }
