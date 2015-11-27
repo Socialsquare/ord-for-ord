@@ -4,14 +4,14 @@ var React = require('react'),
     App = require('../app');
 
 var READY_QUOTES = [
-  'Hold knappen nede, rødbede!',
-  'Press for success!',
-  'Press to impress!',
-  'Tiden er knap ...',
-  'Lick to click',
-  'Beam me up, Scotty!',
-  'Pres lappen mod knappen',
-  'Få luffen ud af muffen'
+  'Hold knappen nede, rødbede!'
+  // 'Press for success!',
+  // 'Press to impress!',
+  // 'Tiden er knap ...',
+  // 'Lick to click',
+  // 'Beam me up, Scotty!',
+  // 'Pres lappen mod knappen',
+  // 'Få luffen ud af muffen'
 ];
 
 var LobbyComponent = React.createClass({
