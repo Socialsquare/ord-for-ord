@@ -85,31 +85,31 @@ module.exports = {
     return this.client.search(req).then(function(response) {
       return response.hits.total;
     });
-    /*
+  },
+  generateRandomTitle: function() {
     var req = {
       index: this.index,
       body: {
         query: {
-          match_phrase: {
-            title: words.join(' ')
+          bool: {
+            must: {
+              range: {
+                title: {
+                  gte: 1,
+                  lte: 2
+                }
+              }
+            }
           }
         }
       }
     };
-    if(categories && categories.length > 0) {
-      req.body.query.bool = {
-        should: categories.map(function(category) {
-          return {
-            prefix: {
-              dk5: dk5[category]
-            }
-          };
-        })
-      };
-    }
+
     return this.client.search(req).then(function(response) {
-      return response.hits.total;
+      var hits = response.hits.hits;
+      return hits.map(function(hit) {
+        return hit._source.title;
+      });
     });
-    */
   }
 };

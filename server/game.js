@@ -55,6 +55,14 @@ Game.prototype.generateMockState = function() {
   }];
 };
 
+Game.prototype.generateWords = function() {
+  titles.generateRandomTitle().then(function(title) {
+    console.log(title);
+    this.words = [];
+    console.log(this.words);
+  });
+};
+
 Game.prototype.toJSON = function() {
   return {
     id: this.id,
