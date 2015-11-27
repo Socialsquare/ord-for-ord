@@ -93,48 +93,19 @@ var PreGameComponent = React.createClass({
   render: function() {
     var content = null,
         title = null;
-    if (App.player().isJudge() === true) {
-      goBtnClasses = 'btn btn-startgame btn-default' + (this.state.shaking ? ' shake' : '');
-      titleCountParagraph = this.state.totalCount ? (<p>I vil gætte ord fra i alt {this.state.totalCount} titler.</p>) : null;
-      //titleCountParagraph = null;
-      title = 'Hej dommer!';
-      content = (
-        <div className="judge-pre">
-          <form onSubmit={this.start}>
-            <input autoFocus="true" ref="word"
-              placeholder="Skriv det første ord."
-              onKeyPress={vh.preventCharacters} />
-            <h3>Vælg evt. en/flere kategori</h3>
-            <div className="style-select dropdown-toggle m-t-md">
-              <select multiple={true} ref="categories" onChange={this.categoriesChanged}>
-                {this.categories().map(function(category) {
-                  return (<option key={category.key} value={category.key}>{category.name}</option>);
-                })}
-              </select>
-            </div>
-            {titleCountParagraph}
-            <div className="m-t-md">Som dommer kan du til en hver tid afslutte
-            sætning, når meningen udebliver.</div>
-            <button className={goBtnClasses}>
-              <span>Go!</span>
-            </button>
-          </form>
-        </div>
-      );
-    } else {
-      title = 'Hej Spiller!';
-      content = (
-        <div>Spillet starter, når dommeren har defineret det første ord
-        og valgt en kategori.<br/><br/>
-        Når det er din tur, skriver du et ord, der i sammenhæng med de forrige
-        forsat er meningsgivende og som du mener vil indgå i flest bogtitler.<br/><br/>
-        Når det er dine modspilleres tur, kan du udfordre dem ved at gætte på,
-        hvad de vil skrive. Hvis du gætter rigtigt, får du halvdelen af deres
-        points.<br/><br/>
-        Spillet slutter efter (tid/runder) eller når overdommeren lader sætter
-        et punktum.</div>
-      );
-    }
+    title = 'Hej Spiller!';
+    content = (
+      <div>Spillet starter, når dommeren har defineret det første ord
+      og valgt en kategori.<br/><br/>
+      Når det er din tur, skriver du et ord, der i sammenhæng med de forrige
+      forsat er meningsgivende og som du mener vil indgå i flest bogtitler.<br/><br/>
+      Når det er dine modspilleres tur, kan du udfordre dem ved at gætte på,
+      hvad de vil skrive. Hvis du gætter rigtigt, får du halvdelen af deres
+      points.<br/><br/>
+      Spillet slutter efter (tid/runder) eller når overdommeren lader sætter
+      et punktum.</div>
+    );
+
 
 
     return (

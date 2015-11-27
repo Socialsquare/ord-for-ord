@@ -12,11 +12,6 @@ var Player = Backbone.Model.extend({
     this.set('ready', ready);
   },
 
-  isJudge: function() {
-    var game = require('./game');
-    return game.get('judgeId') === this.get('id');
-  },
-
   getScore: function() {
     var game = require('./game');
     return game.getScoreTable().reduce((totalScore, word) => {

@@ -256,7 +256,6 @@ body {
     margin        : 0 0.5em 1em 0;
     text-align    : center;
     min-width     : 1.8rem;
-    text-transform: lowercase;
   }
   .claims {
     position   : absolute;
@@ -486,6 +485,22 @@ table {
         width: 10%;
         text-align: center;
       }
+    }
+  }
+}
+
+.word-options {
+  button {
+    border: none;
+    line-height: 2.5rem;
+    width: 100%;
+    background: #fff;
+    &:not(:first-child) {
+      border-top: 1px solid $gray-dark;
+    }
+    &.guessed {
+      opacity: 0.5;
+      text-decoration: line-through;
     }
   }
 }

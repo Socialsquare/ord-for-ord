@@ -6,8 +6,9 @@ var Backbone = require('backbone'),
 
 
 var Game = Backbone.Model.extend({
-  defaults: { 
-    currentPlayerId: null
+  defaults: {
+    currentPlayerId: null,
+    currentWordIndex: 0
   },
 
   initialize: function() {
@@ -33,18 +34,14 @@ var Game = Backbone.Model.extend({
       this.set(game);
     });
 
-    Socket.on('word:append', (word) => {
-      this.words.add(word);
-    });
-
-    Socket.on('word:update', (word) => {
-      var w = this.words.get(word.id);
-      w.set(word);
-    });
-
     this.on('change:state', (self, state) => {
       App.setState(state);
     });
+  },
+
+  currentWord: function() {
+    var i = this.get('currentWordIndex');
+    return this.get('words')[i];
   },
 
   joinLobby: function() {
@@ -59,17 +56,12 @@ var Game = Backbone.Model.extend({
     this.set('players', null);
   },
 
-  appendWord: function(word) {
-    console.log('append', word);
-    Socket.exec('word:append', word);
+  guessWord: function(word) {
+    Socket.emit('word:guess', word);
   },
 
   setCategories: function(categories) {
     return Socket.exec('game:categories', categories);
-  },
-
-  claimWord: function(word) {
-    return Socket.exec('word:claim', word);
   },
 
   terminate: function(word) {

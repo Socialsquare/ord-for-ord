@@ -56,7 +56,7 @@ var LobbyComponent = React.createClass({
     if(game.players.length <= 1) {
       startMessage = 'I kan være 2-5 spillere';
     }
-    if(game.players.length >= 2) {
+    if(game.players.length >= 1) {
       startMessage = '';
       startButton = '';
     }
