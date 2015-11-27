@@ -18,11 +18,11 @@ var WelcomeComponent = React.createClass({
                 <h1>Med Andre Ord</h1>
               </div>
               <p>&#8216;Med Andre Ord&#8217; er et multiplayer ordspil, der
-              udfordre dine evner som ordsmed. Det gælder om, på tid og efter
+              udfordrer din indre ordsmed.</p>
+              <p>Det gælder om, på tid og efter
               tur, at vælge ord og ordsammensætninger, der er repræsenteret i
               så mange bogtitler som muligt - og dermed sammensætte andres ord
               til ny mening.</p>
-              <p>Med andre ord - ha&#8217; det grinern</p>  
             </div>
           </div>
         </div>
