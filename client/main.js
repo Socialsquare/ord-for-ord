@@ -9,4 +9,9 @@ onDomReady(function() {
 
   // Star the app
   App.start();
+
+  // Prevent dragging (iOS)
+  document.ontouchmove = function(e){
+     e.preventDefault();
+  }
 });
