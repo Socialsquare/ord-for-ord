@@ -20,6 +20,7 @@ Game.INITIATE_TIME = 2000;
 
 function Game() {
   this.init();
+  this.generateMockState();
 }
 
 Game.prototype.init = function() {
@@ -31,6 +32,27 @@ Game.prototype.init = function() {
   this.currentPlayerIndex = 0;
   this.claimedWords = {};
   clearTimeout(this.endTurnTimeout);
+};
+
+Game.prototype.generateMockState = function() {
+  this.words = [{
+    correct: 'Ethical'
+  }, {
+    correct: 'practice',
+    options: ['essays', 'studies', 'practice', 'philosophies', 'theories']
+  }, {
+    correct: 'in',
+    options: ['1550', 'in', 'parameters', '2003', 'of']
+  }, {
+    correct: 'everyday',
+    options: ['international', 'Japan', 'Guatemala', 'macroeconomic', 'everyday']
+  }, {
+    correct: 'health',
+    options: ['pornography', 'music', 'meteorology', 'health', 'urbanism']
+  }, {
+    correct: 'care',
+    options: ['issues', 'Psychology', '&', 'care', 'and']
+  }];
 };
 
 Game.prototype.toJSON = function() {
@@ -295,6 +317,12 @@ Game.prototype.appendWord = function(playerId, word) {
       this.broadcast('word:update', wordObj);
     });
   }
+};
+
+Game.prototype.getOptions = function() {
+  // Returns a list of 5 words, where one of the words is the right next word
+  // for the user to select.
+  // this.words.options
 };
 
 module.exports = new Game();
