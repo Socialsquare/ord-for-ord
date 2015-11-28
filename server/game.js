@@ -41,26 +41,26 @@ Game.prototype.init = function() {
 
 Game.prototype.generateMockState = function() {
   this.words = [{
-    correct: 'Ethical'
+    correct: 'Kaninen'
   }, {
-    correct: 'practice',
-    options: ['essays', 'studies', 'practice', 'philosophies', 'theories'],
+    correct: 'der',
+    options: ['uden', 'i', 'der', 'kom', 'af'],
     guesses: []
   }, {
-    correct: 'in',
-    options: ['1550', 'in', 'parameters', '2003', 'of'],
+    correct: 'så',
+    options: ['ikke', 'er', 'måske', 'så', 'hedder'],
     guesses: []
   }, {
-    correct: 'everyday',
-    options: ['international', 'Japan', 'Guatemala', 'macroeconomic', 'everyday'],
+    correct: 'gerne',
+    options: ['gerne', 'Nisse', 'alligevel', 'kommer', 'længe'],
     guesses: []
   }, {
-    correct: 'health',
-    options: ['pornography', 'music', 'meteorology', 'health', 'urbanism'],
+    correct: 'vil',
+    options: ['må', 'Frau', 'klage', 'samle', 'ligne'],
     guesses: []
   }, {
-    correct: 'care',
-    options: ['issues', 'Psychology', '&', 'care', 'and'],
+    correct: 'sove',
+    options: ['sejre', 'sove', 'flyve', 'satse', 'have'],
     guesses: []
   }];
 };
@@ -131,7 +131,7 @@ Game.prototype.removePlayer = function(playerId) {
       player.socket.broadcast.to(this.id).emit('player:remove', player.id);
       player.socket.leave(this.id);
     }
-	// Too few players to actually play the game.
+  // Too few players to actually play the game.
     if(this.playerIds.length < Game.MIN_PLAYERS) {
       // Let's re-initialize the game!
       this.init();
