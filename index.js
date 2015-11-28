@@ -57,6 +57,8 @@ var sockets = io.on('connection', function(socket) {
     game.restart(player.id);
   });
 
+
+  /*
   socket.on('word:claim', function(word, cb) {
     cb(game.claimWord(player.id, word));
   });
@@ -64,6 +66,11 @@ var sockets = io.on('connection', function(socket) {
   socket.on('word:append', function(word) {
     game.appendWord(player.id, word);
   });
+  */
+
+ socket.on('word:guess', function(word) {
+   game.guessWord(player.id, word);
+ });
 
   socket.on('disconnect', function() {
     game.removePlayer(player.id);

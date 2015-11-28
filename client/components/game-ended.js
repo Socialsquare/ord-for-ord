@@ -25,13 +25,6 @@ var GameEndedComponent = React.createClass({
 
   render: function() {
     var startRoundControls = null;
-    if (App.player().isJudge() === true) {
-      startRoundControls = (
-        <button onClick={this.restart} 
-          className="btn btn-startgame btn-default btn-judge">
-        Start igen</button>
-      );
-    }
 
     var words = game.words.map(function(w) {
       return w.get('word');

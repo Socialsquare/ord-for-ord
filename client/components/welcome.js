@@ -14,21 +14,18 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <div className="page-header m-t-lg">
-                <h1>Med Andre Ord</h1>
-              </div>
-              <p>&#8216;Med Andre Ord&#8217; er et multiplayer ordspil, der
+              <h1>Ord for ord</h1>
+              <p>&#8216;Ord for Ord&#8217; er et multiplayer spil, der
               udfordrer din indre ordsmed.</p>
-              <p>Det gælder om, på tid og efter
-              tur, at vælge ord og ordsammensætninger, der er repræsenteret i
-              så mange bogtitler som muligt - og dermed sammensætte andres ord
-              til ny mening.</p>
+              <p>Det gælder om, på tid og efter tur, at gætte en bogtitel ord
+              for ord. Når det ikke er din tur, kan du stjæle point fra din
+              modstander ved at gætte det næste ord før dem.</p>
             </div>
+            <button className="btn btn-startgame btn-default" onClick={this.joinLobby}>
+              <span>Videre</span>
+            </button>
           </div>
         </div>
-        <button className="btn btn-startgame btn-default" onClick={this.joinLobby}>
-          <span>Videre</span>
-        </button>
       </div>
     );
   }

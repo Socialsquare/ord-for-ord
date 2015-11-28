@@ -8,11 +8,10 @@ Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
 Game.TIMEOUT = 120 * 1000;
 
-Game.MIN_PLAYERS = 3;
+Game.MIN_PLAYERS = 1;
 Game.MAX_PLAYERS = 5;
 Game.states = {
   LOBBY: 'lobby',
-  PRE_GAME: 'pre-game',
   PLAYING: 'playing',
   GAME_ENDED: 'game-ended'
 };
@@ -30,33 +29,49 @@ Game.prototype.init = function() {
   this.playerIds = [];
   this.players = {};
   this.words = [];
+  this.currentWordIndex = 1;
+
   this.currentPlayerIndex = 0;
   this.claimedWords = {};
+
+  this.generateWords();
+
   clearTimeout(this.endTurnTimeout);
 };
 
+
 Game.prototype.generateMockState = function() {
   this.words = [{
-    correct: 'Ethical'
+    correct: 'Kaninen'
   }, {
-    correct: 'practice',
-    options: ['essays', 'studies', 'practice', 'philosophies', 'theories']
+    correct: 'der',
+    options: ['uden', 'i', 'der', 'kom', 'af'],
+    guesses: []
   }, {
-    correct: 'in',
-    options: ['1550', 'in', 'parameters', '2003', 'of']
+    correct: 'så',
+    options: ['ikke', 'er', 'måske', 'så', 'hedder'],
+    guesses: []
   }, {
-    correct: 'everyday',
-    options: ['international', 'Japan', 'Guatemala', 'macroeconomic', 'everyday']
+    correct: 'gerne',
+    options: ['gerne', 'Nisse', 'alligevel', 'kommer', 'længe'],
+    guesses: []
   }, {
-    correct: 'health',
-    options: ['pornography', 'music', 'meteorology', 'health', 'urbanism']
+    correct: 'vil',
+    options: ['må', 'Frau', 'klage', 'samle', 'ligne'],
+    guesses: []
   }, {
-    correct: 'care',
-    options: ['issues', 'Psychology', '&', 'care', 'and']
+    correct: 'sove',
+    options: ['sejre', 'sove', 'flyve', 'satse', 'have'],
+    guesses: []
   }];
 };
 
 Game.prototype.generateWords = function() {
+  this.currentWordIndex = 1;
+  this.generateMockState();
+  return;
+
+
   titles.generateRandomTitle().then(function(title) {
     console.log(title);
     this.words = [];
@@ -69,6 +84,8 @@ Game.prototype.toJSON = function() {
     id: this.id,
     state: this.state,
     players: _.values(this.players),
+    words: this.words,
+    currentWordIndex: this.currentWordIndex,
     judgeId: this.hasJudge() ? this.playerIds[0] : null,
     currentPlayerId: this.playerIds[this.currentPlayerIndex]
   };
@@ -97,7 +114,7 @@ Game.prototype.addPlayer = function(player) {
     this.playerIds.push(player.id);
 
     // Stop start game countdown if new player joins
-    clearTimeout(this.startGameTimeout); 
+    clearTimeout(this.startGameTimeout);
     if(player.socket) {
       player.socket.join(this.id);
       player.socket.broadcast.to(this.id).emit('player:add', player.toJSON());
@@ -115,7 +132,7 @@ Game.prototype.removePlayer = function(playerId) {
       player.socket.broadcast.to(this.id).emit('player:remove', player.id);
       player.socket.leave(this.id);
     }
-	// Too few players to actually play the game.
+  // Too few players to actually play the game.
     if(this.playerIds.length < Game.MIN_PLAYERS) {
       // Let's re-initialize the game!
       this.init();
@@ -143,7 +160,7 @@ Game.prototype.allPlayersReady = function() {
 };
 
 Game.prototype.tryToStartGameCountDown = function() {
-  if (this.allPlayersReady() === true && 
+  if (this.allPlayersReady() === true &&
     this.playerIds.length >= Game.MIN_PLAYERS) {
     this.startGameTimeout = setTimeout(() => {
       this.start();
@@ -154,16 +171,12 @@ Game.prototype.tryToStartGameCountDown = function() {
 };
 
 Game.prototype.nextPlayerTurn = function() {
-  if (this.state === Game.states.PRE_GAME) {
-    this.gameTimeout = setTimeout(() => {
-      this.end();
-    }, Game.TIMEOUT);
-  }
+  clearTimeout(this.endTurnTimeout);
 
   this.state = Game.states.PLAYING;
   this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
-    this.currentPlayerIndex = this.hasJudge() ? 1 : 0;
+    this.currentPlayerIndex = 0;
   }
   this.broadcastGameUpdate();
 
@@ -177,13 +190,6 @@ Game.prototype.nextPlayerTurn = function() {
 Game.prototype.nextJudge = function() {
   var currentJudge = this.playerIds.shift();
   this.playerIds.push(currentJudge);
-};
-
-Game.prototype.isJudge = function(playerId) {
-  if(this.playerIds.length > 0) {
-    return this.playerIds[0] === playerId;
-  }
-  return false;
 };
 
 Game.prototype.isCurrentPlayer = function(playerId) {
@@ -208,8 +214,16 @@ Game.prototype.start = function() {
                   'players');
     return false;
   }
-  this.state = Game.states.PRE_GAME;
+  this.state = Game.states.PLAYING;
   this.broadcastGameUpdate();
+
+  // Starts the game, and sets it to end after the timeout
+  if (this.state === Game.states.LOBBY) {
+    this.gameTimeout = setTimeout(() => {
+      this.end();
+    }, Game.TIMEOUT);
+  }
+
   return true;
 };
 
@@ -227,14 +241,11 @@ Game.prototype.terminate = function(playerId) {
     console.error('The game has to be in playing state to terminate.');
     return false;
   }
-  if(!this.isJudge(playerId)) {
-    console.error('Only the judge can terminate the game.');
-    return false;
-  }
   this.end();
   return true;
 };
 
+/*
 Game.prototype.setCategories = function(playerId, categories) {
   if(this.state !== Game.states.PRE_GAME) {
     console.error('The game has to be in pre game state to change categories.');
@@ -250,24 +261,70 @@ Game.prototype.setCategories = function(playerId, categories) {
     //console.log('Choosing', this.categories, 'gives', score, 'records');
     return score;
   });
-};
+}*/;
 
 Game.prototype.restart = function(playerId) {
   if(this.state !== Game.states.GAME_ENDED) {
     console.error('The game has to be ended to restart.');
     return false;
   }
-  if(!this.isJudge(playerId)) {
-    console.error('Only the judge can restart the game.');
-    return false;
-  }
   clearTimeout(this.gameTimeout);
   clearTimeout(this.endTurnTimeout);
-  this.state = Game.states.PRE_GAME;
+
+  this.state = Game.states.LOBBY;
   this.words = [];
   this.broadcast('game:reset', this);
   return true;
 };
+
+
+// Try and guess the word, and write the result
+Game.prototype.guessWord = function(playerId, word) {
+  if(!this.isCurrentPlayer(playerId)) {
+    console.error('Only the current player can append a word');
+    return false;
+  }
+
+  var currentWord = this.words[this.currentWordIndex],
+      correctGuess = currentWord.correct.toLowerCase() === word.toLowerCase();
+
+  if (correctGuess === true) {
+    currentWord.guessedBy = playerId;
+    this.currentWordIndex++;
+
+    if (this.currentWordIndex >= this.words.length) {
+      this.generateWords();
+    }
+
+  } else {
+    currentWord.guesses.push(word);
+  }
+
+  this.nextPlayerTurn();
+
+  return true;
+
+  /*
+  if (correctGuess === true) {
+    this.broadcast('guess:result', {
+      index: 1,
+      word: 'yolo',
+      playerId: playerId,
+      correct: true
+    })
+  } else {
+    this.broadcast('guess:result', {
+      index: 1,
+      word: 'yolo',
+      playerId: playerId,
+      correct: false
+    })
+  }
+  */
+
+};
+
+/*
 
 Game.prototype.claimWord = function(playerId, word) {
   word = word.toLowerCase();
@@ -297,7 +354,7 @@ Game.prototype.appendWord = function(playerId, word) {
     return false;
   }
 
-  
+
   var successfulClaims = [];
   for (var key in this.claimedWords) {
     if (this.claimedWords[key].indexOf(word) !== -1) {
@@ -327,6 +384,8 @@ Game.prototype.appendWord = function(playerId, word) {
     });
   }
 };
+
+*/
 
 Game.prototype.getOptions = function() {
   // Returns a list of 5 words, where one of the words is the right next word

@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'gidoleregular';
-  src        : url("../fonts/gidole-regular.woff2") format('woff2'), url("../fonts/gidole-regular.woff") format('woff'), url("../fonts/gidole-regular.ttf") format('truetype');
+  src        : url(../fonts/gidole-regular.woff2) format('woff2'), url(../fonts/gidole-regular.woff) format('woff'), url(../fonts/gidole-regular.ttf) format('truetype');
   font-weight: normal;
   font-style : normal;
 }
@@ -76,6 +76,18 @@ body {
 *:focus {
   outline: none!important;
 }
+.container-fluid {
+  max-width: 800px;
+  padding  : 2rem;
+  height   : 100%;
+  .row {
+    position: relative;
+    height  : 100%;
+  }
+  .col-100 {
+    height: 100%;
+  }
+}
 .hidden {
   display: none;
 }
@@ -88,12 +100,10 @@ body {
   height       : 2rem;
   width        : 2rem;
   border-radius: 50%;
-
   &.bounce {
     animation: bounce 1s ease-in-out 0s infinite;
   }
 }
-
 @keyframes bounce {
   0% {
     transform: scale(1);
@@ -102,7 +112,6 @@ body {
     transform: scale(1.1);
   }
 }
-
 .panel {
   height    : 100%;
   width     : 100%;
@@ -169,24 +178,32 @@ body {
       color: darken($pcolor-4,10%);
     }
   }
-  .word-list {
-    padding-top: 0.3rem;
+  .to-the-bottom {
+    position: absolute;
+    bottom  : 0;
+    left    : 1.5rem;
+    right   : 1.5rem;
   }
 }
 .pcolor-0 {
   background: $pcolor-0;
+  fill      : $pcolor-0;
 }
 .pcolor-1 {
   background: $pcolor-1;
+  fill      : $pcolor-1;
 }
 .pcolor-2 {
   background: $pcolor-2;
+  fill      : $pcolor-2;
 }
 .pcolor-3 {
   background: $pcolor-3;
+  fill      : $pcolor-3;
 }
 .pcolor-4 {
   background: $pcolor-4;
+  fill      : $pcolor-4;
 }
 .score {
   appearance   : none;
@@ -213,10 +230,10 @@ body {
     background-color: $pcolor-4;
   }
 }
-.btn-startgame,
-.player-icon {
+.btn-startgame {
   border-width: 2px;
   border-style: solid;
+  font-size: 1.6rem;
   span {
     margin: 0 auto;
   }
@@ -246,17 +263,16 @@ body {
     color: $body-color !important;
   }
   .word {
-    position      : relative;
-    display       : inline-block;
-    border-radius : 5px;
-    color         : $pcolor-0;
-    background    : #fff;
-    line-height   : 1.9rem;
-    padding       : 0 1em;
-    margin        : 0 0.5em 1em 0;
-    text-align    : center;
-    min-width     : 1.8rem;
-    text-transform: lowercase;
+    position     : relative;
+    display      : inline-block;
+    border-radius: $border-radius;
+    color        : $pcolor-0;
+    background   : #eeeeee;
+    font-size    : 3vh;
+    padding      : 0 0.5em;
+    margin       : 0 0.5em 1em 0;
+    text-align   : center;
+    min-width    : 1.8rem;
   }
   .claims {
     position   : absolute;
@@ -293,17 +309,14 @@ body {
   position  : absolute;
   visibility: hidden;
 }
-.player-icon {
-  transition: background 1s ease-in;
-}
 .btn-startgame {
   display        : flex;
   justify-content: center;
   align-items    : center;
 }
 .help-text {
-  text-align: center;
-  margin: 1rem;
+  text-align   : center;
+  margin-bottom: 0.5rem;
   &.white {
     color: #fff;
   }
@@ -311,9 +324,10 @@ body {
 .btn-startgame,
 .pulse {
   position     : absolute;
-  left         : 50%;
-  bottom       : 3rem;
-  margin       : 0 0 0 -5rem;
+  left         : 0;
+  right        : 0;
+  bottom       : 0;
+  margin       : 0 auto;
   width        : 10rem;
   height       : 10rem;
   border-radius: 50%;
@@ -348,11 +362,11 @@ body {
   }
 }
 .btn-judge {
-  position: static;
-  margin: 0 auto 2rem;
-  width: 100%;
+  position     : static;
+  margin       : 0 auto 2rem;
+  width        : 100%;
   border-radius: $border-radius;
-  height: 4rem;
+  height       : 4rem;
 }
 .pregame {
   .btn-startgame {
@@ -381,8 +395,7 @@ body {
   }
 }
 .pulse {
-  bottom   : -2rem;
-  margin   : 0 0 0 -10rem;
+  bottom   : -5rem;
   width    : 20rem;
   height   : 20rem;
   transform: translate3d(0,0,0);
@@ -390,13 +403,10 @@ body {
   opacity  : 0;
   &.active {
     &#onePulse {
-      animation: pulse 1s 0s ease-out infinite;
+      animation: pulse 1.5s 0s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
     }
     &#twoPulse {
-      animation: pulse 1s 0.2s ease-out infinite;
-    }
-    &#treePulse {
-      animation: pulse 1s 0.4s ease-out infinite;
+      animation: pulse 1.5s 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
     }
   }
 }
@@ -409,24 +419,41 @@ body {
     opacity: 0;
   }
   100% {
-    transform: scale(1);
+    transform: scale(0.9);
   }
 }
 .player-icon {
-  display      : inline-block;
-  width        : 2rem;
-  height       : 2rem;
-  border-radius: 50%;
-  &:not(:last-child) {
-    margin-right: 0.5rem;
+  display   : inline-block;
+  position  : relative;
+  width     : 16vw;
+  height    : 16vw;
+  max-width : 12vh;
+  max-height: 12vh;
+  background: 0;
+  margin-top: 5vh;
+  .no-check,
+  .check {
+    position: absolute;
+    left    : 0;
+    right   : 0;
+    top     : 0;
+    bottom  : 0;
   }
-  &.pcolor-0,
-  &.pcolor-1,
-  &.pcolor-2,
-  &.pcolor-3,
-  &.pcolor-4 {
-    &:not(.ready) {
-      background: none;
+  svg {
+    margin: -20%;
+    transform: translateX(16.6%);
+  }
+  .check {
+    opacity: 0;
+  }
+  &.ready {
+    .no-check {
+      animation: fadeOutUp 0.5s ease-in-out;
+      opacity  : 0;
+    }
+    .check {
+      animation: fadeInUp 0.5s ease-in-out;
+      opacity  : 1;
     }
   }
 }
@@ -464,12 +491,12 @@ p {
 
 // Score table
 table {
-  width: 100%;
+  width : 100%;
   margin: 1rem 0;
   tbody {
     padding-bottom: 1rem;
-    padding-top: 1rem;
-    font-size: 1.6em;
+    padding-top   : 1rem;
+    font-size     : 1.6em;
   }
   > :nth-child(2) {
     display: none;
@@ -483,10 +510,75 @@ table {
         color       : $gray-dark;
       }
       &:not(:first-child) {
-        width: 10%;
+        width     : 10%;
         text-align: center;
       }
     }
+  }
+}
+.word-options {
+  button {
+    border       : none;
+    line-height  : 10vh;
+    font-size    : 4vh;
+    width        : 100%;
+    background   : #eeeeee;
+    border-radius: $border-radius;
+    &:not(:first-child) {
+      margin-top: 1vh;
+    }
+    &.guessed {
+      opacity        : 0.4;
+      text-decoration: line-through;
+    }
+  }
+}
+.pcolor-0,
+.pcolor-1,
+.pcolor-2,
+.pcolor-3,
+.pcolor-4 {
+  .word-options {
+    button,
+    .word {
+      background: #fff;
+    }
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity  : 0;
+    transform: translate3d(0, 80%, 0);
+  }
+  to {
+    opacity  : 1;
+    transform: none;
+  }
+}
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity  : 0;
+    transform: translate3d(0, -80%, 0);
+  }
+}
+
+// Landscape mobile fix
+@media only screen and (max-device-width : 800px) and (orientation : landscape) {
+  .container-fluid {
+    padding: 1rem;
+  }
+  .word-list {
+    .word {
+      font-size: 4vh;
+    }
+  }
+  .help-text {
+    font-size: 4vh;
   }
 }
 

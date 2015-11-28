@@ -23,10 +23,6 @@ var WelcomeComponent = React.createClass({
 
     game.on('change:currentPlayerId', () => {
       this.setState({ timePassed: 0, claimedWords: [] });
-      // Only a non-judge player has a word button.
-      if(!App.player().isJudge()) {
-        React.findDOMNode(this.refs.word).value = '';
-      }
     });
 
     this.progressInterval = setInterval(() => {
@@ -73,6 +69,17 @@ var WelcomeComponent = React.createClass({
     game.terminate();
   },
 
+  answer: function(word) {
+    if (this.yourTurn() === true) {
+      game.guessWord(word);
+    }
+  },
+
+  yourTurn: function() {
+    var currentPlayer = game.currentPlayer();
+    return currentPlayer && App.player().get('id') === currentPlayer.get('id');
+  },
+
   render: function() {
     var panelClasses = 'panel game-panel',
         progressClasses = 'progress-bar',
@@ -87,7 +94,7 @@ var WelcomeComponent = React.createClass({
 
     if (currentPlayer) {
       colorClass = 'pcolor-' + currentPlayer.get('color');
-      yourTurn = App.player().get('id') === currentPlayer.get('id');
+      yourTurn = this.yourTurn();
     }
 
     if (yourTurn === true) {
@@ -98,31 +105,33 @@ var WelcomeComponent = React.createClass({
       formClass = 'pcolor-' + App.player().get('color');
     }
 
-    var words = game.words.map(function(word, i) {
-      var player = game.players.get(word.get('playerId')),
-          classes = 'tcolor-' + player.get('color'),
-          claims = null;
-      classes += ' word';
+    var words = game.get('words').map(function(word, i) {
+      if (word.guessedBy || i === 0) {
+        var classes = 'word';
+        if (word.guessedBy) {
+          var player = game.players.get(word.guessedBy);
+          classes += ' tcolor-' + player.get('color');
+        }
 
-      if (word.get('successfulClaims')) {
-        claims = (
-          <div className="claims">
-            {word.get('successfulClaims').map(function(playerId) {
-              var player = game.players.get(playerId),
-                  classes = 'claim pcolor-' + player.get('color');
-              return (
-                <div key={playerId} className={classes} />
-              );
-            })}
+        return (
+          <div className={classes} key={i}>
+            {word.correct}
           </div>
         );
+      } else {
+        return null;
       }
+    });
 
+    var currentWord = game.currentWord();
+    var wordOptions = currentWord.options.map((word, i) => {
+      var guessed = currentWord.guesses.indexOf(word) !== -1;
       return (
-        <div className={classes} key={i}>
-          {word.get('word')}
-          {claims}
-        </div>
+        <button
+          onClick={this.answer.bind(this, word)}
+          className={ guessed ? 'guessed' : ''}>
+          {word.toLowerCase()}
+        </button>
       );
     });
 
@@ -131,46 +140,28 @@ var WelcomeComponent = React.createClass({
         <div className={progressClasses} style={progressStyle}/>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12">
-              <div className="word-list m-t-md">
+            <div className="col-xs-12 col-100">
+              <div className="word-list">
                 {words}
               </div>
 
-              {App.player().isJudge() === true ?
-                <div>
-                  <button className="btn btn-startgame btn-default btn-judge"
-                    onClick={this.terminate}>
-                    <span>Sludder og vrøvl!</span>
-                  </button>
-                  <ScoreComponent game={game} />
+              <div className="to-the-bottom">
+                <div className={helpTextClasses}>
+                  { yourTurn === true ?
+                    <span>Det er din tur!</span>
+                  :
+                    <span>
+                      Det er din modstanders tur, skynd dig at gæt og stjæl
+                      point.
+                    </span>
+                  }
                 </div>
-              :
-                <div>
-                  <div className="word-claims">
-                    {this.state.claimedWords.map((word, i) => {
-                      return ( <span key={i}>{word}</span> );
-                    })}
-                  </div>
 
-                  <form onSubmit={this.submitWord} className={formClass}>
-                    <input type="text" autoFocus="true" ref="word"
-                      placeholder="Indtast ord"
-                      onKeyPress={vh.preventCharacters} />
-                    <button className="submit-button" />
-                  </form>
-
-                  <div className={helpTextClasses}>
-                    { yourTurn === true ?
-                      <span>Det er din tur!</span>
-                    :
-                      <span> 
-                        Det er din modstanders tur, skynd dig at gæt hvad der
-                        bliver skrevet og tag del i gevinsten
-                      </span>
-                    }
-                  </div>
+                <div className="word-options">
+                  {wordOptions}
                 </div>
-              }
+              </div>
+
 
             </div>
           </div>
