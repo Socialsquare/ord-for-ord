@@ -14,8 +14,8 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Med Andre Ord</h1>
-              <p>&#8216;Med Andre Ord&#8217; er et multiplayer ordspil, der
+              <h1>Ord for ord</h1>
+              <p>&#8216;Ord for Ord&#8217; er et multiplayer spil, der
               udfordrer din indre ordsmed.</p>
               <p>Det gælder om, på tid og efter
               tur, at vælge ord og ordsammensætninger, der er repræsenteret i
