@@ -140,12 +140,12 @@ var WelcomeComponent = React.createClass({
         <div className={progressClasses} style={progressStyle}/>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12">
-              <div className="word-list m-t-md">
+            <div className="col-xs-12 col-100">
+              <div className="word-list">
                 {words}
               </div>
 
-              <div>
+              <div className="to-the-bottom">
                 <div className={helpTextClasses}>
                   { yourTurn === true ?
                     <span>Det er din tur!</span>

@@ -67,7 +67,7 @@ var LobbyComponent = React.createClass({
         onMouseUp={this.setNotReady}>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12 m-t-lg text-center">
+            <div className="col-xs-12 text-center">
               <h3>Venter på andre spillere</h3>
               {game.players.map(function(player, i) {
                 var classes = [];
@@ -77,17 +77,15 @@ var LobbyComponent = React.createClass({
                 return ( <div key={i} className={classes.join(' ')}></div> );
               })}
             </div>
-          </div>
-          <div className="row">
             <div className="col-xs-12 m-t-lg text-center">
               <h4>{startMessage}</h4>
             </div>
+            <div className={startButton}>
+              <div id="onePulse" className={pulseClass}></div>
+              <div id="twoPulse" className={pulseClass}></div>
+              <button className={buttonClasses} onTouchStart={this.setReady} onMouseDown={this.setReady}><span>{this.state.readyQuote}</span></button>
+            </div>
           </div>
-        </div>
-        <div className={startButton}>
-          <div id="onePulse" className={pulseClass}></div>
-          <div id="twoPulse" className={pulseClass}></div>
-          <button className={buttonClasses} onTouchStart={this.setReady} onMouseDown={this.setReady}><span>{this.state.readyQuote}</span></button>
         </div>
       </div>
     );
