@@ -76,7 +76,7 @@ var LobbyComponent = React.createClass({
                 classes.push('pcolor-' + player.get('color'));
                 if (player.get('ready') === true) { classes.push('ready'); }
                 return (
-                  <div key={i} className={classes.join(' ')}><div className="no-check"><svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c4.5 0 8 1 8 6h-16c0-5 3.5-6 8-6zm0-10c2.194 0 4 1.806 4 4s-1.806 4-4 4-4-1.806-4-4 1.806-4 4-4z"/></svg></div><div className="check"><svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c4.5 0 8 1 8 6h-16c0-5 3.5-6 8-6zm6-5l5 5 8-8-2-2-6 6-3-3-2 2zm-6-5c2.194 0 4 1.806 4 4s-1.806 4-4 4-4-1.806-4-4 1.806-4 4-4z"/></svg></div></div> );
+                  <div key={i} className={classes.join(' ')}><div className="no-check"><svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c4.5 0 8 1 8 6h-16c0-5 3.5-6 8-6zm0-10c2.194 0 4 1.806 4 4s-1.806 4-4 4-4-1.806-4-4 1.806-4 4-4z"/></svg></div><div className="check"><svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c4.5 0 8 1 8 6h-16c0-5 3.5-6 8-6zm7-4l4 4 7-7-2-2-5 5-2-2-2 2zm-7-6c2.194 0 4 1.806 4 4s-1.806 4-4 4-4-1.806-4-4 1.806-4 4-4z"/></svg></div></div> );
               })}
             </div>
             <div className={startButton}>
