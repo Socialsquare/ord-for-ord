@@ -21,6 +21,7 @@ Game.INITIATE_TIME = 2000;
 function Game() {
   this.init();
   this.generateMockState();
+  //this.generateWords();
 }
 
 Game.prototype.init = function() {
