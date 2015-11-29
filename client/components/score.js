@@ -16,7 +16,7 @@ var ScoreComponent = React.createClass({
   render: function() {
     return (
       <table className="score-table">
-        <tbody> 
+        <tbody>
           <tr>
             <td></td>
             {this.props.game.players.map((player, i) => {
@@ -26,7 +26,7 @@ var ScoreComponent = React.createClass({
               }
               return (
                 <td key={i}>
-                  <div className={dotClasses}></div>
+                  <div className={dotClasses}><div className="no-check"><svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c4.5 0 8 1 8 6h-16c0-5 3.5-6 8-6zm0-10c2.194 0 4 1.806 4 4s-1.806 4-4 4-4-1.806-4-4 1.806-4 4-4z"/></svg></div></div>
                 </td>
               );
             })}

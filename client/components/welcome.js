@@ -19,8 +19,14 @@ var WelcomeComponent = React.createClass({
               udfordrer din indre ordsmed.</p>
               <p>Det gælder om, på tid og efter tur, at gætte en bogtitel ord
               for ord.</p>
+              <p>Spillet henter skønlitterære bogtitler fra <a
+              href="https://opensource.dbc.dk">dbc.dk</a> og kildekoden er
+              tilgængelig på <a
+              href="https://github.com/Socialsquare/ord-for-ord">
+              github.com/socialsquare/ord-for-ord</a>.</p>
             </div>
-            <button className="btn btn-startgame btn-default" onClick={this.joinLobby}>
+            <button className="btn btn-startgame btn-default"
+            onClick={this.joinLobby}>
               <span>Videre</span>
             </button>
           </div>
