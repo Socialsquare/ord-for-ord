@@ -18,8 +18,7 @@ var WelcomeComponent = React.createClass({
               <p>&#8216;Ord for Ord&#8217; er et multiplayer spil, der
               udfordrer din indre ordsmed.</p>
               <p>Det gælder om, på tid og efter tur, at gætte en bogtitel ord
-              for ord. Når det ikke er din tur, kan du stjæle point fra din
-              modstander ved at gætte det næste ord før dem.</p>
+              for ord.</p>
             </div>
             <button className="btn btn-startgame btn-default" onClick={this.joinLobby}>
               <span>Videre</span>

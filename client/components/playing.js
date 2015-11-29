@@ -151,8 +151,7 @@ var WelcomeComponent = React.createClass({
                     <span>Det er din tur!</span>
                   :
                     <span>
-                      Det er din modstanders tur, skynd dig at gæt og stjæl
-                      point.
+                      Vent på at din modstander svarer
                     </span>
                   }
                 </div>
