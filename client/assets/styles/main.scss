@@ -582,6 +582,34 @@ table {
   }
 }
 
+/* Loading dots */
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.loading-dots .dot {
+  -webkit-animation: blink 1s infinite running;
+  animation: blink 1s infinite running;
+}
+.loading-dots .dot-2 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+.loading-dots .dot-3 {
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
 // Responsive typography
 html {
   font-size: $font-size-xs;

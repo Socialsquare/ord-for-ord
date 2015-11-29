@@ -5,6 +5,7 @@ var React = require('react'),
 var components = {
   'welcome': require('./components/welcome'),
   'lobby': require('./components/lobby'),
+  'loading': require('./components/loading'),
   'pre-game': require('./components/pre-game'),
   'playing': require('./components/playing'),
   'game-ended': require('./components/game-ended')

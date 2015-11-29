@@ -1,7 +1,10 @@
 var settings = require('../settings.json');
-var titles = require('./titles').init(settings.elasticsearch, 'dbc-books');
+//var titles = require('./titles').init(settings.elasticsearch, 'dbc-books');
+var titles = require('./titles').init(settings.elasticsearch, 'dbc-books-2');
 
 (function() {
+  titles.ensureIndex();
+
   var csv = require('csv');
   var fs = require('fs');
   var Promise = require("bluebird");

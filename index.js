@@ -53,9 +53,11 @@ var sockets = io.on('connection', function(socket) {
     game.terminate(player.id);
   });
 
+  /*
   socket.on('game:restart', function() {
     game.restart(player.id);
   });
+  */
 
 
   /*

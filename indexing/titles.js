@@ -15,21 +15,58 @@ var dk5 = {
   history: '90'
 };
 
+Array.prototype.getUnique = function() {
+   var u = {}, a = [];
+   for(var i = 0, l = this.length; i < l; ++i){
+      if(u.hasOwnProperty(this[i])) {
+         continue;
+      }
+      a.push(this[i]);
+      u[this[i]] = 1;
+   }
+   return a;
+};
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 module.exports = {
   init: function(settings, index) {
     this.client = new es.Client(settings);
     this.index = index;
     return this;
   },
-  insert: function(source, id, title) {
-    var _id = source + '-' + id;
-    return this.client.index({
-      index: this.index,
-      type: 'title',
-      id: _id,
-      body: {
-        title: title,
-        source: source
+  ensureIndex: function() {
+    return this.indexExists().then((exists) => {
+      if(!exists) {
+        return this.client.indices.create({
+          index: this.index,
+          body: {
+            mappings: {
+              book: {
+                properties: {
+                  title: { type: 'string', analyzer: 'keyword' }
+                }
+              }
+            }
+          }
+        });
       }
     });
   },
@@ -86,30 +123,73 @@ module.exports = {
       return response.hits.total;
     });
   },
+  generateWordRegExp: function() {
+    return '[a-zA-Z]+';
+  },
+  generateTitleRegExp: function(minWordCount, maxWordCount) {
+    var word = this.generateWordRegExp();
+    return word + '( '+word+'){'+(minWordCount-1)+','+(maxWordCount-1)+'}' + '[\.!]?';
+  },
   generateRandomTitle: function() {
-    var req = {
-      index: this.index,
-      body: {
-        query: {
-          bool: {
-            must: {
-              range: {
-                title: {
-                  gte: 1,
-                  lte: 2
-                }
-              }
-            }
-          }
+    var query = {
+      regexp: {
+        title: {
+          value: this.generateTitleRegExp(3, 100)
         }
       }
     };
 
-    return this.client.search(req).then(function(response) {
-      var hits = response.hits.hits;
-      return hits.map(function(hit) {
-        return hit._source.title;
+    return this.client.search({
+      index: this.index,
+      body: { query: query },
+      size: 0
+    }).then((response1) => {
+      var randomTitleIndex = Math.floor(response1.hits.total * Math.random());
+      //var randomTitleIndex = 
+      return this.client.search({
+        index: this.index,
+        body: { query: query },
+        size: 1,
+        from: randomTitleIndex
+      }).then((response2) => {
+        if(response2.hits.hits.length === 1) {
+          return response2.hits.hits[0]._source.title;
+        }
       });
+    });
+  },
+  generateOptions: function(prefixedWord, correct) {
+    var query = {
+      regexp: {
+        title: {
+          value: '(.* )?'+prefixedWord+' .*'
+        }
+      }
+    };
+
+    return this.client.search({
+      index: this.index,
+      body: { query: query },
+      size: 100
+    }).then((response) => {
+      var possibleOptions = response.hits.hits.map((hit) => {
+        var title = hit._source.title;
+        var possibleOption = title.match('(?:.* )?'+prefixedWord+' ([a-zA-Z]+)(?: .*)?');
+        if(possibleOption) {
+          return possibleOption[1];
+        } else {
+          return null;
+        }
+      });
+      var options = possibleOptions.filter((word) => {
+        return word !== null;
+      }).getUnique();
+      options = shuffle(options);
+      // Insert the correct answer as the first option and pick the first 5.
+      options.unshift(correct);
+      options = options.slice(0, 4);
+      // Shuffle again with the correct value added.
+      return shuffle(options);
     });
   }
 };

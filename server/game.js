@@ -1,8 +1,9 @@
 var uuid = require('uuid'),
     _ = require('lodash'),
+    Promise = require("bluebird"),
     sharedConfig = require('../lib/shared-config'),
     settings = require('../settings.json'),
-    titles = require('../indexing/titles').init(settings.elasticsearch, 'dbc-books');
+    titles = require('../indexing/titles').init(settings.elasticsearch, 'dbc-books-2');
 
 Game.COLOR_COUNT = 5;
 Game.WORD_CLAIM_MAX = 3;
@@ -12,6 +13,7 @@ Game.MIN_PLAYERS = 1;
 Game.MAX_PLAYERS = 5;
 Game.states = {
   LOBBY: 'lobby',
+  LOADING: 'loading',
   PLAYING: 'playing',
   GAME_ENDED: 'game-ended'
 };
@@ -19,8 +21,6 @@ Game.INITIATE_TIME = 2000;
 
 function Game() {
   this.init();
-  this.generateMockState();
-  //this.generateWords();
 }
 
 Game.prototype.init = function() {
@@ -34,7 +34,7 @@ Game.prototype.init = function() {
   this.currentPlayerIndex = 0;
   this.claimedWords = {};
 
-  this.generateWords();
+  //this.generateWords();
 
   clearTimeout(this.endTurnTimeout);
 };
@@ -57,7 +57,7 @@ Game.prototype.generateMockState = function() {
     guesses: []
   }, {
     correct: 'vil',
-    options: ['må', 'Frau', 'klage', 'samle', 'ligne'],
+    options: ['må', 'Frau', 'klage', 'samle', 'vil'],
     guesses: []
   }, {
     correct: 'sove',
@@ -68,14 +68,22 @@ Game.prototype.generateMockState = function() {
 
 Game.prototype.generateWords = function() {
   this.currentWordIndex = 1;
-  this.generateMockState();
-  return;
 
-
-  titles.generateRandomTitle().then(function(title) {
-    console.log(title);
-    this.words = [];
-    console.log(this.words);
+  return titles.generateRandomTitle().then((title) => {
+    var words = title.split(' ');
+    var wordPromises = Promise.map(words, (word, index) => {
+      var obj = { correct: word, guesses: [] };
+      if(index > 0) {
+        return titles.generateOptions(words[index-1], word).then((options) => {
+          obj.options = options;
+          return obj;
+        });
+      }
+      return obj;
+    });
+    return Promise.all(wordPromises);
+  }).then((words) => {
+    this.words = words;
   });
 };
 
@@ -162,11 +170,9 @@ Game.prototype.allPlayersReady = function() {
 Game.prototype.tryToStartGameCountDown = function() {
   if (this.allPlayersReady() === true &&
     this.playerIds.length >= Game.MIN_PLAYERS) {
-    this.startGameTimeout = setTimeout(() => {
+    if (this.state === Game.states.LOBBY) {
       this.start();
-    }, Game.INITIATE_TIME);
-  } else {
-    clearTimeout(this.startGameTimeout);
+    }
   }
 };
 
@@ -214,15 +220,21 @@ Game.prototype.start = function() {
                   'players');
     return false;
   }
-  this.state = Game.states.PLAYING;
-  this.broadcastGameUpdate();
-
   // Starts the game, and sets it to end after the timeout
   if (this.state === Game.states.LOBBY) {
     this.gameTimeout = setTimeout(() => {
       this.end();
     }, Game.TIMEOUT);
   }
+
+  this.state = Game.states.LOADING;
+  clearTimeout(this.endTurnTimeout);
+  this.broadcastGameUpdate();
+
+  this.generateWords().then(() => {
+    this.state = Game.states.PLAYING;
+    this.broadcastGameUpdate();
+  });
 
   return true;
 };
@@ -263,6 +275,7 @@ Game.prototype.setCategories = function(playerId, categories) {
   });
 }*/;
 
+/*
 Game.prototype.restart = function(playerId) {
   if(this.state !== Game.states.GAME_ENDED) {
     console.error('The game has to be ended to restart.');
@@ -276,7 +289,7 @@ Game.prototype.restart = function(playerId) {
   this.broadcast('game:reset', this);
   return true;
 };
-
+*/
 
 // Try and guess the word, and write the result
 Game.prototype.guessWord = function(playerId, word) {
@@ -293,7 +306,8 @@ Game.prototype.guessWord = function(playerId, word) {
     this.currentWordIndex++;
 
     if (this.currentWordIndex >= this.words.length) {
-      this.generateWords();
+      // Restart the game.
+      this.start();
     }
 
   } else {
@@ -386,11 +400,5 @@ Game.prototype.appendWord = function(playerId, word) {
 };
 
 */
-
-Game.prototype.getOptions = function() {
-  // Returns a list of 5 words, where one of the words is the right next word
-  // for the user to select.
-  // this.words.options
-};
 
 module.exports = new Game();
