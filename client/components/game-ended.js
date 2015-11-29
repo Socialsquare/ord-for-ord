@@ -39,8 +39,8 @@ var GameEndedComponent = React.createClass({
       <div className="panel">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12 m-t-lg">
-              <h2>Spillet er slut!</h2>
+            <div className="col-xs-12">
+              <h3>Spillet er slut!</h3>
 
               <p>{words}</p>
 
