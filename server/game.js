@@ -34,13 +34,11 @@ Game.prototype.init = function() {
   this.currentPlayerIndex = 0;
   this.claimedWords = {};
 
-  //this.generateWords();
-
   clearTimeout(this.endTurnTimeout);
 };
 
 
-Game.prototype.generateMockState = function() {
+Game.prototype.generateMockWords = function() {
   this.words = [{
     correct: 'Kaninen'
   }, {
@@ -67,8 +65,6 @@ Game.prototype.generateMockState = function() {
 };
 
 Game.prototype.generateWords = function() {
-  this.currentWordIndex = 1;
-
   return titles.generateRandomTitle().then((title) => {
     var words = title.split(' ');
     var wordPromises = Promise.map(words, (word, index) => {
@@ -168,18 +164,19 @@ Game.prototype.allPlayersReady = function() {
 };
 
 Game.prototype.tryToStartGameCountDown = function() {
+  // Clear the timeout to make sure the game is not started twice.
+  clearTimeout(this.startGameTimeout);
   if (this.allPlayersReady() === true &&
     this.playerIds.length >= Game.MIN_PLAYERS) {
-    if (this.state === Game.states.LOBBY) {
+    this.startGameTimeout = setTimeout(() => {
       this.start();
-    }
+    }, Game.INITIATE_TIME);
   }
 };
 
 Game.prototype.nextPlayerTurn = function() {
   clearTimeout(this.endTurnTimeout);
 
-  this.state = Game.states.PLAYING;
   this.currentPlayerIndex++;
   if (this.currentPlayerIndex > this.playerIds.length - 1) {
     this.currentPlayerIndex = 0;
@@ -196,6 +193,29 @@ Game.prototype.nextPlayerTurn = function() {
 Game.prototype.nextJudge = function() {
   var currentJudge = this.playerIds.shift();
   this.playerIds.push(currentJudge);
+};
+
+Game.prototype.nextTitle = function() {
+  // TODO: Save the points!
+  console.log('Next title please!');
+
+  this.words = [];
+  this.state = Game.states.LOADING;
+  this.currentWordIndex = 1;
+  clearTimeout(this.endTurnTimeout);
+  this.broadcastGameUpdate();
+
+  this.generateWords().then(() => {
+    this.state = Game.states.PLAYING;
+    this.broadcastGameUpdate();
+  }, (err) => {
+    console.error('Error generating words, using the mock state.', err.message);
+    setTimeout(() => {
+      this.state = Game.states.PLAYING;
+      this.generateMockWords();
+      this.broadcastGameUpdate();
+    }, 1000); // Faking a little load time ...
+  });
 };
 
 Game.prototype.isCurrentPlayer = function(playerId) {
@@ -227,14 +247,7 @@ Game.prototype.start = function() {
     }, Game.TIMEOUT);
   }
 
-  this.state = Game.states.LOADING;
-  clearTimeout(this.endTurnTimeout);
-  this.broadcastGameUpdate();
-
-  this.generateWords().then(() => {
-    this.state = Game.states.PLAYING;
-    this.broadcastGameUpdate();
-  });
+  this.nextTitle();
 
   return true;
 };
@@ -257,23 +270,6 @@ Game.prototype.terminate = function(playerId) {
   return true;
 };
 
-/*
-Game.prototype.setCategories = function(playerId, categories) {
-  if(this.state !== Game.states.PRE_GAME) {
-    console.error('The game has to be in pre game state to change categories.');
-    return false;
-  }
-  if(!this.isJudge(playerId)) {
-    console.error('Only the judge can change categories for the game.');
-    return false;
-  }
-
-  this.categories = categories;
-  return titles.evaluateWordScore(undefined, this.categories).then((score) => {
-    //console.log('Choosing', this.categories, 'gives', score, 'records');
-    return score;
-  });
-}*/;
 
 /*
 Game.prototype.restart = function(playerId) {
@@ -294,7 +290,7 @@ Game.prototype.restart = function(playerId) {
 // Try and guess the word, and write the result
 Game.prototype.guessWord = function(playerId, word) {
   if(!this.isCurrentPlayer(playerId)) {
-    console.error('Only the current player can append a word');
+    console.error('Only the current player can guess a word');
     return false;
   }
 
@@ -306,8 +302,8 @@ Game.prototype.guessWord = function(playerId, word) {
     this.currentWordIndex++;
 
     if (this.currentWordIndex >= this.words.length) {
-      // Restart the game.
-      this.start();
+      // Restart the game - without choosing the next player.
+      return this.nextTitle();
     }
 
   } else {
@@ -317,88 +313,6 @@ Game.prototype.guessWord = function(playerId, word) {
   this.nextPlayerTurn();
 
   return true;
-
-  /*
-  if (correctGuess === true) {
-    this.broadcast('guess:result', {
-      index: 1,
-      word: 'yolo',
-      playerId: playerId,
-      correct: true
-    })
-  } else {
-    this.broadcast('guess:result', {
-      index: 1,
-      word: 'yolo',
-      playerId: playerId,
-      correct: false
-    })
-  }
-  */
-
 };
-
-/*
-
-Game.prototype.claimWord = function(playerId, word) {
-  word = word.toLowerCase();
-  if (playerId in this.claimedWords === false) {
-    this.claimedWords[playerId] = [];
-  }
-  if (this.claimedWords[playerId].length < Game.WORD_CLAIM_MAX) {
-    this.claimedWords[playerId].push(word);
-    return true;
-  }
-  return false;
-};
-
-Game.prototype.appendWord = function(playerId, word) {
-  word = word.toLowerCase();
-  clearTimeout(this.endTurnTimeout);
-  if(!this.isCurrentPlayer(playerId)) {
-    console.error('Only the current player can append a word');
-    return false;
-  }
-  if(this.state === Game.states.PRE_GAME && this.currentPlayerIndex !== 0) {
-    console.error('In the pre-game state, only the judge appends a word');
-    return false;
-  }
-  if(this.state !== Game.states.PLAYING && this.currentPlayerIndex > 0) {
-    console.error('In the playing state, the judge cannot append words');
-    return false;
-  }
-
-
-  var successfulClaims = [];
-  for (var key in this.claimedWords) {
-    if (this.claimedWords[key].indexOf(word) !== -1) {
-      successfulClaims.push(key);
-    }
-  }
-
-  this.nextPlayerTurn();
-
-  var wordObj = {
-    id: 'wd-'+this.words.length,
-    word: word,
-    playerId: playerId,
-    score: null,
-    successfulClaims: successfulClaims
-  };
-  this.words.push(wordObj);
-  this.broadcast('word:append', wordObj);
-
-  if(this.words.length >= 2) {
-    var lastWords = this.words.slice(-2).map(function(w) {
-      return w.word;
-    });
-    titles.evaluateWordScore(lastWords, this.categories).then((score) => {
-      wordObj.score = score;
-      this.broadcast('word:update', wordObj);
-    });
-  }
-};
-
-*/
 
 module.exports = new Game();
