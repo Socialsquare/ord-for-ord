@@ -66,11 +66,13 @@ Game.prototype.generateMockWords = function() {
 
 Game.prototype.generateWords = function() {
   return titles.generateRandomTitle().then((title) => {
+    console.log('Next title is "'+title+'"' );
     var words = title.split(' ');
     var wordPromises = Promise.map(words, (word, index) => {
       var obj = { correct: word, guesses: [] };
       if(index > 0) {
         return titles.generateOptions(words[index-1], word).then((options) => {
+          console.log('Possible options for', word, 'is', options.join(', '));
           obj.options = options;
           return obj;
         });
@@ -196,7 +198,6 @@ Game.prototype.nextJudge = function() {
 };
 
 Game.prototype.nextTitle = function() {
-  // TODO: Save the points!
   console.log('Next title please!');
 
   this.words = [];
@@ -206,8 +207,13 @@ Game.prototype.nextTitle = function() {
   this.broadcastGameUpdate();
 
   this.generateWords().then(() => {
-    this.state = Game.states.PLAYING;
-    this.broadcastGameUpdate();
+    if(this.state === Game.states.LOADING) {
+      this.state = Game.states.PLAYING;
+      this.broadcastGameUpdate();
+    } else {
+      // Let's reset the words that was just generated.
+      this.words = [];
+    }
   }, (err) => {
     console.error('Error generating words, using the mock state.', err.message);
     setTimeout(() => {
@@ -233,6 +239,12 @@ Game.prototype.broadcastGameUpdate = function() {
   this.broadcast('game:update', this);
 };
 
+Game.prototype.resetScores = function() {
+  this.playerIds.forEach((id) => {
+    this.players[id].score = 0;
+  });
+};
+
 Game.prototype.start = function() {
   if(Object.keys(this.players).length < Game.MIN_PLAYERS) {
     console.error('Cannot start a game with only',
@@ -246,7 +258,7 @@ Game.prototype.start = function() {
       this.end();
     }, Game.TIMEOUT);
   }
-
+  this.resetScores();
   this.nextTitle();
 
   return true;
@@ -298,6 +310,8 @@ Game.prototype.guessWord = function(playerId, word) {
       correctGuess = currentWord.correct.toLowerCase() === word.toLowerCase();
 
   if (correctGuess === true) {
+    // Increment the points earned by the player
+    this.players[playerId].score++;
     currentWord.guessedBy = playerId;
     this.currentWordIndex++;
 

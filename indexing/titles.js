@@ -124,7 +124,7 @@ module.exports = {
     });
   },
   generateWordRegExp: function() {
-    return '[a-zA-Z]+';
+    return '[a-zA-Z]+[,.:?]?';
   },
   generateTitleRegExp: function(minWordCount, maxWordCount) {
     var word = this.generateWordRegExp();
@@ -132,33 +132,35 @@ module.exports = {
   },
   generateRandomTitle: function() {
     var query = {
-      regexp: {
-        title: {
-          value: this.generateTitleRegExp(3, 100)
-        }
+      function_score: {
+        filter: {
+          regexp: {
+            title: {
+              value: this.generateTitleRegExp(5, 10)
+            }
+          }
+        },
+        functions: [{
+          random_score: {
+            seed: Math.round(Math.random()*Number.MAX_SAFE_INTEGER)
+          }
+        }],
+        score_mode: 'sum'
       }
     };
 
     return this.client.search({
       index: this.index,
       body: { query: query },
-      size: 0
-    }).then((response1) => {
-      var randomTitleIndex = Math.floor(response1.hits.total * Math.random());
-      //var randomTitleIndex = 
-      return this.client.search({
-        index: this.index,
-        body: { query: query },
-        size: 1,
-        from: randomTitleIndex
-      }).then((response2) => {
-        if(response2.hits.hits.length === 1) {
-          return response2.hits.hits[0]._source.title;
-        }
-      });
+      size: 1
+    }).then((response2) => {
+      if(response2.hits.hits.length === 1) {
+        return response2.hits.hits[0]._source.title;
+      }
     });
   },
   generateOptions: function(prefixedWord, correct) {
+    var word = this.generateWordRegExp();
     var query = {
       regexp: {
         title: {
@@ -170,11 +172,11 @@ module.exports = {
     return this.client.search({
       index: this.index,
       body: { query: query },
-      size: 100
+      size: 25
     }).then((response) => {
       var possibleOptions = response.hits.hits.map((hit) => {
         var title = hit._source.title;
-        var possibleOption = title.match('(?:.* )?'+prefixedWord+' ([a-zA-Z]+)(?: .*)?');
+        var possibleOption = title.match('(?:.* )?'+prefixedWord+' ('+word+')(?: .*)?');
         if(possibleOption) {
           return possibleOption[1];
         } else {
@@ -183,11 +185,15 @@ module.exports = {
       });
       var options = possibleOptions.filter((word) => {
         return word !== null;
-      }).getUnique();
+      });
+      // Shuffle all the generated options.
       options = shuffle(options);
-      // Insert the correct answer as the first option and pick the first 5.
+      // Insert the correct value.
       options.unshift(correct);
-      options = options.slice(0, 4);
+      // Make sure we have only unique values
+      options = options.getUnique();
+      // Pick the first five
+      options = options.slice(0, 5);
       // Shuffle again with the correct value added.
       return shuffle(options);
     });
