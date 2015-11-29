@@ -58,7 +58,6 @@
 // Custom stuff
 @import "custom/stickyfooter";
 @import "custom/book-load";
-
 html,
 body {
   height                 : 100%;
@@ -96,22 +95,6 @@ body {
 .word-claims {
   span {
     padding-right: 1rem;
-  }
-}
-.player-dot {
-  height       : 2rem;
-  width        : 2rem;
-  border-radius: 50%;
-  &.bounce {
-    animation: bounce 1s ease-in-out 0s infinite;
-  }
-}
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
   }
 }
 .panel {
@@ -235,7 +218,7 @@ body {
 .btn-startgame {
   border-width: 2px;
   border-style: solid;
-  font-size: 1.6rem;
+  font-size   : 1.6rem;
   span {
     margin: 0 auto;
   }
@@ -427,12 +410,12 @@ body {
 .player-icon {
   display   : inline-block;
   position  : relative;
-  width     : 16vw;
-  height    : 16vw;
-  max-width : 12vh;
-  max-height: 12vh;
-  background: 0;
-  margin-top: 5vh;
+  width     : 20vw;
+  height    : 20vw;
+  max-width : 20vh;
+  max-height: 20vh;
+  background: none;
+  margin    : 5vh -2% 0;
   .no-check,
   .check {
     position: absolute;
@@ -442,7 +425,7 @@ body {
     bottom  : 0;
   }
   svg {
-    margin: -20%;
+    width    : 100%;
     transform: translateX(16.6%);
   }
   .check {
@@ -496,9 +479,8 @@ table {
   width : 100%;
   margin: 1rem 0;
   tbody {
-    padding-bottom: 1rem;
-    padding-top   : 1rem;
-    font-size     : 1.6em;
+    margin   : 1rem 0;
+    font-size: 1.6em;
   }
   > :nth-child(2) {
     display: none;
@@ -506,16 +488,42 @@ table {
   tr {
     td,
     th {
-      padding: 0.2rem 1rem;
       &:first-child {
         padding-left: 0;
         color       : $gray-dark;
       }
       &:not(:first-child) {
-        width     : 10%;
+        width     : 15%;
         text-align: center;
       }
     }
+  }
+  .player-dot {
+    background: none;
+    margin    : 5vh -2% 0;
+    &.bounce {
+      animation: bounce 1s ease-in-out 0s infinite;
+    }
+    .no-check,
+    .check {
+      position: absolute;
+      left    : 0;
+      right   : 0;
+      top     : 0;
+      bottom  : 0;
+    }
+    svg {
+      width    : 100%;
+      transform: translateX(16.6%);
+    }
+  }
+}
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
 .word-options {
@@ -582,34 +590,6 @@ table {
   .help-text {
     font-size: 4vh;
   }
-}
-
-/* Loading dots */
-@-webkit-keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  33% {
-    opacity: 1;
-  }
-  66% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.loading-dots .dot {
-  -webkit-animation: blink 1s infinite running;
-  animation: blink 1s infinite running;
-}
-.loading-dots .dot-2 {
-  -webkit-animation-delay: 0.3s;
-  animation-delay: 0.3s;
-}
-.loading-dots .dot-3 {
-  -webkit-animation-delay: 0.6s;
-  animation-delay: 0.6s;
 }
 
 // Responsive typography
