@@ -23,7 +23,7 @@
 @import "booty/forms";
 @import "booty/buttons";
 
-// // Components
+// Components
 @import "booty/animation";
 @import "booty/dropdown";
 @import "booty/button-group";
@@ -91,6 +91,51 @@ body {
 }
 .hidden {
   display: none;
+}
+$email: #0a88ff;
+$facebook: #306199;
+$tumblr: #32506d;
+$linkedin: #007bb6;
+$twitter: #26c4f1;
+$googleplus: #e93f2e;
+$social-list: ( email $email, facebook $facebook, linkedin $linkedin, twitter $twitter, googleplus $googleplus );
+@each $s-name in $social-list {
+  a {
+    &.#{nth($s-name, 1)} {
+      background-color: nth($s-name, 2);
+      &:hover {
+        background-color: darken(nth($s-name, 2), 10%);
+      }
+    }
+  }
+}
+$social-icon-size: 15vw;
+$social-icon-size-max: 3rem;
+.social {
+  display: block;
+  a {
+    display   : inline-block;
+    width     : $social-icon-size;
+    height    : $social-icon-size;
+    max-width : $social-icon-size-max;
+    max-height: $social-icon-size-max;
+  }
+  svg {
+    height: 100%;
+    fill  : white;
+  }
+  &.info {
+    position  : absolute;
+    bottom    : 0;
+    left      : 1.5rem;
+    width     : $social-icon-size;
+    height    : $social-icon-size;
+    max-width : $social-icon-size-max;
+    max-height: $social-icon-size-max;
+    svg {
+      fill: #5ad87e;
+    }
+  }
 }
 .word-claims {
   span {

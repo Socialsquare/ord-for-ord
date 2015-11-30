@@ -1,19 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
+
 <head>
   <meta charset="UTF-8">
   <meta name=viewport content="width=device-width, initial-scale=1.0,
   minimum-scale=1.0 maximum-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-title" content="Ord for ord">
   <title>Ord for ord</title>
   <link rel="stylesheet" href="/assets/styles/main.css">
-  <link rel="apple-touch-icon" href="/assets/images/iowLogo.png">
-  <link rel="apple-touch-startup-image" href="/assets/images/splash.png">
-  <script src="/socket.io/socket.io.js"></script>
+  <link rel="apple-touch-icon" href="/assets/images/logo.png">
+  <!-- http://taylor.fausak.me/2015/01/27/ios-8-web-apps/ -->
+  <!-- iPad retina portrait startup image -->
+  <link href="/assets/images/apple-touch-startup-image-1536x2008.png"
+        media="(device-width: 768px) and (device-height: 1024px)
+               and (-webkit-device-pixel-ratio: 2)
+               and (orientation: portrait)"
+        rel="apple-touch-startup-image">
+  <!-- iPad non-retina portrait startup image -->
+  <link href="/assets/images/apple-touch-startup-image-768x1004.png"
+        media="(device-width: 768px) and (device-height: 1024px)
+               and (-webkit-device-pixel-ratio: 1)
+               and (orientation: portrait)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone 6 Plus portrait startup image -->
+  <link href="/assets/images/apple-touch-startup-image-1242x2148.png"
+        media="(device-width: 414px) and (device-height: 736px)
+               and (-webkit-device-pixel-ratio: 3)
+               and (orientation: portrait)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone 6 startup image -->
+  <link href="/assets/images/apple-touch-startup-image-750x1294.png"
+        media="(device-width: 375px) and (device-height: 667px)
+               and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone 5 startup image -->
+  <link href="/assets/images/apple-touch-startup-image-640x1096.png"
+        media="(device-width: 320px) and (device-height: 568px)
+               and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone < 5 retina startup image -->
+  <link href="/assets/images/apple-touch-startup-image-640x920.png"
+        media="(device-width: 320px) and (device-height: 480px)
+               and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone < 5 non-retina startup image -->
+  <link href="/assets/images/apple-touch-startup-image-320x460.png"
+        media="(device-width: 320px) and (device-height: 480px)
+               and (-webkit-device-pixel-ratio: 1)"
+        rel="apple-touch-startup-image">
+  <!-- iPad retina landscape startup image -->
+  <link href="/assets/images/apple-touch-startup-image-1496x2048.png"
+        media="(device-width: 768px) and (device-height: 1024px)
+               and (-webkit-device-pixel-ratio: 2)
+               and (orientation: landscape)"
+        rel="apple-touch-startup-image">
+  <!-- iPad non-retina landscape startup image -->
+  <link href="/assets/images/apple-touch-startup-image-748x1024.png"
+        media="(device-width: 768px) and (device-height: 1024px)
+               and (-webkit-device-pixel-ratio: 1)
+               and (orientation: landscape)"
+        rel="apple-touch-startup-image">
+  <!-- iPhone 6 Plus landscape startup image -->
+  <link href="/assets/images/apple-touch-startup-image-1182x2208.png"
+        media="(device-width: 414px) and (device-height: 736px)
+               and (-webkit-device-pixel-ratio: 3)
+               and (orientation: landscape)"
+        rel="apple-touch-startup-image">
+<script src="/socket.io/socket.io.js"></script>
   <script src="/assets/scripts/app.js"></script>
 </head>
+
 <body>
 
 </body>
+
 </html>
