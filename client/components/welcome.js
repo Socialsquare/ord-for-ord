@@ -14,8 +14,8 @@ var WelcomeComponent = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Ord for ord</h1>
-              <p>&#8216;Ord for Ord&#8217; er et multiplayer spil, der
+              <h1>Ord For Ord</h1>
+              <p>&#8216;Ord For Ord&#8217; er et multiplayer spil, der
               udfordrer din indre ordsmed. Det gælder om, på tid og efter tur,
               at gætte en bogtitel ord for ord.</p>
               <p>Del spillet og udfordr dine venner!</p>
