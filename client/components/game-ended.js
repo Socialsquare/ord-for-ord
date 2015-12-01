@@ -41,11 +41,7 @@ var GameEndedComponent = React.createClass({
           <div className="row">
             <div className="col-xs-12">
               <h3>Spillet er slut!</h3>
-
-              <p>{words}</p>
-
-              <ScoreComponent game={game} />
-
+              <p>Her skal der score vises (midlertidigt slået fra).</p>
               {startRoundControls}
             </div>
           </div>
@@ -54,6 +50,9 @@ var GameEndedComponent = React.createClass({
     );
   }
 });
+// <p>{words}</p>
+// <ScoreComponent game={game} />
+
 
 
 module.exports = GameEndedComponent;
