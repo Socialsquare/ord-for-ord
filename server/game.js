@@ -220,7 +220,7 @@ Game.prototype.nextTitle = function() {
       this.state = Game.states.PLAYING;
       this.generateMockWords();
       this.broadcastGameUpdate();
-    }, 1000); // Faking a little load time ...
+    }, 2500); // Faking a little load time ...
   });
 };
 
@@ -311,6 +311,7 @@ Game.prototype.guessWord = function(playerId, word) {
 
   if (correctGuess === true) {
     // Increment the points earned by the player
+    // TODO: Make this work!
     this.players[playerId].score++;
     currentWord.guessedBy = playerId;
     this.currentWordIndex++;

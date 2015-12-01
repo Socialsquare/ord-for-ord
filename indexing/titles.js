@@ -124,6 +124,7 @@ module.exports = {
     });
   },
   generateWordRegExp: function() {
+    // TODO: Consider adding æ-å
     return '[a-zA-Z]+[,.:?]?';
   },
   generateTitleRegExp: function(minWordCount, maxWordCount) {
